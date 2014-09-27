@@ -2,14 +2,27 @@
  * @author rosten
  */
 define(["dojo/_base/lang",
-        "dojo/dom",
 		"dijit/registry",
 		"rosten/widget/MultiSelectDialog",
 		"rosten/widget/PickTreeDialog",
 		"rosten/widget/DepartUserDialog",
-		"rosten/kernel/_kernel"], function(lang,dom,registry,MultiSelectDialog,PickTreeDialog,DepartUserDialog) {
+		"rosten/kernel/_kernel"], function(lang,registry,MultiSelectDialog,PickTreeDialog,DepartUserDialog) {
 			
 	var application = {};
+	application.checkData = function(chenkids){
+		var flag=true;
+		for(var i = 0 ;i<chenkids.length;i++){
+			var obj = registry.byId(chenkids[i]);
+			if(!obj.isValid()){
+				rosten.alert("请正确填写信息！").queryDlgClose = function(){
+					obj.focus();
+				};
+				flag=false;
+				break;
+			}
+		}
+		return flag;
+	};
     application.cssinitcommon = function() {
         //此功能只添加css文件
         var _rosten = window.opener.rosten;
@@ -31,10 +44,13 @@ define(["dojo/_base/lang",
      * 关闭当前窗口，并刷新父文档视图
      */
     application.pagequit = function() {
-    	if(window.opener.rosten.kernel){
-    		window.opener.rosten.kernel.refreshGrid();
-    	}
+        var parentNode = window.opener;
         window.close();
+        
+    	if(parentNode.rosten.kernel){
+    		parentNode.rosten.kernel.refreshGrid();
+    	}
+    	
     };
     application.selectDialog = function(dialogTitle,id,url,flag,defaultValue,reload){
 		/*
@@ -163,12 +179,7 @@ define(["dojo/_base/lang",
             	registry.byId(inputName).attr("value", _data.join(","));
             }
             if( inputId !=undefined){
-            	if(registry.byId(inputId)){
-            		registry.byId(inputId).attr("value", _data_1.join(","));
-            	}else{
-            		dom.byId(inputId).value = _data_1.join(",");
-            	}
-            	
+            	registry.byId(inputId).attr("value", _data_1.join(","));
             }
         };
     };

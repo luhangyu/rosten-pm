@@ -13,27 +13,8 @@ define(["dojo/_base/kernel"
 		, "dojox/layout/ContentPane"
 		,"rosten/kernel/kernel"
 		,"rosten/util/general"
-//		, "rosten/app/Mail"
+		, "rosten/app/Mail"
 		, "rosten/kernel/behavior"], function(kernel, lang, registry, dom,domStyle,domClass,domConstruct,connect,ContentPane,rostenKernel,general) {
-	
-	demo_static = function(oString){
-		rosten.kernel.setHref(rosten.webPath + "/demo/demo?type=" + oString, oString);
-	};
-	
-	
-	demo_staticDesign = function(){
-		//报表设计
-		demo_static("design");
-	}; 
-	demo = function(){
-		
-	};
-	
-	more_demo = function(){
-		rosten.openNewWindow("demoView", rosten.webPath + "/demo/staticView");
-	};
-	//-------------------------------------------
-	
 	var main = {};
 	main.getGridSelectedValue = function(ostr){
 	    var rostenGrid = rosten.kernel.getGrid();
@@ -107,69 +88,66 @@ define(["dojo/_base/kernel"
     		if(obj.naviRight) oRight = obj.naviRight;
             console.log("loadjs file is :" + oString);
             
-            switch(oString){
-        	case "plat":
-        	case "system":
-        		require(["rosten/app/SystemManage"],function(){
+            if (oString == "plat" || oString == "system") {
+            	deleteMailNavigation();
+             	require(["rosten/app/SystemManage"],function(){
              		if(oString=="plat"){
-             			show_naviEntity("companyManage");
+             			show_systemNaviEntity("companyManage");
              		}else{
-             			show_naviEntity(oRight);
+             			show_systemNaviEntity(oRight);
              		}
              	});
-        		break;
-        		
-        	case "trainManage":
-        		require(["rosten/app/TrainManage"],function(){
-        			show_naviEntity(oRight);
-            	});
-        		break;
-        	
-        	case "bbs":
-        		require(["rosten/app/BbsManage"],function(){
+            }else if (oString == "person") {
+            	addMailNavigation();
+            } else if (oString == "bbs") {
+            	deleteMailNavigation();
+            	require(["rosten/app/BbsManage"],function(){
             		if(rosten.variable.showStartBbs==undefined || rosten.variable.showStartBbs!=true){
-            			show_naviEntity(oRight);
+            			show_bbsNaviEntity(oRight);
             		}
             	});
-        		break;
-        	case "personconfig":
-        		require(["rosten/app/SmsManage"],function(){
-        			show_naviEntity(oRight);
+            } else if (oString == "sendfile") {
+            	deleteMailNavigation();
+                require(["rosten/app/SendFileManage"],function(){
+                	show_sendFileNaviEntity(oRight);
                 });
-        		break;	
-        	case "workflow":
-        		require(["rosten/app/WorkFlowManage"],function(){
-        			show_naviEntity(oRight);
+            } else if (oString == "receivefile") {
+            	deleteMailNavigation();
+            	require(["rosten/app/ReceiveFileManage"],function(){
+            		returnToMain();
             	});
-        		break;	
-        	case "public":
-        		require(["rosten/app/PublicManage"],function(){
-        			show_naviEntity(oRight);
-            	});
-        		break;	
-        	case "workAttendance":
-        		require(["rosten/app/WorkAttendance"],function(){
-        			show_naviEntity(oRight);
-            	});
-        		break;
-			case "staffManage":
-				require(["rosten/app/SystemManage","rosten/app/StaffManage"],function(){
-					show_naviEntity(oRight);
+            }else if(oString=="personconfig"){
+                deleteMailNavigation();
+                require(["rosten/app/SmsManage"],function(){
+                	show_smsNaviEntity(oRight);
                 });
-				break;
-        	case "static":
-        		require(["rosten/app/StaticManage"],function(){
-        			show_naviEntity(oRight);
+            }else if (oString == "meeting") {
+            	deleteMailNavigation();
+            	require(["rosten/app/MeetingManage"],function(){
+            		show_meetingNaviEntity(oRight);
             	});
-        		break;
-        	default:
-        		returnToMain();
-        		break;
+            }else if (oString == "dsj") {
+            	deleteMailNavigation();
+            	require(["rosten/app/DsjManage"],function(){
+            		show_dsjNaviEntity(oRight);
+            	});
+            }else if (oString == "workflow") {
+            	deleteMailNavigation();
+            	require(["rosten/app/WorkFlowManage"],function(){
+            		show_workFlowNaviEntity(oRight);
+            	});
+            }else if (oString == "public") {
+            	deleteMailNavigation();
+            	require(["rosten/app/PublicManage"],function(){
+            		show_publicNaviEntity(oRight);
+            	});
+            }else if (oString == "accountManage") {
+            	deleteMailNavigation();
+            	require(["rosten/app/AccountManage"],function(){
+            		show_naviEntity(oRight);
+            	});
             }
         });
-		
-        var userId = data["idnumber"];
-		var companyId = data["companyid"];
 		
         connect.subscribe("loadspecmenu", null, function(oString) {
         	switch(oString){
@@ -178,11 +156,6 @@ define(["dojo/_base/kernel"
         		domStyle.set(registry.byId("modelMain").domNode,"display","none");
         		registry.byId("home").resize();
         		rosten.kernel.navigationMenu = "";
-        		
-        		/*
-        		 * 添加刷先首页相关信息
-        		 */
-        		showStartInformation(userId,companyId);
         		break;
         	case "sms":
         	    require(["rosten/app/SmsManage"],function(){
@@ -207,6 +180,8 @@ define(["dojo/_base/kernel"
 		};
 		
 		//获取首页显示信息
+		var userId = data["idnumber"];
+		var companyId = data["companyid"];
 		showStartInformation(userId,companyId);
 		
         if (rosten.kernel.getMenuName() == "") {
@@ -218,7 +193,8 @@ define(["dojo/_base/kernel"
         //setInterval("session_checkTimeOut()",60000*120 + 2000);
     };
     excuteService = function(args){
-    	if(new general().isInArray(args,"http:")){
+        
+        if(new general().isInArray(args,"http:")){
             window.open(args);
             return;
         }
@@ -250,6 +226,12 @@ define(["dojo/_base/kernel"
     	case "contact":
     		top_showContact();
     		break;
+    	case "addMail":
+    	   more_mail();
+    	   break;
+    	case "personLog":
+            top_addWorkLog();
+            break;
     	}
     };
     top_showContact = function(){
@@ -266,6 +248,11 @@ define(["dojo/_base/kernel"
     };
     top_showDepartInfor = function(inforid){
     	rosten.kernel.setHref(rosten.webPath + "/system/getContactDepartInfor?departId=" + inforid,inforid);
+    };
+    top_addWorkLog = function(){
+        var userid = rosten.kernel.getUserInforByKey("idnumber");
+        var companyId = rosten.kernel.getUserInforByKey("companyid");
+        rosten.openNewWindow("personWorkLog", rosten.webPath + "/system/personWorkLogAdd?companyId=" + companyId + "&userid=" + userid);
     };
     top_addSendfile = function(){
 		var userid = rosten.kernel.getUserInforByKey("idnumber");
@@ -294,7 +281,7 @@ define(["dojo/_base/kernel"
     	}
     	showStartBbs(userId,companyId);
     	showStartGtask(userId,companyId);
-    	//showStartMail(userId,companyId);
+    	showStartMail(userId,companyId);
     	showStartDownloadFile(userId,companyId);
     };
     showStartGtask = function(userId,companyId){
@@ -339,6 +326,17 @@ define(["dojo/_base/kernel"
         	}
         	node.appendChild(ul);
         });
+    };
+    more_workLog = function(){
+        var key = rosten.kernel.getMenuKeyByCode("personconfig");
+        if(key!=null){
+            rosten.kernel._naviMenuShow(key);
+            require(["rosten/app/SmsManage"],function(){
+                show_naviEntity("personWorkLog");
+            });
+        }else{
+            rosten.alert("未找到相对应的模块,请通知管理员");
+        }
     };
     more_gtask = function(){
     	var key = rosten.kernel.getMenuKeyByCode("personconfig");
@@ -551,7 +549,9 @@ define(["dojo/_base/kernel"
     	var companyId = rosten.kernel.getUserInforByKey("companyid");
     	rosten.read(rosten.webPath + "/system/serachPerson", {serchInput:inputnode.attr("value"),companyId:companyId}, function(data) {
     		var personSearch = dom.byId("personSearch");
-    		personSearch.innerHTML = "";
+    		for(var i=personSearch.childNodes.length-1;i >= 0;i--){
+    			personSearch.removeChild(personSearch.childNodes[i]);
+    		}
     		
     		for (var i = 0; i < data.length; i++) {
     			var tr = document.createElement("tr");
@@ -595,7 +595,6 @@ define(["dojo/_base/kernel"
     	}
     };
     returnToMain = function() {
-    	if(!rosten.kernel) return;
         var showInformation = rosten.kernel.getUserInforByKey("logoname");
         if (showInformation == "")
             showInformation = rosten.variable.logoname;
