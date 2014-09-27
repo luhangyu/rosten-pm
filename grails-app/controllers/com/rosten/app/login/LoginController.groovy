@@ -29,8 +29,7 @@ import org.springframework.security.web.WebAttributes
 import grails.plugin.springsecurity.SpringSecurityUtils
 
 import com.rosten.app.util.Util
-import com.rosten.app.system.SystemLog
-import com.rosten.app.system.SerialNoService
+import com.rosten.app.system.*
 
 @Secured('permitAll')
 class LoginController {

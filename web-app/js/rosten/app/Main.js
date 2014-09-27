@@ -13,7 +13,7 @@ define(["dojo/_base/kernel"
 		, "dojox/layout/ContentPane"
 		,"rosten/kernel/kernel"
 		,"rosten/util/general"
-		, "rosten/app/Mail"
+		//, "rosten/app/Mail"
 		, "rosten/kernel/behavior"], function(kernel, lang, registry, dom,domStyle,domClass,domConstruct,connect,ContentPane,rostenKernel,general) {
 	var main = {};
 	main.getGridSelectedValue = function(ostr){
