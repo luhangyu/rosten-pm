@@ -1,11 +1,16 @@
 package com.rosten.app.system
 
 import grails.converters.JSON;
+//import com.rosten.app.workflow.FlowBusiness
 
 class PmController {
 	def systemService
 	
 	def modelInit ={
+		/*
+		 * 初始化菜单功能序号统一从7开始
+		 */
+		
 		def json,model,resource
 		def company = Company.get(params.id)
 		def path = request.contextPath
@@ -15,15 +20,20 @@ class PmController {
 			def modelCodes = ["system","workflow","public","sms","question","personconfig"]
 			Model.findAllByCompany(company).each{
 				if(!modelCodes.contains(it.modelCode)){
+//					FlowBusiness.findAllByModel(it).each{item->
+//						item.model = null
+//						item.save()
+//					}
 					it.delete()
 				}
 			}
-			//增加资产系统特有的功能模块
+			
+			//增加系统特有的功能模块
 			model = new Model(company:company)
 			model.modelName = "基本信息"
 			model.modelUrl = path + "/system/navigation"
 			model.modelCode = "baseInfor"
-			model.serialNo = 4
+			model.serialNo = 7
 			
 			resource = new Resource()
 			resource.resourceName = "公司信息"
@@ -43,7 +53,7 @@ class PmController {
 			model.modelName = "员工管理"
 			model.modelUrl = path + "/system/navigation"
 			model.modelCode = "staffManage"
-			model.serialNo = 5
+			model.serialNo = 8
 					
 			resource = new Resource()
 			resource.resourceName = "员工考勤"
@@ -75,7 +85,7 @@ class PmController {
 			model.modelName = "合同管理"
 			model.modelUrl = path + "/system/navigation"
 			model.modelCode = "bargainManage"
-			model.serialNo = 6
+			model.serialNo = 9
 			
 			resource = new Resource()
 			resource.resourceName = "承包合同"
@@ -107,7 +117,7 @@ class PmController {
 			model.modelName = "项目管理"
 			model.modelUrl = path + "/system/navigation"
 			model.modelCode = "planManage"
-			model.serialNo = 7
+			model.serialNo = 10
 			
 			resource = new Resource()
 			resource.resourceName = "项目管理"
@@ -139,7 +149,7 @@ class PmController {
 			model.modelName = "财务管理"
 			model.modelUrl = path + "/system/navigation"
 			model.modelCode = "financeManage"
-			model.serialNo = 8
+			model.serialNo = 11
 			
 			resource = new Resource()
 			resource.resourceName = "报销管理"
@@ -171,7 +181,7 @@ class PmController {
 			model.modelName = "物资管理"
 			model.modelUrl = path + "/system/navigation"
 			model.modelCode = "wzManage"
-			model.serialNo = 9
+			model.serialNo = 12
 			
 			resource = new Resource()
 			resource.resourceName = "采购计划"
@@ -209,7 +219,7 @@ class PmController {
 			model.modelName = "信息管理"
 			model.modelUrl = path + "/system/navigation"
 			model.modelCode = "inforManage"
-			model.serialNo = 10
+			model.serialNo = 13
 			
 			resource = new Resource()
 			resource.resourceName = "往来单位管理"
@@ -248,7 +258,7 @@ class PmController {
 			model.modelUrl = path + "/system/navigation"
 			model.modelCode = "static"
 			model.description ="统计分析"
-			model.serialNo = 11
+			model.serialNo = 14
 			
 			resource = new Resource()
 			resource.resourceName = "统计分析"
