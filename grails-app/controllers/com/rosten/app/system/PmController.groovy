@@ -30,7 +30,7 @@ class PmController {
 			
 			//增加系统特有的功能模块
 			model = new Model(company:company)
-			model.modelName = "基本信息"
+			model.modelName = "基础信息"
 			model.modelUrl = path + "/system/navigation"
 			model.modelCode = "baseInfor"
 			model.serialNo = 7
@@ -39,12 +39,49 @@ class PmController {
 			resource.resourceName = "公司信息"
 			resource.url = "companyInfor"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"
+			resource.serialNo = 1
 			model.addToResources(resource)
 			
 			resource = new Resource()
 			resource.resourceName = "银行账号"
 			resource.url = "bankInfor"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"
+			resource.serialNo = 2
+			model.addToResources(resource)
+			
+			resource = new Resource()
+			resource.resourceName = "往来单位管理"
+			resource.url = "wldwgl"
+			resource.imgUrl = "images/rosten/navigation/rosten.png"
+			resource.serialNo = 3
+			model.addToResources(resource)
+			
+			resource = new Resource()
+			resource.resourceName = "供应商管理"
+			resource.url = "gyspj"
+			resource.imgUrl = "images/rosten/navigation/rosten.png"
+			resource.serialNo = 4
+			model.addToResources(resource)
+			
+			resource = new Resource()
+			resource.resourceName = "材料分类管理"
+			resource.url = "clflgl"
+			resource.imgUrl = "images/rosten/navigation/rosten.png"
+			resource.serialNo = 5
+			model.addToResources(resource)
+			
+			resource = new Resource()
+			resource.resourceName = "材料信息管理"
+			resource.url = "clxxgl"
+			resource.imgUrl = "images/rosten/navigation/rosten.png"
+			resource.serialNo = 6
+			model.addToResources(resource)
+			
+			resource = new Resource()
+			resource.resourceName = "工作分类管理"
+			resource.url = "gzflgl"
+			resource.imgUrl = "images/rosten/navigation/rosten.png"
+			resource.serialNo = 7
 			model.addToResources(resource)
 			
 			model.save()
@@ -216,49 +253,11 @@ class PmController {
 			model.save()
 			
 			model = new Model(company:company)
-			model.modelName = "信息管理"
-			model.modelUrl = path + "/system/navigation"
-			model.modelCode = "inforManage"
-			model.serialNo = 13
-			
-			resource = new Resource()
-			resource.resourceName = "往来单位管理"
-			resource.url = "wldwgl"
-			resource.imgUrl = "images/rosten/navigation/rosten.png"
-			model.addToResources(resource)
-			
-			resource = new Resource()
-			resource.resourceName = "供应商评价"
-			resource.url = "gyspj"
-			resource.imgUrl = "images/rosten/navigation/rosten.png"
-			model.addToResources(resource)
-			
-			resource = new Resource()
-			resource.resourceName = "材料分类管理"
-			resource.url = "clflgl"
-			resource.imgUrl = "images/rosten/navigation/rosten.png"
-			model.addToResources(resource)
-			
-			resource = new Resource()
-			resource.resourceName = "材料信息管理"
-			resource.url = "clxxgl"
-			resource.imgUrl = "images/rosten/navigation/rosten.png"
-			model.addToResources(resource)
-			
-			resource = new Resource()
-			resource.resourceName = "工作分类管理"
-			resource.url = "gzflgl"
-			resource.imgUrl = "images/rosten/navigation/rosten.png"
-			model.addToResources(resource)
-			
-			model.save()
-			
-			model = new Model(company:company)
 			model.modelName = "统计分析"
 			model.modelUrl = path + "/system/navigation"
 			model.modelCode = "static"
 			model.description ="统计分析"
-			model.serialNo = 14
+			model.serialNo = 13
 			
 			resource = new Resource()
 			resource.resourceName = "统计分析"

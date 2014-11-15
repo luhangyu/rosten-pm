@@ -86,66 +86,49 @@ define(["dojo/_base/kernel"
     		var oString = obj.naviMenu;
     		var oRight = "";
     		if(obj.naviRight) oRight = obj.naviRight;
-            console.log("loadjs file is :" + oString);
+    		
+    		console.log("loadjs file is :" + oString + ";oRight:" + oRight);
             
-            if (oString == "plat" || oString == "system") {
-            	deleteMailNavigation();
-             	require(["rosten/app/SystemManage"],function(){
+            switch(oString){
+        	case "plat":
+        	case "system":
+        		require(["rosten/app/SystemManage"],function(){
              		if(oString=="plat"){
-             			show_systemNaviEntity("companyManage");
+             			show_naviEntity("companyManage");
              		}else{
-             			show_systemNaviEntity(oRight);
+             			show_naviEntity(oRight);
              		}
              	});
-            }else if (oString == "person") {
-            	addMailNavigation();
-            } else if (oString == "bbs") {
-            	deleteMailNavigation();
-            	require(["rosten/app/BbsManage"],function(){
-            		if(rosten.variable.showStartBbs==undefined || rosten.variable.showStartBbs!=true){
-            			show_bbsNaviEntity(oRight);
-            		}
-            	});
-            } else if (oString == "sendfile") {
-            	deleteMailNavigation();
-                require(["rosten/app/SendFileManage"],function(){
-                	show_sendFileNaviEntity(oRight);
+        		break;
+        		
+        	case "personconfig":
+        		require(["rosten/app/SmsManage"],function(){
+        			show_naviEntity(oRight);
                 });
-            } else if (oString == "receivefile") {
-            	deleteMailNavigation();
-            	require(["rosten/app/ReceiveFileManage"],function(){
-            		returnToMain();
+        		break;	
+        	case "workflow":
+        		require(["rosten/app/WorkFlowManage"],function(){
+        			show_naviEntity(oRight);
             	});
-            }else if(oString=="personconfig"){
-                deleteMailNavigation();
-                require(["rosten/app/SmsManage"],function(){
-                	show_smsNaviEntity(oRight);
-                });
-            }else if (oString == "meeting") {
-            	deleteMailNavigation();
-            	require(["rosten/app/MeetingManage"],function(){
-            		show_meetingNaviEntity(oRight);
+        		break;	
+        	case "public":
+        		require(["rosten/app/PublicManage"],function(){
+        			show_naviEntity(oRight);
             	});
-            }else if (oString == "dsj") {
-            	deleteMailNavigation();
-            	require(["rosten/app/DsjManage"],function(){
-            		show_dsjNaviEntity(oRight);
+        		break;	
+        	case "static":
+        		require(["rosten/app/StaticManage"],function(){
+        			show_naviEntity(oRight);
             	});
-            }else if (oString == "workflow") {
-            	deleteMailNavigation();
-            	require(["rosten/app/WorkFlowManage"],function(){
-            		show_workFlowNaviEntity(oRight);
+        		break;
+        	case "baseInfor":
+        		require(["rosten/app/BaseinforManage"],function(){
+        			show_naviEntity(oRight);
             	});
-            }else if (oString == "public") {
-            	deleteMailNavigation();
-            	require(["rosten/app/PublicManage"],function(){
-            		show_publicNaviEntity(oRight);
-            	});
-            }else if (oString == "accountManage") {
-            	deleteMailNavigation();
-            	require(["rosten/app/AccountManage"],function(){
-            		show_naviEntity(oRight);
-            	});
+        		break;
+        	default:
+        		returnToMain();
+        		break;
             }
         });
 		
@@ -279,10 +262,10 @@ define(["dojo/_base/kernel"
     		userId = rosten.kernel.getUserInforByKey("idnumber");
     		companyId = rosten.kernel.getUserInforByKey("companyid");
     	}
-    	showStartBbs(userId,companyId);
-    	showStartGtask(userId,companyId);
-    	showStartMail(userId,companyId);
-    	showStartDownloadFile(userId,companyId);
+//    	showStartBbs(userId,companyId);
+//    	showStartGtask(userId,companyId);
+//    	showStartMail(userId,companyId);
+//    	showStartDownloadFile(userId,companyId);
     };
     showStartGtask = function(userId,companyId){
     	rosten.readNoTime(rosten.webPath + "/start/getGtask", {userId:userId,companyId:companyId}, function(data) {
@@ -599,6 +582,7 @@ define(["dojo/_base/kernel"
         if (showInformation == "")
             showInformation = rosten.variable.logoname;
             rosten.kernel.returnToMain("&nbsp;&nbsp;欢迎进入" + showInformation + "，当前您已成功登录！......");
+            rosten.kernel.closeUnderlay();
     };
     quit = function() {
         var dialog = rosten.confirm("是否确定退出系统?");
