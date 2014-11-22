@@ -3,6 +3,7 @@
 <head>
 <title>${logoname}</title>
 <meta name="layout" content="rosten" />
+
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style type="text/css">
 	.personSearch table.tab_css {
