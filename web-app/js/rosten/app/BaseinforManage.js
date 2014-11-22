@@ -7,7 +7,7 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general", "rosten/k
 	var general = new General();
     
 	
-	
+	//公司信息子块
 	companyInfor_formatTopic = function(value,rowIndex){
 		return "<a href=\"javascript:companyInfor_onMessageOpen(" + rowIndex + ");\">" + value + "</a>";
 	};
@@ -47,6 +47,48 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general", "rosten/k
 		};
 	};
 	
+	
+	//银行基本
+	bankInfor_formatTopic = function(value,rowIndex){
+		return "<a href=\"javascript:bankInfor_onMessageOpen(" + rowIndex + ");\">" + value + "</a>";
+	};
+	bankInfor_onMessageOpen = function(rowIndex){
+        var unid = rosten.kernel.getGridItemValue(rowIndex,"id");
+        var userid = rosten.kernel.getUserInforByKey("idnumber");
+		var companyId = rosten.kernel.getUserInforByKey("companyid");
+		rosten.openNewWindow("bankInfor", rosten.webPath + "/baseinfor/bankInforShow/" + unid + "?userid=" + userid + "&companyId=" + companyId);
+		rosten.kernel.getGrid().clearSelected();
+	};
+	add_bankInfor = function() {
+		var userid = rosten.kernel.getUserInforByKey("idnumber");
+        var companyId = rosten.kernel.getUserInforByKey("companyid");
+        rosten.openNewWindow("bankInfor", rosten.webPath + "/baseinfor/bankInforAdd?companyId=" + companyId + "&userid=" + userid);
+    };
+	change_bankInfor = function() {
+		var unid = rosten.getGridUnid("single");
+		if (unid == "")
+			return;
+		var userid = rosten.kernel.getUserInforByKey("idnumber");
+		var companyId = rosten.kernel.getUserInforByKey("companyid");
+		rosten.openNewWindow("bankInfor", rosten.webPath + "/baseinfor/bankInforShow/" + unid + "?userid=" + userid + "&companyId=" + companyId);
+	};
+	read_bankInfor = function() {
+		change_bankInfor();
+	};
+	delete_bankInfor = function() {
+		var _1 = rosten.confirm("删除后将无法恢复，是否继续?");
+		_1.callback = function() {
+			var unids = rosten.getGridUnid("multi");
+			if (unids == "")
+				return;
+			var content = {};
+			content.id = unids;
+			rosten.readNoTime(rosten.webPath + "/baseinfor/bankInforDelete", content,
+					rosten.deleteCallback);
+		};
+	};
+	
+	
 	/*
 	 * 此功能默认必须存在
 	 */
@@ -61,6 +103,15 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general", "rosten/k
 				identifier : oString,
 				actionBarSrc : rosten.webPath + "/baseinforAction/companyInforView?userId=" + userid,
 				gridSrc : rosten.webPath + "/baseinfor/companyInforGrid?companyId=" + companyId + "&userId=" + userid
+			};
+			rosten.kernel.addRightContent(naviJson);
+			break;
+		
+		case "bankInfor":
+			var naviJson = {
+				identifier : oString,
+				actionBarSrc : rosten.webPath + "/baseinforAction/bankInforView?userId=" + userid,
+				gridSrc : rosten.webPath + "/baseinfor/bankInforGrid?companyId=" + companyId + "&userId=" + userid
 			};
 			rosten.kernel.addRightContent(naviJson);
 			break;
