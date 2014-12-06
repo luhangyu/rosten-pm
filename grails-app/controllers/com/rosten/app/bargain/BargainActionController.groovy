@@ -9,19 +9,19 @@ class BargainActionController {
 	def imgPath ="images/rosten/actionbar/"
 	
 	//承包合同start---------
-	def undertakeBargainForm ={
+	def bargainForm ={
 		def webPath = request.getContextPath() + "/"
 		def actionList = []
-		def strname = "undertakeBargain"
+		def strname = "bargain"
 		actionList << createAction("返回",webPath + imgPath + "quit_1.gif","page_quit")
 		actionList << createAction("保存",webPath +imgPath + "Save.gif",strname + "_save")
 		render actionList as JSON
 	}
-	def undertakeBargainView ={
+	def bargainView ={
 		def actionList =[]
 		def user = User.get(params.userId)
 		
-		def strname = "undertakeBargain"
+		def strname = "bargain"
 		actionList << createAction("退出",imgPath + "quit_1.gif","returnToMain")
 		actionList << createAction("新建",imgPath + "add.png","add_"+ strname)
 		

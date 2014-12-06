@@ -16,34 +16,34 @@ class BargainController {
 	def bargainService
 	
 	//承包合同<--start
-	def undertakeBargainAdd ={
-		redirect(action:"undertakeBargainShow",params:params)
+	def bargainAdd ={
+		redirect(action:"bargainShow",params:params)
 	}
-	def undertakeBargainShow ={
+	def bargainShow ={
 		def model =[:]
 		def currentUser = springSecurityService.getCurrentUser()
 		model["company"] = Company.get(params.companyId)
 		
 		def entity
 		if(params.id){
-			entity = UndertakeBargain.get(params.id)
+			entity = Bargain.get(params.id)
 		}else{
-			entity = new UndertakeBargain()
+			entity = new Bargain()
 		}
-		model["undertakeBargain"] = entity
+		model["bargain"] = entity
 		model["user"] = currentUser
 		
 		FieldAcl fa = new FieldAcl()
 		model["fieldAcl"] = fa
-		render(view:'/bargain/undertakeBargain',model:model)
+		render(view:'/bargain/bargain',model:model)
 	}
-	def undertakeBargainSave ={
+	def bargainSave ={
 		def model=[:]
 		
 		def company = Company.get(params.companyId)
-		def entity = new UndertakeBargain()
+		def entity = new Bargain()
 		if(params.id && !"".equals(params.id)){
-			entity = UndertakeBargain.get(params.id)
+			entity = Bargain.get(params.id)
 		}else{
 			entity.company = company
 		}
@@ -51,9 +51,7 @@ class BargainController {
 		entity.properties = params
 		entity.clearErrors()
 		//日期字段值处理，convertToTimestamp
-		entity.undertakeBargainSignDate = Util.convertToTimestamp(params.undertakeBargainSignDate)
-		
-		
+		entity.bargainSignDate = Util.convertToTimestamp(params.bargainSignDate)
 		
 		
 		if(entity.save(flush:true)){
@@ -66,12 +64,12 @@ class BargainController {
 		}
 		render model as JSON
 	}
-	def undertakeBargainDelete ={
+	def bargainDelete ={
 		def ids = params.id.split(",")
 		def json
 		try{
 			ids.each{
-				def entity = UndertakeBargain.get(it)
+				def entity = Bargain.get(it)
 				if(entity){
 					entity.delete(flush: true)
 				}
@@ -82,11 +80,11 @@ class BargainController {
 		}
 		render json as JSON
 	}
-	def undertakeBargainGrid ={
+	def bargainGrid ={
 		def model=[:]
 		def company = Company.get(params.companyId)
 		if(params.refreshHeader){
-			model["gridHeader"] = bargainService.getUndertakeBargainListLayout()
+			model["gridHeader"] = bargainService.getBargainListLayout()
 		}
 		
 		//增加查询条件
@@ -100,11 +98,11 @@ class BargainController {
 			args["offset"] = (nowPage-1) * perPageNum
 			args["max"] = perPageNum
 			args["company"] = company
-			model["gridData"] = bargainService.getUndertakeBargainListDataStore(args,searchArgs)
+			model["gridData"] = bargainService.getBargainListDataStore(args,searchArgs)
 			
 		}
 		if(params.refreshPageControl){
-			def total = bargainService.getUndertakeBargainCount(company,searchArgs)
+			def total = bargainService.getBargainCount(company,searchArgs)
 			model["pageControl"] = ["total":total.toString()]
 		}
 		render model as JSON

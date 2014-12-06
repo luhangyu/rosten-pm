@@ -124,9 +124,10 @@ class PmController {
 			model.modelCode = "bargainManage"
 			model.serialNo = 9
 			
+			
 			resource = new Resource()
-			resource.resourceName = "承包合同"
-			resource.url = "undertakeBargain"
+			resource.resourceName = "总包合同"
+			resource.url = "totalpackageBargain"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"
 			model.addToResources(resource)
 			
@@ -143,8 +144,8 @@ class PmController {
 			model.addToResources(resource)
 			
 			resource = new Resource()
-			resource.resourceName = "其他合同"
-			resource.url = "otherBargain"
+			resource.resourceName = "销售合同"
+			resource.url = "salesBargain"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"
 			model.addToResources(resource)
 			

@@ -1,10 +1,12 @@
 package com.rosten.app.bargain
+
 import java.util.Date;
 import java.text.SimpleDateFormat
-
 import com.rosten.app.annotation.GridColumn
 import com.rosten.app.system.Company
 import com.rosten.app.base.ContactCorp
+
+
 
 class Bargain {
 
@@ -14,7 +16,7 @@ class Bargain {
 	String id
 	
 	//合同名称
-	@GridColumn(name="合同名称",colIdx=1,formatter="Bargain_formatTopic")
+	@GridColumn(name="合同名称",colIdx=1,formatter="bargain_formatTopic")
 	String BargainName
 	
 	//合同类型
@@ -49,7 +51,7 @@ class Bargain {
 	String BargainPayMemo
 	
 	//签订日期
-	Date BargainSignDate= new Date()
+	Date BargainSignDate = new Date()
 	def getFormatteBargainSignDate(){
 		if(BargainSignDate!=null){
 			SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd")

@@ -8,33 +8,33 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general", "rosten/k
     
 	
 	//承包合同
-	undertakeBargain_formatTopic = function(value,rowIndex){
-		return "<a href=\"javascript:undertakeBargain_onMessageOpen(" + rowIndex + ");\">" + value + "</a>";
+	bargain_formatTopic = function(value,rowIndex){
+		return "<a href=\"javascript:bargain_onMessageOpen(" + rowIndex + ");\">" + value + "</a>";
 	};
-	undertakeBargain_onMessageOpen = function(rowIndex){
+	bargain_onMessageOpen = function(rowIndex){
         var unid = rosten.kernel.getGridItemValue(rowIndex,"id");
         var userid = rosten.kernel.getUserInforByKey("idnumber");
 		var companyId = rosten.kernel.getUserInforByKey("companyid");
-		rosten.openNewWindow("undertakeBargain", rosten.webPath + "/bargain/undertakeBargainShow/" + unid + "?userid=" + userid + "&companyId=" + companyId);
+		rosten.openNewWindow("bargain", rosten.webPath + "/bargain/bargainShow/" + unid + "?userid=" + userid + "&companyId=" + companyId);
 		rosten.kernel.getGrid().clearSelected();
 	};
-	add_undertakeBargain = function() {
+	add_bargain = function() {
 		var userid = rosten.kernel.getUserInforByKey("idnumber");
         var companyId = rosten.kernel.getUserInforByKey("companyid");
-        rosten.openNewWindow("undertakeBargain", rosten.webPath + "/bargain/undertakeBargainAdd?companyId=" + companyId + "&userid=" + userid);
+        rosten.openNewWindow("bargain", rosten.webPath + "/bargain/bargainAdd?companyId=" + companyId + "&userid=" + userid);
     };
-	change_undertakeBargain = function() {
+	change_bargain = function() {
 		var unid = rosten.getGridUnid("single");
 		if (unid == "")
 			return;
 		var userid = rosten.kernel.getUserInforByKey("idnumber");
 		var companyId = rosten.kernel.getUserInforByKey("companyid");
-		rosten.openNewWindow("undertakeBargain", rosten.webPath + "/bargain/undertakeBargainShow/" + unid + "?userid=" + userid + "&companyId=" + companyId);
+		rosten.openNewWindow("bargain", rosten.webPath + "/bargain/bargainShow/" + unid + "?userid=" + userid + "&companyId=" + companyId);
 	};
-	read_undertakeBargain = function() {
-		change_undertakeBargain();
+	read_bargain = function() {
+		change_bargain();
 	};
-	delete_undertakeBargain = function() {
+	delete_bargain = function() {
 		var _1 = rosten.confirm("删除后将无法恢复，是否继续?");
 		_1.callback = function() {
 			var unids = rosten.getGridUnid("multi");
@@ -42,7 +42,7 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general", "rosten/k
 				return;
 			var content = {};
 			content.id = unids;
-			rosten.readNoTime(rosten.webPath + "/bargain/undertakeBargainDelete", content,rosten.deleteCallback);
+			rosten.readNoTime(rosten.webPath + "/bargain/bargainDelete", content,rosten.deleteCallback);
 		};
 	};
 	//承包合同end---------------------------
@@ -59,23 +59,39 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general", "rosten/k
 		var userid = rosten.kernel.getUserInforByKey("idnumber");
 		
 		switch (oString) {
-		case "undertakeBargain":
+		case "totalpackageBargain":
 			var naviJson = {
 				identifier : oString,
-				actionBarSrc : rosten.webPath + "/bargainAction/undertakeBargainView?userId=" + userid,
-				gridSrc : rosten.webPath + "/bargain/undertakeBargainGrid?companyId=" + companyId + "&userId=" + userid
+				actionBarSrc : rosten.webPath + "/bargainAction/bargainView?userId=" + userid,
+				gridSrc : rosten.webPath + "/bargain/bargainGrid?companyId=" + companyId + "&userId=" + userid
 			};
 			rosten.kernel.addRightContent(naviJson);
 			break;
+		case "subpackageBargain":
+			var naviJson = {
+				identifier : oString,
+				actionBarSrc : rosten.webPath + "/bargainAction/bargainView?userId=" + userid,
+				gridSrc : rosten.webPath + "/bargain/bargainGrid?companyId=" + companyId + "&userId=" + userid
+			};
+			rosten.kernel.addRightContent(naviJson);
+			break;
+		case "purchaseBargain":
+			var naviJson = {
+				identifier : oString,
+				actionBarSrc : rosten.webPath + "/bargainAction/bargainView?userId=" + userid,
+				gridSrc : rosten.webPath + "/bargain/bargainGrid?companyId=" + companyId + "&userId=" + userid
+			};
+			rosten.kernel.addRightContent(naviJson);
+			break;
+		case "salesBargain":
+			var naviJson = {
+				identifier : oString,
+				actionBarSrc : rosten.webPath + "/bargainAction/bargainView?userId=" + userid,
+				gridSrc : rosten.webPath + "/bargain/bargainGrid?companyId=" + companyId + "&userId=" + userid
+			};
+			rosten.kernel.addRightContent(naviJson);
+			break;			
 			
-		case "officeWorkerAttendance":
-			var naviJson = {
-				identifier : oString,
-				actionBarSrc : rosten.webPath + "/employeAction/officeWorkerAttendanceView?userId=" + userid,
-				gridSrc : rosten.webPath + "/employe/officeWorkerAttendanceGrid?companyId=" + companyId + "&userId=" + userid
-			};
-			rosten.kernel.addRightContent(naviJson);
-			break;
 			
 		}
 	}
