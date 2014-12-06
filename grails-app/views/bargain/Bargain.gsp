@@ -1,6 +1,5 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="layout" content="rosten" />
@@ -8,7 +7,6 @@
     <style type="text/css">
     	.rosten .dsj_form table tr{
     		height:30px;
-    		
     	}
     	body{
 			overflow:auto;
@@ -38,15 +36,13 @@
 					rosten.init({webpath:"${request.getContextPath()}"});
 					rosten.cssinit();
 				});
-				Bargain_save = function(object){
+				bargain_save = function(object){
 					var formWidget = registry.byId("rosten_form");
 					if(!formWidget.validate()){
 						rosten.alert("请正确填写相关信息！");
 						return;
 					}
 					var content = {};
-					
-					
 					
 					//增加对多次单击的次数----2014-9-4
 					var buttonWidget = object.target;
@@ -85,7 +81,7 @@
 <body>
 <div class="rosten_action">
 	<div data-dojo-type="rosten/widget/ActionBar" data-dojo-id="rosten_actionBar" 
-		data-dojo-props='actionBarSrc:"${createLink(controller:'bargainAction',action:'BargainForm',id:vacate?.id,params:[userid:user?.id])}"'>
+		data-dojo-props='actionBarSrc:"${createLink(controller:'bargainAction',action:'bargainForm',id:vacate?.id,params:[userid:user?.id])}"'>
 	</div>
 </div>
 
@@ -112,8 +108,10 @@
 					                trim:true,required:true,missingMessage:"请选择类别！",invalidMessage:"请选择类别！",
 					      			value:"${Bargain?.BargainType}"
 					            '>
-								<option value="承包合同">承包合同</option>
+								<option value="总包合同">总包合同</option>
 								<option value="分包合同">分包合同</option>
+								<option value="采购合同">采购合同</option>
+								<option value="销售合同">销售合同</option>
 					    	</select>
 				           </td>
 					</tr>
@@ -184,7 +182,7 @@
 									value:"${Bargain?.BargainVendorCropName}"
 				          	'/>
 				          	<g:if test="${!onlyShow }">
-					         	<g:hiddenField data-dojo-type="dijit/form/ValidationTextBox" name="BargainVendorCropId" value="${departId}" />
+					         	<g:hiddenField data-dojo-type="dijit/form/ValidationTextBox" name="BargainVendorCropId" value="${Bargain?.BargainVendorCropName}" />
 								<button data-dojo-type="dijit.form.Button" 
 									data-dojo-props='onClick:function(){
 										showSelectDialog("corpName");	
