@@ -195,4 +195,97 @@ class BaseinforController {
 	}
 	//--------------------------------------------------------------------------------------------------
 	
+	//2014-11-25 xkf-----往来单位信息-------------------------------------------------------------------
+	def ContactCorpAdd ={
+		redirect(action:"ContactCorpShow",params:params)
+	}
+	def ContactCorpShow ={
+		def model =[:]
+		def currentUser = springSecurityService.getCurrentUser()
+		model["company"] = Company.get(params.companyId)
+		
+		def entity
+		if(params.id){
+			entity = ContactCorp.get(params.id)
+		}else{
+			entity = new ContactCorp()
+		}
+		model["ContactCorp"] = entity
+		model["user"] = currentUser
+		
+		FieldAcl fa = new FieldAcl()
+		model["fieldAcl"] = fa
+		render(view:'/baseinfor/ContactCorp',model:model)
+	}
+	def ContactCorpSave ={
+		def model=[:]
+		
+		def company = Company.get(params.companyId)
+		def entity = new ContactCorp()
+		if(params.id && !"".equals(params.id)){
+			entity = ContactCorp.get(params.id)
+		}else{
+			entity.company = company
+		}
+		
+		entity.properties = params
+		entity.clearErrors()
+		
+		if(entity.save(flush:true)){
+			model["result"] = "true"
+		}else{
+			entity.errors.each{
+				println it
+			}
+			model["result"] = "false"
+		}
+		render model as JSON
+	}
+	def ContactCorpDelete ={
+		def ids = params.id.split(",")
+		def json
+		try{
+			ids.each{
+				def entity = ContactCorp.get(it)
+				if(entity){
+					entity.delete(flush: true)
+				}
+			}
+			json = [result:'true']
+		}catch(Exception e){
+			json = [result:'error']
+		}
+		render json as JSON
+	}
+	def ContactCorpGrid ={
+		def model=[:]
+		def company = Company.get(params.companyId)
+		if(params.refreshHeader){
+			model["gridHeader"] = baseinforService.getContactCorpListLayout()
+		}
+		
+		//增加查询条件
+		def searchArgs =[:]
+		
+		if(params.refreshData){
+			def args =[:]
+			int perPageNum = Util.str2int(params.perPageNum)
+			int nowPage =  Util.str2int(params.showPageNum)
+			
+			args["offset"] = (nowPage-1) * perPageNum
+			args["max"] = perPageNum
+			args["company"] = company
+			model["gridData"] = baseinforService.getContactCorpListDataStore(args,searchArgs)
+			
+		}
+		if(params.refreshPageControl){
+			def total = baseinforService.getContactCorpCount(company,searchArgs)
+			model["pageControl"] = ["total":total.toString()]
+		}
+		render model as JSON
+	}
+	//--------------------------------------------------------------------------------------------------
+	
+	
+	
 }

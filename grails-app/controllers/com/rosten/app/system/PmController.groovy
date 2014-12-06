@@ -89,18 +89,18 @@ class PmController {
 			model = new Model(company:company)
 			model.modelName = "员工管理"
 			model.modelUrl = path + "/system/navigation"
-			model.modelCode = "staffManage"
+			model.modelCode = "employe"
 			model.serialNo = 8
 					
 			resource = new Resource()
 			resource.resourceName = "员工考勤"
-			resource.url = "staffCheckin"
+			resource.url = "officeWorkerAttendance"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"
 			model.addToResources(resource)
 					
 			resource = new Resource()
 			resource.resourceName = "大点工考勤"
-			resource.url = "djgcheckin"
+			resource.url = "constructionWorkerAttendance"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"
 			model.addToResources(resource)
 			
@@ -126,25 +126,25 @@ class PmController {
 			
 			resource = new Resource()
 			resource.resourceName = "承包合同"
-			resource.url = "cbBargain"
+			resource.url = "undertakeBargain"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"
 			model.addToResources(resource)
 			
 			resource = new Resource()
 			resource.resourceName = "分包合同"
-			resource.url = "fbBargain"
+			resource.url = "subpackageBargain"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"
 			model.addToResources(resource)
 			
 			resource = new Resource()
 			resource.resourceName = "采购合同"
-			resource.url = "cgBargain"
+			resource.url = "purchaseBargain"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"
 			model.addToResources(resource)
 			
 			resource = new Resource()
 			resource.resourceName = "其他合同"
-			resource.url = "qtBargain"
+			resource.url = "otherBargain"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"
 			model.addToResources(resource)
 			
@@ -153,12 +153,12 @@ class PmController {
 			model = new Model(company:company)
 			model.modelName = "项目管理"
 			model.modelUrl = path + "/system/navigation"
-			model.modelCode = "planManage"
+			model.modelCode = "project"
 			model.serialNo = 10
 			
 			resource = new Resource()
 			resource.resourceName = "项目管理"
-			resource.url = "planManage"
+			resource.url = "projectManage"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"
 			model.addToResources(resource)
 			
@@ -176,7 +176,7 @@ class PmController {
 			
 			resource = new Resource()
 			resource.resourceName = "视频监控"
-			resource.url = "vedioCheck"
+			resource.url = "vedioMonitor"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"
 			model.addToResources(resource)
 			
@@ -185,30 +185,54 @@ class PmController {
 			model = new Model(company:company)
 			model.modelName = "财务管理"
 			model.modelUrl = path + "/system/navigation"
-			model.modelCode = "financeManage"
+			model.modelCode = "finance"
 			model.serialNo = 11
 			
 			resource = new Resource()
 			resource.resourceName = "报销管理"
-			resource.url = "bxgl"
+			resource.url = "expenseReimbursement"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"
 			model.addToResources(resource)
 			
 			resource = new Resource()
 			resource.resourceName = "借支管理"
-			resource.url = "jzgl"
+			resource.url = "borrowManage"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"
 			model.addToResources(resource)
 			
 			resource = new Resource()
 			resource.resourceName = "费用报备"
-			resource.url = "fybb"
+			resource.url = "expenseReport"
+			resource.imgUrl = "images/rosten/navigation/rosten.png"
+			model.addToResources(resource)
+			
+			resource = new Resource()
+			resource.resourceName = "还款管理"
+			resource.url = "repayment"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"
 			model.addToResources(resource)
 			
 			resource = new Resource()
 			resource.resourceName = "应付款管理"
-			resource.url = "yfkgl"
+			resource.url = "paymentPlan"
+			resource.imgUrl = "images/rosten/navigation/rosten.png"
+			model.addToResources(resource)
+			
+			resource = new Resource()
+			resource.resourceName = "应收款管理"
+			resource.url = "receiptPlan"
+			resource.imgUrl = "images/rosten/navigation/rosten.png"
+			model.addToResources(resource)
+			
+			resource = new Resource()
+			resource.resourceName = "付款"
+			resource.url = "payment"
+			resource.imgUrl = "images/rosten/navigation/rosten.png"
+			model.addToResources(resource)
+			
+			resource = new Resource()
+			resource.resourceName = "收款"
+			resource.url = "receipt"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"
 			model.addToResources(resource)
 			
@@ -217,36 +241,60 @@ class PmController {
 			model = new Model(company:company)
 			model.modelName = "物资管理"
 			model.modelUrl = path + "/system/navigation"
-			model.modelCode = "wzManage"
+			model.modelCode = "material"
 			model.serialNo = 12
 			
 			resource = new Resource()
 			resource.resourceName = "采购计划"
-			resource.url = "cgjh"
+			resource.url = "purchasePlan"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"
 			model.addToResources(resource)
 			
 			resource = new Resource()
 			resource.resourceName = "采购管理"
-			resource.url = "cggl"
+			resource.url = "purchaseManage"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"
 			model.addToResources(resource)
 			
 			resource = new Resource()
 			resource.resourceName = "库房管理"
-			resource.url = "kfgl"
+			resource.url = "warehouseManage"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"
 			model.addToResources(resource)
 			
 			resource = new Resource()
 			resource.resourceName = "入库"
-			resource.url = "rk"
+			resource.url = "warehouseIn"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"
 			model.addToResources(resource)
 			
 			resource = new Resource()
 			resource.resourceName = "出库"
-			resource.url = "ck"
+			resource.url = "warehouseOut"
+			resource.imgUrl = "images/rosten/navigation/rosten.png"
+			model.addToResources(resource)
+			
+			resource = new Resource()
+			resource.resourceName = "报损"
+			resource.url = "breakage"
+			resource.imgUrl = "images/rosten/navigation/rosten.png"
+			model.addToResources(resource)
+			
+			resource = new Resource()
+			resource.resourceName = "损益"
+			resource.url = "profitAndLoss"
+			resource.imgUrl = "images/rosten/navigation/rosten.png"
+			model.addToResources(resource)
+			
+			resource = new Resource()
+			resource.resourceName = "调拨"
+			resource.url = "transfer"
+			resource.imgUrl = "images/rosten/navigation/rosten.png"
+			model.addToResources(resource)
+			
+			resource = new Resource()
+			resource.resourceName = "盘点"
+			resource.url = "check"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"
 			model.addToResources(resource)
 			

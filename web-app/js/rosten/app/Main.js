@@ -126,6 +126,31 @@ define(["dojo/_base/kernel"
         			show_naviEntity(oRight);
             	});
         		break;
+        	case "employe":
+        		require(["rosten/app/EmployeManage"],function(){
+        			show_naviEntity(oRight);
+            	});
+        		break;	
+        	case "bargainManage":
+        		require(["rosten/app/BargainManage"],function(){
+        			show_naviEntity(oRight);
+            	});
+        		break;	
+        	case "project":
+        		require(["rosten/app/ProjectManage"],function(){
+        			show_naviEntity(oRight);
+            	});
+        		break;	
+        	case "finance":
+        		require(["rosten/app/FinanceManage"],function(){
+        			show_naviEntity(oRight);
+            	});
+        		break;	
+        	case "material":
+        		require(["rosten/app/MaterialManage"],function(){
+        			show_naviEntity(oRight);
+            	});
+        		break;	
         	default:
         		returnToMain();
         		break;

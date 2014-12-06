@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="layout" content="rosten" />
-    <title>银行账户信息</title>
+    <title>往来单位信息</title>
     <style type="text/css">
     	.rosten .dsj_form table tr{
     		height:30px;
@@ -37,7 +37,7 @@
 					rosten.init({webpath:"${request.getContextPath()}"});
 					rosten.cssinit();
 				});
-				bankInfor_save = function(object){
+				contactCorp_save = function(object){
 					var formWidget = registry.byId("rosten_form");
 					if(!formWidget.validate()){
 						rosten.alert("请正确填写相关信息！");
@@ -48,7 +48,7 @@
 					var buttonWidget = object.target;
 					rosten.toggleAction(buttonWidget,true);
 
-					rosten.readSync(rosten.webPath + "/baseinfor/bankInforSave",content,function(data){
+					rosten.readSync(rosten.webPath + "/baseinfor/contactCorpSave",content,function(data){
 						if(data.result=="true" || data.result == true){
 							rosten.alert("保存成功！").queryDlgClose= function(){
 								page_quit();
@@ -74,63 +74,37 @@
 <body>
 <div class="rosten_action">
 	<div data-dojo-type="rosten/widget/ActionBar" data-dojo-id="rosten_actionBar" 
-		data-dojo-props='actionBarSrc:"${createLink(controller:'baseinforAction',action:'bankInforForm',id:vacate?.id,params:[userid:user?.id])}"'>
+		data-dojo-props='actionBarSrc:"${createLink(controller:'baseinforAction',action:'contactCorpForm',id:vacate?.id,params:[userid:user?.id])}"'>
 	</div>
 </div>
 
 <div data-dojo-type="dijit/layout/TabContainer" data-dojo-props='persist:false, tabStrip:true,style:{width:"800px",margin:"0 auto"}' >
 	<div data-dojo-type="dijit/layout/ContentPane" title="基本信息" data-dojo-props=''>
 		<form id="rosten_form" data-dojo-type="dijit/form/Form" name="rosten_form" onsubmit="return false;" class="rosten_form" style="padding:0px">
-			<input  data-dojo-type="dijit/form/ValidationTextBox" id="id"  data-dojo-props='name:"id",style:{display:"none"},value:"${bankInfor?.id }"' />
+			<input  data-dojo-type="dijit/form/ValidationTextBox" id="id"  data-dojo-props='name:"id",style:{display:"none"},value:"${contactCorp?.id }"' />
         	<input  data-dojo-type="dijit/form/ValidationTextBox" id="companyId" data-dojo-props='name:"companyId",style:{display:"none"},value:"${company?.id }"' />
         	
-			<div data-dojo-type="rosten/widget/TitlePane" data-dojo-props='title:"账户信息",toggleable:false,moreText:"",marginBottom:"2px"'>
+			<div data-dojo-type="rosten/widget/TitlePane" data-dojo-props='title:"往来单位信息",toggleable:false,moreText:"",marginBottom:"2px"'>
 				<table border="0" width="740" align="left">
 
 					<tr>
-					    <td><div align="right"><span style="color:red">*&nbsp;</span>账号名称：</div></td>
+					    <td><div align="right"><span style="color:red">*&nbsp;</span>单位名称：</div></td>
 					    <td >
-					    	<input id="accountName" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"accountName",
-									value:"${bankInfor?.accountName}"
+					    	<input id="contactCorpName" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,required:true,name:"contactCorpName",
+									value:"${contactCorp?.contactCorpName}"
 			                '/>
 					    </td>
-					    <td><div align="right">开户行：</div></td>
+					    <td><div align="right">类型：</div></td>
 					    <td >
-					    	<input id="accountBank" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='name:"accountBank",trim:true,
-									value:"${bankInfor?.accountBank}"
+					    	<input id="contactCorpType" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='name:"contactCorpType",trim:true,
+									value:"${bankInfor?.contactCorpType}"
 			                '/>
 					    </td>
 					</tr>
 					
-					<tr>
-					    <td><div align="right">户主：</div></td>
-					    <td >
-					    	<input id="accountMaster" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='name:"accountMaster",trim:true,
-									value:"${bankInfor?.accountMaster}"
-			                '/>
-					    </td>
-					    <td><div align="right">主账户：</div></td>
-					    <td >
-					    	<input id="accountDefault" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='name:"accountDefault",trim:true,
-									value:"${bankInfor?.accountDefault}"
-			                '/>
-					    </td>
-					</tr>
-
-					    <td><div align="right">备注：</div></td>
-					    <td  colspan=3>
-					    	<textarea id="accountRemark" data-dojo-type="dijit/form/SimpleTextarea" 
-    							data-dojo-props='name:"accountRemark","class":"input",
-                               		style:{width:"560px"},rows:"5",
-                               		trim:true,value:"${bankInfor?.accountRemark}"
-                           '>
-    						</textarea>
-					    </td>
-					</tr>
+					
 					
 				</table>
 				<div style="clear:both;"></div>
