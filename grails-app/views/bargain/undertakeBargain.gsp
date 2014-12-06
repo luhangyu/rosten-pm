@@ -69,7 +69,14 @@
 				page_quit = function(){
 					rosten.pagequit();
 				};
-
+				showSelectDialog = function(type){
+					switch(type){
+					case "corpName":
+						var corpName = registry.byId("undertakeBargainVendorCropName").get("value");
+						rosten.selectBaseSelect("单位选择","${createLink(controller:'baseinfor',action:'getBankInforSelect',params:[companyId:company?.id])}",false,"undertakeBargainVendorCropName","undertakeBargainVendorCropId",corpName);
+						break;
+					}
+				}
 			
 		});
     </script>
@@ -173,11 +180,14 @@
 					    	<input id="undertakeBargainVendorCropName" data-dojo-type="dijit/form/ValidationTextBox" 
 				               	data-dojo-props='name:"undertakeBargainVendorCropName",
 				               		trim:true,required:true,
-									value:"${undertakeBargainVendorCropName}"
+									value:"${undertakeBargain?.undertakeBargainVendorCropName}"
 				          	'/>
 				          	<g:if test="${!onlyShow }">
-					         	<g:hiddenField name="allowdepartsId" value="${departId}" />
-								<button data-dojo-type="dijit.form.Button" data-dojo-props='onClick:function(){selectDepart("${createLink(controller:'system',action:'departTreeDataStore',params:[companyId:company?.id])}")}'>选择</button>
+					         	<g:hiddenField data-dojo-type="dijit/form/ValidationTextBox" name="undertakeBargainVendorCropId" value="${departId}" />
+								<button data-dojo-type="dijit.form.Button" 
+									data-dojo-props='onClick:function(){
+										showSelectDialog("corpName");	
+									}'>选择</button>
 			           		</g:if>
 			           	</td>
 					</tr>

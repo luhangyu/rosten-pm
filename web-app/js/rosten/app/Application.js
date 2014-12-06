@@ -183,7 +183,38 @@ define(["dojo/_base/lang",
             }
         };
     };
-    
+    application.selectBaseSelect = function(title,url,type,inputName,inputId,initValues) {
+    	/*
+    	 * url:http://.....
+    	 * type:是否单选
+    	 * initValue:"单位1,单位2...",inputName:页面input显示id，inputId：页面input隐藏Id
+    	 */
+        var id = "base_contactCorpDialog";
+        var initValue =[];
+        if(initValues){
+        	initValue = initValues.split(",");
+        }
+        if(title==null){
+        	title = "系统选择框";
+        }
+        rosten.selectDialog(title, id, url, type, initValue);
+        rosten[id].callback = function(data) {
+        	var _data = [];
+            var _data_1 = [];
+            for (var k = 0; k < data.length; k++) {
+                var item = data[k];
+                _data.push(item.name);
+                _data_1.push(item.value);
+            }
+            if( inputName !=undefined){
+                registry.byId(inputName).attr("value", _data.join(","));
+            }
+            if( inputId !=undefined){
+                registry.byId(inputId).attr("value",_data_1.join(","));
+            }
+        };
+        return application[id];
+    };
     lang.mixin(rosten,application);
     
     return application;

@@ -74,7 +74,7 @@
 <body>
 <div class="rosten_action">
 	<div data-dojo-type="rosten/widget/ActionBar" data-dojo-id="rosten_actionBar" 
-		data-dojo-props='actionBarSrc:"${createLink(controller:'baseinforAction',action:'contactCorpForm',id:vacate?.id,params:[userid:user?.id])}"'>
+		data-dojo-props='actionBarSrc:"${createLink(controller:'baseinforAction',action:'contactCorpForm',id:contactCorp?.id,params:[userid:user?.id])}"'>
 	</div>
 </div>
 
@@ -88,24 +88,128 @@
 				<table border="0" width="740" align="left">
 
 					<tr>
-					    <td><div align="right"><span style="color:red">*&nbsp;</span>单位名称：</div></td>
-					    <td >
+					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>单位名称：</div></td>
+					    <td colspan=3>
 					    	<input id="contactCorpName" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"contactCorpName",
-									value:"${contactCorp?.contactCorpName}"
+			                 	data-dojo-props='trim:true,required:true,name:"contactCorpName",style:{width:"550px"},
+									value:"${ContactCorp?.contactCorpName}"
 			                '/>
 					    </td>
-					    <td><div align="right">类型：</div></td>
+
+					   
+					</tr>
+					<tr>
+					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>法人：</div></td>
+					    <td width="250">
+					    	<input id="contactCorpLealPerson" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,required:true,name:"contactCorpLealPerson",
+									value:"${ContactCorp?.contactCorpLealPerson}"
+			                '/>
+					    </td>
+					 	  <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>类型：</div></td>
+						 <td width="250">
+						    	<select id="contactCorpType" data-dojo-type="dijit/form/FilteringSelect" 
+					                data-dojo-props='name:"contactCorpType",${fieldAcl.isReadOnly("contactCorpType")},
+					                trim:true,required:true,missingMessage:"请选择类别！",invalidMessage:"请选择类别！",
+					      			value:"${ContactCorp?.contactCorpType}"
+					            '>
+								<option value="甲方">甲方</option>
+								<option value="分包商">分包商</option>
+								<option value="材料商">材料商</option>
+								<option value="监理单位">监理单位</option>
+					    	</select>
+				           </td>
+					</tr>
+					<tr>
+					    <td><div align="right"><span style="color:red">*&nbsp;</span>营业执照：</div></td>
 					    <td >
-					    	<input id="contactCorpType" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='name:"contactCorpType",trim:true,
-									value:"${bankInfor?.contactCorpType}"
+					    	<input id="contactCorpLicense" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,required:true,name:"contactCorpLicense",
+									value:"${ContactCorp?.contactCorpLicense}"
+			                '/>
+					    </td>
+					 	<td ><div align="right"><span style="color:red">*&nbsp;</span>税务登记号：</div></td>
+					    <td >
+					    	<input id="contactCorpTax" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,required:true,name:"contactCorpTax",
+									value:"${ContactCorp?.contactCorpTax}"
 			                '/>
 					    </td>
 					</tr>
-					
-					
-					
+					<tr>
+						<td><div align="right"><span style="color:red">*&nbsp;</span>区域：</div></td>
+					    <td >
+					    	<input id="contactCorpProvince" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,required:true,name:"contactCorpProvince",
+									value:"${ContactCorp?.contactCorpProvince}"
+			                '/>
+					    </td>
+					 	
+					</tr>
+					<tr>
+					<td><div align="right"><span style="color:red">*&nbsp;</span>地址：</div></td>
+					    <td colspan=3>
+					    	<input id="contactCorpAddress" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,required:true,name:"contactCorpAddress",style:{width:"550px"},
+									value:"${ContactCorp?.contactCorpAddress}"
+			                '/>
+					    </td>
+					</tr>
+					<tr>
+					    <td><div align="right"><span style="color:red">*&nbsp;</span>联系人：</div></td>
+					    <td >
+					    	<input id="contactCorpLinkMan" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,required:true,name:"contactCorpLinkMan",
+									value:"${ContactCorp?.contactCorpLinkMan}"
+			                '/>
+					    </td>
+					 	
+					</tr>
+					<tr>
+						<td><div align="right"><span style="color:red">*&nbsp;</span>联系电话：</div></td>
+					    <td >
+					    	<input id="contactCorpPhone" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,required:true,name:"contactCorpPhone",
+									value:"${ContactCorp?.contactCorpPhone}"
+			                '/>
+					    </td>
+					    <td><div align="right"><span style="color:red">*&nbsp;</span>传真：</div></td>
+					    <td >
+					    	<input id="contactCorpFax" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,required:true,name:"contactCorpFax",
+									value:"${ContactCorp?.contactCorpFax}"
+			                '/>
+					    </td>
+					 	
+					</tr>
+					<tr>
+
+					    <td><div align="right"><span style="color:red">*&nbsp;</span>网址：</div></td>
+					    <td >
+					    	<input id="contactCorpWebSite" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,required:true,name:"contactCorpWebSite",
+									value:"${ContactCorp?.contactCorpWebSite}"
+			                '/>
+					    </td>
+					 	<td><div align="right"><span style="color:red">*&nbsp;</span>电子邮箱：</div></td>
+					    <td >
+					    	<input id="contactCorpEMail" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,required:true,name:"contactCorpEMail",
+									value:"${ContactCorp?.contactCorpEMail}"
+			                '/>
+					    </td>
+					</tr>
+					<tr>
+					    <td><div align="right">备注：</div></td>
+					    <td  colspan=3>
+					    	<textarea id="contactCorpRemark" data-dojo-type="dijit/form/SimpleTextarea" 
+    							data-dojo-props='name:"contactCorpRemark","class":"input",
+                               		style:{width:"550px"},rows:"2",
+                               		trim:true,value:"${ContactCorp?.contactCorpRemark}"
+                           '>
+    						</textarea>
+					    </td>
+					</tr>
 				</table>
 				<div style="clear:both;"></div>
 			</div>

@@ -30,7 +30,7 @@ class ConstructionWorkerAttendance {
 	
 	static mapping = {
 		id generator:'uuid.hex',params:[separator:'-']
-		table "RS_ConstructionWorkerAttendance"
+		table "RS_Attendance_CWorker"
 	}
 	
 }

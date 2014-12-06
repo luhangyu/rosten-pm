@@ -12,6 +12,31 @@ class BaseinforController {
 	def springSecurityService
 	def baseinforService
 	
+	//获取单位信息列表数据
+	def getContactCorpSelect ={
+		def _List =[]
+		def company = Company.get(params.companyId)
+		ContactCorp.findAllByCompany(company).each{
+			def json=[:]
+			json["id"] = it.id
+			json["name"] = it.contactCorpName
+			_List << json
+		}
+		render _List as JSON
+	}
+	//获取银行账号列表数据
+	def getBankInforSelect ={
+		def _List =[]
+		def company = Company.get(params.companyId)
+		BankInfor.findAllByCompany(company).each{
+			def json=[:]
+			json["id"] = it.id
+			json["name"] = it.accountName
+			_List << json
+		}
+		render _List as JSON
+	}
+	
 	//公司基本信息
 	def companyInforAdd ={
 		redirect(action:"companyInforShow",params:params)

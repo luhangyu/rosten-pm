@@ -46,7 +46,7 @@
 						return;
 					}
 					var content = {};
-					content.officeAttendanceDate=registry.byId("officeAttendanceDate").get("value");
+					//content.officeAttendanceDate=registry.byId("officeAttendanceDate").get("value");
 					
 					//增加对多次单击的次数----2014-9-4
 					var buttonWidget = object.target;
