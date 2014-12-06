@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="layout" content="rosten" />
-    <title>合同信息</title>
+    <title>合同基本信息</title>
     <style type="text/css">
     	.rosten .dsj_form table tr{
     		height:30px;
