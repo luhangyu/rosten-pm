@@ -6,7 +6,8 @@ define(["dojo/_base/lang",
 		"rosten/widget/MultiSelectDialog",
 		"rosten/widget/PickTreeDialog",
 		"rosten/widget/DepartUserDialog",
-		"rosten/kernel/_kernel"], function(lang,registry,MultiSelectDialog,PickTreeDialog,DepartUserDialog) {
+		"rosten/widget/ShowDialog",
+		"rosten/kernel/_kernel"], function(lang,registry,MultiSelectDialog,PickTreeDialog,DepartUserDialog,ShowDialog) {
 			
 	var application = {};
 	application.checkData = function(chenkids){
@@ -87,6 +88,94 @@ define(["dojo/_base/lang",
 		}
 		
 	};
+	
+	   application.createRostenShowDialog = function(src,args){
+	        var obj = {src:src};
+	        if(args){
+	            if(args.callback)obj.callback = args.callback;
+	            if(args.callbackargs) obj.callbackargs = args.callbackargs;
+	            if(args.onLoadFunction) obj.onLoadFunction = args.onLoadFunction;
+	        }
+	        if(application.rostenShowDialog) application.rostenShowDialog.destroy();
+	        application.rostenShowDialog = new ShowDialog(obj);
+	    },
+	    application.hideRostenShowDialog = function(){
+	        if (application.rostenShowDialog){
+	        	application.rostenShowDialog.hide();
+	        	application.rostenShowDialog.destroy();
+	        }
+	    },
+	    application.getGridItemValue = function(rostenGrid,index,name){
+	    	var grid = rostenGrid.getGrid();
+	    	var item = grid.getItem(index);
+	    	var store = rostenGrid.getStore();
+	    	return store.getValue(item, name);
+	    },
+	    application.getGridItem = function(rostenGrid,index){
+	    	var grid = rostenGrid.getGrid();
+	    	var item = grid.getItem(index);
+	    	return item;
+	    },
+	    application.getGridItemValue1 = function(rostenGrid,name){
+	        var selectitems = rostenGrid.getSelected();
+			
+			if(selectitems.length<=0){
+				rosten.alert("请先选择条目！");
+				return "";
+			}
+			var gridStore = rostenGrid.getStore();
+			var item;
+			var idArgs;
+			var getName = "id";
+			if(name) getName = name;
+	    	item = selectitems[0];
+	    	idArgs = gridStore.getValue(item, getName);
+	       
+			return idArgs;
+		};
+		application.addAttachShowNew = function(node,jsonObj){
+			var div = document.createElement("div");
+			div.setAttribute("style","height:30px;width:50%;float:left");
+			div.setAttribute("id",jsonObj.fileId);
+			
+			var a = document.createElement("a");
+			if (has("ie")) {
+				a.href = rosten.webPath + "/system/downloadFile/" + jsonObj.fileId;
+			}else{
+				a.setAttribute("href", rosten.webPath + "/system/downloadFile/" + jsonObj.fileId);
+			}
+			a.setAttribute("style","margin-right:20px");
+			a.setAttribute("dealId",jsonObj.fileId);
+			a.innerHTML = jsonObj.fileName;
+			div.appendChild(a);
+			
+			var deleteA = document.createElement("a");
+			deleteA.setAttribute("style","color:green");
+			if (has("ie")) {
+				deleteA.href = "javascript:rosten.deleteFile('" + node.getAttribute("id") + "','" + jsonObj.fileId + "')";
+			}else{
+				deleteA.setAttribute("href", "javascript:rosten.deleteFile('" + node.getAttribute("id")+"','" + jsonObj.fileId + "')");
+			}
+			deleteA.innerHTML = "删除";
+			div.appendChild(deleteA);
+			
+			node.appendChild(div);
+			
+		};
+		application.deleteFile = function(objId,attachmentId){
+			
+			rosten.readNoTime(rosten.webPath + "/share/deleteAttachmentFile/"+attachmentId, {},function(data){
+				if(data.result==true || data.result=="true"){
+					var node = dom.byId(objId);
+					var item = dom.byId(attachmentId);
+					node.removeChild(item);
+					rosten.alert("删除成功！");
+				}else{
+					rosten.alert("删除失败！");
+				}
+			});
+		};
+	
 	application.selectFlowUser = function(url,type){
         var id = "sys_flowUserDialog";
 

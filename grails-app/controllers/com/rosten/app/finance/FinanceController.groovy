@@ -102,6 +102,10 @@ class FinanceController {
 	
 	
 	
+	//报销子清单
+	def expenseListItemAdd ={
+		redirect(action:"expenseListShow",params:params)
+	}
 	def  expenseListShow ={
 		def model =[:]
 		if(params.id){
@@ -109,7 +113,7 @@ class FinanceController {
 		}else{
 			model["expenseReimbursementItem"] = new ExpenseReimbursementItem()
 		}
-		render(view:'/finance/expenseReimbursementItemShow',model:model)
+		render(view:'/finance/expenseReimbursementItem',model:model)
 	}
 	def expenseListGrid ={
 		def json=[:]		
