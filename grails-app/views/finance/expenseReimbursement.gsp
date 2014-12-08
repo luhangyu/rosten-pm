@@ -45,8 +45,6 @@
 					}
 					var content = {};
 					
-					
-					
 					//增加对多次单击的次数----2014-9-4
 					var buttonWidget = object.target;
 					rosten.toggleAction(buttonWidget,true);
@@ -70,28 +68,21 @@
 					rosten.pagequit();
 				};
 
-
+				//增加清单ITEM
 				expenseList_addItem = function(){
-					rosten.createRostenShowDialog(rosten.webPath + "/train/staffItemShow", {
+					rosten.createRostenShowDialog(rosten.webPath + "/finance/expenseListItemAdd", {
 			            onLoadFunction : function() {
 
 				            }
 			        });
 				};
-				staffItem_Submit = function(){
-					var chenkids = ["itemName","itemDept","itemMoney","itemResult"];
+				expenseReimbursementItem_Submit = function(){
+					var chenkids = ["ExpenseReimHappenDate","ExpenseReimItemType","ExpenseReimItemMoney"];
 					if(!rosten.checkData(chenkids)) return;
+					
 					var itemId = registry.byId("itemId").get("value");
 					
 					function gotAll(items,request){
-						//单选radio元素取值
-						var itemCertValue
-						if (registry.byId("itemCert2").get("value")){
-							itemCertValue=registry.byId("itemCert2").get("value");
-					 	}else{
-							itemCertValue=registry.byId("itemCert1").get("value");
-						}
-						
 						var node;
 						for(var i=0;i < items.length;i++){
 							var id = store.getValue(items[i], "id");
@@ -102,42 +93,42 @@
 						}
 						
 						if(node){
-							store.setValue(items[0],"personInforId",registry.byId("personInforId").get("value"));
-							store.setValue(items[0],"getUserName",registry.byId("itemName").get("value"));
-							store.setValue(items[0],"getUserDepartName",registry.byId("itemDept").get("value"));
-							store.setValue(items[0],"userMoney",registry.byId("itemMoney").get("value"));
-							store.setValue(items[0],"trainResult",registry.byId("itemResult").get("value"));
-							store.setValue(items[0],"trainCert",itemCertValue);
+							store.setValue(items[0],"expenseReimburseId",registry.byId("expenseReimburseId").get("value"));
+							store.setValue(items[0],"ExpenseReimHappenDate",registry.byId("ExpenseReimHappenDate").get("value"));
+							store.setValue(items[0],"ExpenseReimItemType",registry.byId("ExpenseReimItemType").get("value"));
+							store.setValue(items[0],"ExpenseReimItemMoney",registry.byId("ExpenseReimItemMoney").get("value"));
+							store.setValue(items[0],"ExpenseReimItemPaperNum",registry.byId("ExpenseReimItemPaperNum").get("value"));
+							store.setValue(items[0],"ExpenseReimItemRemark",registry.byId("ExpenseReimItemRemark").get("value"));
 						}else{
 							var randId = Math.random();
 							var content ={
 									id:randId,
 									staffItemId:randId,
 									rowIndex:items.length+1,
-									personInforId:registry.byId("personInforId").get("value"),
-									getUserName:registry.byId("itemName").get("value"),
-									getUserDepartName:registry.byId("itemDept").get("value"),
-									userMoney:registry.byId("itemMoney").get("value"),
-									trainResult:registry.byId("itemResult").get("value"),
-									trainCert:itemCertValue,
+									expenseReimburseId:registry.byId("expenseReimburseId").get("value"),
+									ExpenseReimHappenDate:registry.byId("ExpenseReimHappenDate").get("value"),
+									ExpenseReimItemType:registry.byId("ExpenseReimItemType").get("value"),
+									ExpenseReimItemMoney:registry.byId("ExpenseReimItemMoney").get("value"),
+									ExpenseReimItemPaperNum:registry.byId("ExpenseReimItemPaperNum").get("value"),
+									ExpenseReimItemRemark:registry.byId("ExpenseReimItemRemark").get("value"),
 							};
 							store.newItem(content);
 
 						}
 					}
 					
-					var store = staffListGrid.getStore();
+					var store = expenseListGrid.getStore();
 					store.fetch({
 						query:{id:"*"},onComplete:gotAll,queryOptions:{deep:true}
 					});
 					rosten.hideRostenShowDialog();
 				};
-				expenseReimbursementItem_formatTopic = function(value,rowIndex){
-					return "<a href=\"javascript:trainMessage_onMessageOpen(" + rowIndex + ");\">" + value+ "</a>";
+				expenseReimburseItem_formatTopic = function(value,rowIndex){
+					return "<a href=\"javascript:expenseReimburseItem_onMessageOpen(" + rowIndex + ");\">" + value+ "</a>";
 				};
-				expenseReimbursementItem_onMessageOpen = function(rowIndex){
+				expenseReimburseItem_onMessageOpen = function(rowIndex){
 					//打开systemCodeItem信息
-			    	rosten.createRostenShowDialog(rosten.webPath + "/finance/expenseReimbursementItemShow", {
+			    	rosten.createRostenShowDialog(rosten.webPath + "/finance/expenseReimbursementItem", {
 			            onLoadFunction : function() {
 				            
 			            	var itemId = rosten.getGridItemValue(staffListGrid,rowIndex,"id");
