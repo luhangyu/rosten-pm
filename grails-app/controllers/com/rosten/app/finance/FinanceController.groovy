@@ -117,15 +117,15 @@ class FinanceController {
 	}
 	def expenseListGrid ={
 		def json=[:]		
-		def expenseReimbursement = ExpenseReimbursement.get(params.id)
+		def expenseReimbursementItem = ExpenseReimbursementItem.get(params.id)
 		if(params.refreshHeader){
-			json["gridHeader"] = financeService.getExpenseReimbursementItemListLayout()
+			json["gridHeader"] = financeService.getExpenseReimburseItemListLayout()
 		}
 		
 		//2014-9-1 增加搜索功能
 		def searchArgs =[:]
 		if(params.refreshData){
-			if(!expenseReimbursement){
+			if(!expenseReimbursementItem){
 				json["gridData"] = ["identifier":"id","label":"name","items":[]]
 			}else{
 				def args =[:]
@@ -134,17 +134,17 @@ class FinanceController {
 				
 				args["offset"] = (nowPage-1) * perPageNum
 				args["max"] = perPageNum
-				args["expenseReimbursement"] = expenseReimbursement
+				args["expenseReimbursementItem"] = expenseReimbursementItem
 				
-				def gridData = financeService.getExpenseReimbursementItemListDataStore(args,searchArgs)
+				def gridData = financeService.getExpenseReimburseItemListDataStore(args,searchArgs)
 				json["gridData"] = gridData
 			}
 		}
 		if(params.refreshPageControl){
-			if(!expenseReimbursement){
+			if(!expenseReimbursementItem){
 				json["pageControl"] = ["total":"0"]
 			}else{
-				def total = financeService.getExpenseReimbursementItemCount(expenseReimbursement,searchArgs)
+				def total = financeService.getExpenseReimburseItemCount(expenseReimbursementItem,searchArgs)
 				json["pageControl"] = ["total":total.toString()]
 			}
 			

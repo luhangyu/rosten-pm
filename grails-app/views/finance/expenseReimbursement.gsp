@@ -77,11 +77,11 @@
 			        });
 				};
 				expenseReimbursementItem_Submit = function(){
-					var chenkids = ["ExpenseReimHappenDate","ExpenseReimItemType","ExpenseReimItemMoney"];
-					if(!rosten.checkData(chenkids)) return;
+					//var chenkids = ["ExpenseReimHappenDate","ExpenseReimItemType","ExpenseReimItemMoney"];
+					//if(!rosten.checkData(chenkids)) return;
 					
 					var itemId = registry.byId("itemId").get("value");
-					
+					alert(itemId);
 					function gotAll(items,request){
 						var node;
 						for(var i=0;i < items.length;i++){
@@ -93,7 +93,7 @@
 						}
 						
 						if(node){
-							store.setValue(items[0],"expenseReimburseId",registry.byId("expenseReimburseId").get("value"));
+							store.setValue(items[0],"Expensereimbursementid",registry.byId("Expensereimbursementid").get("value"));
 							store.setValue(items[0],"ExpenseReimHappenDate",registry.byId("ExpenseReimHappenDate").get("value"));
 							store.setValue(items[0],"ExpenseReimItemType",registry.byId("ExpenseReimItemType").get("value"));
 							store.setValue(items[0],"ExpenseReimItemMoney",registry.byId("ExpenseReimItemMoney").get("value"));
@@ -103,9 +103,9 @@
 							var randId = Math.random();
 							var content ={
 									id:randId,
-									staffItemId:randId,
+									expenseReimItemId:randId,
 									rowIndex:items.length+1,
-									expenseReimburseId:registry.byId("expenseReimburseId").get("value"),
+									Expensereimbursementid:registry.byId("Expensereimbursementid").get("value"),
 									ExpenseReimHappenDate:registry.byId("ExpenseReimHappenDate").get("value"),
 									ExpenseReimItemType:registry.byId("ExpenseReimItemType").get("value"),
 									ExpenseReimItemMoney:registry.byId("ExpenseReimItemMoney").get("value"),
@@ -128,7 +128,7 @@
 				};
 				expenseReimburseItem_onMessageOpen = function(rowIndex){
 					//打开systemCodeItem信息
-			    	rosten.createRostenShowDialog(rosten.webPath + "/finance/expenseReimbursementItem", {
+			    	rosten.createRostenShowDialog(rosten.webPath + "/finance/expenseListShow", {
 			            onLoadFunction : function() {
 				            
 			            	var itemId = rosten.getGridItemValue(staffListGrid,rowIndex,"id");
@@ -185,7 +185,7 @@
 <body>
 <div class="rosten_action">
 	<div data-dojo-type="rosten/widget/ActionBar" data-dojo-id="rosten_actionBar" 
-		data-dojo-props='actionBarSrc:"${createLink(controller:'financeAction',action:'expenseReimbursementForm',id:vacate?.id,params:[userid:user?.id])}"'>
+		data-dojo-props='actionBarSrc:"${createLink(controller:'financeAction',action:'expenseReimbursementForm',id:expenseReimbursement?.id,params:[userid:user?.id])}"'>
 	</div>
 </div>
 

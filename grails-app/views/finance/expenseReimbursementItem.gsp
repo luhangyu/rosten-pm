@@ -8,7 +8,7 @@
 	<div style="text-Align:center">
 		<input  data-dojo-type="dijit/form/ValidationTextBox" id="itemId"  data-dojo-props='name:"itemId",style:{display:"none"}' />
         <div class="rosten_form" style="width:700px;text-align:left">
-        	<input id="expenseReimburseId" data-dojo-type="dijit/form/ValidationTextBox"  data-dojo-props='name:"expenseReimburseId",style:{display:"none"},value:""' />
+        	<input id="Expensereimbursementid" data-dojo-type="dijit/form/ValidationTextBox"  data-dojo-props='name:"Expensereimbursementid",style:{display:"none"},value:""' />
             <fieldset class="fieldset-form">
                 <legend class="tableHeader">信息添加</legend>
                 <table class="tableData">

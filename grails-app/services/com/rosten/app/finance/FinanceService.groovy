@@ -5,11 +5,11 @@ import com.rosten.app.system.Company
 class FinanceService {
 
     //报销管理start--------------------
-	def getExpenseReimbursementItemListLayout ={
+	def getExpenseReimburseItemListLayout ={
 		def gridUtil = new GridUtil()
 		return gridUtil.buildLayoutJSON(new ExpenseReimbursementItem())
 	}
-	def getExpenseReimbursementItemListDataStore ={params,searchArgs->
+	def getExpenseReimburseItemListDataStore ={params,searchArgs->
 		Integer offset = (params.offset)?params.offset.toInteger():0
 		Integer max = (params.max)?params.max.toInteger():15
 		def propertyList = getAllExpenseReimbursementItemListItem(offset,max,params.ExpenseReimbursement,searchArgs)
@@ -21,17 +21,17 @@ class FinanceService {
 		def c = ExpenseReimbursementItem.createCriteria()
 		def pa=[max:max,offset:offset]
 		def query = {
-			eq("expenseReimbursement",ExpenseReimbursement)
+			eq("expenseReimbursementItem",ExpenseReimbursementItem)
 			searchArgs.each{k,v->
 				like(k,"%" + v + "%")
 			}
 		}
 		return c.list(pa,query)
 	}
-	def getExpenseReimbursementItemCount ={trainCourse,searchArgs->
+	def getExpenseReimburseItemCount ={trainCourse,searchArgs->
 		def c = ExpenseReimbursementItem.createCriteria()
 		def query = {
-			eq("expenseReimbursement",expenseReimbursement)
+			eq("expenseReimbursementItem",ExpenseReimbursementItem)
 			searchArgs.each{k,v->
 				like(k,"%" + v + "%")
 			}
