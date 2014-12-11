@@ -12,6 +12,13 @@
     	body{
 			overflow:auto;
 		}
+		.rosten .rostenTitleGrid .dijitTitlePaneContentInner{
+			padding:1px;
+			
+		}
+		
+		
+		
     </style>
 	<script type="text/javascript">
 	require(["dojo/parser",
@@ -34,7 +41,7 @@
 		     	"rosten/kernel/behavior"],
 			function(parser,kernel,registry,dom,lang){
 				kernel.addOnLoad(function(){
-					rosten.init({webpath:"${request.getContextPath()}"});
+					rosten.init({webpath:"${request.getContextPath()}",dojogridcss : true});
 					rosten.cssinit();
 				});
 				expenseReimbursement_save = function(object){
@@ -44,6 +51,10 @@
 						return;
 					}
 					var content = {};
+
+					content.expenseItemValues = rosten.getGridDataCollect(expenseListGrid,["ExpenseReimItemType","getFormatteExpenseReimHappenDate","ExpenseReimItemMoney","ExpenseReimItemPaperNum","ExpenseReimItemRemark"]);
+					//alert(content.expenseItemValues);
+					//return ;
 					
 					//增加对多次单击的次数----2014-9-4
 					var buttonWidget = object.target;
@@ -72,7 +83,6 @@
 				expenseList_addItem = function(){
 					rosten.createRostenShowDialog(rosten.webPath + "/finance/expenseListItemAdd", {
 			            onLoadFunction : function() {
-
 				            }
 			        });
 				};
@@ -81,7 +91,6 @@
 					//if(!rosten.checkData(chenkids)) return;
 					
 					var itemId = registry.byId("itemId").get("value");
-					alert(itemId);
 					function gotAll(items,request){
 						var node;
 						for(var i=0;i < items.length;i++){
@@ -93,20 +102,20 @@
 						}
 						
 						if(node){
-							store.setValue(items[0],"Expensereimbursementid",registry.byId("Expensereimbursementid").get("value"));
-							store.setValue(items[0],"ExpenseReimHappenDate",registry.byId("ExpenseReimHappenDate").get("value"));
-							store.setValue(items[0],"ExpenseReimItemType",registry.byId("ExpenseReimItemType").get("value"));
-							store.setValue(items[0],"ExpenseReimItemMoney",registry.byId("ExpenseReimItemMoney").get("value"));
-							store.setValue(items[0],"ExpenseReimItemPaperNum",registry.byId("ExpenseReimItemPaperNum").get("value"));
-							store.setValue(items[0],"ExpenseReimItemRemark",registry.byId("ExpenseReimItemRemark").get("value"));
+							store.setValue(items[i],"ExpensereimbursementId",registry.byId("id").get("value"));
+							store.setValue(items[i],"getFormatteExpenseReimHappenDate",registry.byId("ExpenseReimHappenDate").get("displayedValue"));
+							store.setValue(items[i],"ExpenseReimItemType",registry.byId("ExpenseReimItemType").get("value"));
+							store.setValue(items[i],"ExpenseReimItemMoney",registry.byId("ExpenseReimItemMoney").get("value"));
+							store.setValue(items[i],"ExpenseReimItemPaperNum",registry.byId("ExpenseReimItemPaperNum").get("value"));
+							store.setValue(items[i],"ExpenseReimItemRemark",registry.byId("ExpenseReimItemRemark").get("value"));
 						}else{
 							var randId = Math.random();
 							var content ={
 									id:randId,
 									expenseReimItemId:randId,
 									rowIndex:items.length+1,
-									Expensereimbursementid:registry.byId("Expensereimbursementid").get("value"),
-									ExpenseReimHappenDate:registry.byId("ExpenseReimHappenDate").get("value"),
+									itemId:registry.byId("id").get("value"),
+									getFormatteExpenseReimHappenDate:registry.byId("ExpenseReimHappenDate").get("displayedValue"),
 									ExpenseReimItemType:registry.byId("ExpenseReimItemType").get("value"),
 									ExpenseReimItemMoney:registry.byId("ExpenseReimItemMoney").get("value"),
 									ExpenseReimItemPaperNum:registry.byId("ExpenseReimItemPaperNum").get("value"),
@@ -118,10 +127,12 @@
 					}
 					
 					var store = expenseListGrid.getStore();
+					
 					store.fetch({
 						query:{id:"*"},onComplete:gotAll,queryOptions:{deep:true}
 					});
 					rosten.hideRostenShowDialog();
+
 				};
 				expenseReimburseItem_formatTopic = function(value,rowIndex){
 					return "<a href=\"javascript:expenseReimburseItem_onMessageOpen(" + rowIndex + ");\">" + value+ "</a>";
@@ -131,29 +142,20 @@
 			    	rosten.createRostenShowDialog(rosten.webPath + "/finance/expenseListShow", {
 			            onLoadFunction : function() {
 				            
-			            	var itemId = rosten.getGridItemValue(staffListGrid,rowIndex,"id");
-			            	var personInforId = rosten.getGridItemValue(staffListGrid,rowIndex,"personInforId");
-			            	var itemName = rosten.getGridItemValue(staffListGrid,rowIndex,"getUserName");
-			            	var itemDept = rosten.getGridItemValue(staffListGrid,rowIndex,"getUserDepartName");
-			            	var itemResult = rosten.getGridItemValue(staffListGrid,rowIndex,"trainResult");
-			            	var itemCert = rosten.getGridItemValue(staffListGrid,rowIndex,"trainCert");
-			            	var itemMoney = rosten.getGridItemValue(staffListGrid,rowIndex,"userMoney");
-							//var itemCert=true;
-
-			            	registry.byId("personInforId").set("value",personInforId);
+			            	var itemId = rosten.getGridItemValue(expenseListGrid,rowIndex,"id");			      
+			            	var getFormatteExpenseReimHappenDate = rosten.getGridItemValue(expenseListGrid,rowIndex,"getFormatteExpenseReimHappenDate");
+			            	var ExpenseReimItemType = rosten.getGridItemValue(expenseListGrid,rowIndex,"ExpenseReimItemType");
+			            	var ExpenseReimItemPaperNum = rosten.getGridItemValue(expenseListGrid,rowIndex,"ExpenseReimItemPaperNum");
+			            	var ExpenseReimItemMoney = rosten.getGridItemValue(expenseListGrid,rowIndex,"ExpenseReimItemMoney");
+			            	var ExpenseReimItemRemark = rosten.getGridItemValue(expenseListGrid,rowIndex,"ExpenseReimItemRemark");
+							
+							
+			            	registry.byId("ExpenseReimItemRemark").set("value",ExpenseReimItemRemark);
 			            	registry.byId("itemId").set("value",itemId);
-			            	registry.byId("itemName").set("value",itemName);
-			            	registry.byId("itemDept").set("value",itemDept);
-			            	registry.byId("itemResult").set("value",itemResult);
-			            	
-			            	if(itemCert=="是"){
-			            		registry.byId("itemCert1").set("value",itemCert);
-					         }else{
-					        	registry.byId("itemCert2").set("value","否");
-						    }
-			            	
-			            	
-			            	registry.byId("itemMoney").set("value",itemMoney);
+			            	registry.byId("ExpenseReimItemPaperNum").set("value",ExpenseReimItemPaperNum);
+			            	registry.byId("ExpenseReimItemType").set("value",ExpenseReimItemType);
+			            	registry.byId("ExpenseReimItemMoney").set("value",ExpenseReimItemMoney);
+			            	registry.byId("ExpenseReimHappenDate").set("value",getFormatteExpenseReimHappenDate);
 
 				        }
 			        });
@@ -189,8 +191,8 @@
 	</div>
 </div>
 
-<div data-dojo-type="dijit/layout/TabContainer" data-dojo-props='persist:false, tabStrip:true,style:{width:"800px",margin:"0 auto"}' >
-	<div data-dojo-type="dijit/layout/ContentPane" title="基本信息" data-dojo-props=''>
+<div data-dojo-type="dijit/layout/TabContainer" data-dojo-props='doLayout:false,persist:false, tabStrip:true,style:{width:"800px",margin:"0 auto"}' >
+	<div data-dojo-type="dijit/layout/ContentPane" title="基本信息" data-dojo-props='doLayout:false'>
 		<form id="rosten_form" data-dojo-type="dijit/form/Form" name="rosten_form" onsubmit="return false;" class="rosten_form" style="padding:0px">
 			<input  data-dojo-type="dijit/form/ValidationTextBox" id="id"  data-dojo-props='name:"id",style:{display:"none"},value:"${expenseReimbursement?.id }"' />
         	<input  data-dojo-type="dijit/form/ValidationTextBox" id="companyId" data-dojo-props='name:"companyId",style:{display:"none"},value:"${company?.id }"' />
@@ -306,14 +308,12 @@
 			</div>
 			<div data-dojo-type="rosten/widget/TitlePane" data-dojo-props='"class":"rostenTitleGrid",title:"清单",toggleable:false,_moreClick:expenseList_addItem,moreText:"<span style=\"color:#108ac6\">增加</span>",marginBottom:"2px"'>
             	<div data-dojo-type="rosten/widget/RostenGrid" id="expenseListGrid" data-dojo-id="expenseListGrid"
-					data-dojo-props='showPageControl:false,url:"${createLink(controller:'finance',action:'expenseListGrid',id:expenseReimbursement?.id)}"'></div>
-             	
+					data-dojo-props='imgSrc:"${resource(dir:'images/rosten/share',file:'wait.gif')}",showPageControl:false,url:"${createLink(controller:'finance',action:'expenseListGrid',id:expenseReimbursement?.id)}"'></div>
             </div>
-            
            
 		</form>
 	</div>
 </div>
-
+<div style="clear:both;height:50px"></div>
 
 </body>

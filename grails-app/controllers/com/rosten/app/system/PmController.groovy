@@ -51,35 +51,35 @@ class PmController {
 			
 			resource = new Resource()
 			resource.resourceName = "往来单位管理"
-			resource.url = "wldwgl"
+			resource.url = "contactCorp"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"
 			resource.serialNo = 3
 			model.addToResources(resource)
 			
 			resource = new Resource()
 			resource.resourceName = "供应商管理"
-			resource.url = "gyspj"
+			resource.url = "supplier"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"
 			resource.serialNo = 4
 			model.addToResources(resource)
 			
 			resource = new Resource()
 			resource.resourceName = "材料分类管理"
-			resource.url = "clflgl"
+			resource.url = "materialType"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"
 			resource.serialNo = 5
 			model.addToResources(resource)
 			
 			resource = new Resource()
 			resource.resourceName = "材料信息管理"
-			resource.url = "clxxgl"
+			resource.url = "materialInfo"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"
 			resource.serialNo = 6
 			model.addToResources(resource)
 			
 			resource = new Resource()
-			resource.resourceName = "工作分类管理"
-			resource.url = "gzflgl"
+			resource.resourceName = "工种分类管理"
+			resource.url = "workerType"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"
 			resource.serialNo = 7
 			model.addToResources(resource)

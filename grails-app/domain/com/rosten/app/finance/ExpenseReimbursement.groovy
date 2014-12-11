@@ -1,5 +1,6 @@
 package com.rosten.app.finance
 import java.util.Date;
+import java.util.List;
 import java.text.SimpleDateFormat
 
 import com.rosten.app.annotation.GridColumn
@@ -13,7 +14,7 @@ class ExpenseReimbursement {
 	String id
 	
 	//项目名称
-	@GridColumn(name="项目名称",width="100px",colIdx=1,formatter="expenseReimbursement_formatTopic")
+	@GridColumn(name="项目名称",width="180px",colIdx=1,formatter="expenseReimbursement_formatTopic")
 	String ExpenseReimbursementName
 	
 	//项目归属部门
@@ -27,24 +28,29 @@ class ExpenseReimbursement {
 	}
 	
 	//费用类型
-	@GridColumn(name="费用类型",width="160px",colIdx=2)
+	@GridColumn(name="费用类型",width="160px",colIdx=3)
 	String ExpenseReimbursementType
 	
 	//票面金额
-	@GridColumn(name="票面金额",width="160px",colIdx=3)
+	@GridColumn(name="票面金额",width="160px",colIdx=5)
 	Long ExpenseReimbursementBillMoney
 	
 	//实报金额
 	@GridColumn(name="实报金额",width="160px",colIdx=4)
 	Long ExpenseReimbursementMoney
 	
+	//实报金额
+	@GridColumn(name="票据张数",width="60px",colIdx=6)
 	Long ExpenseReimbursementPaperNum
 	
 	String ExpenseReimbursementRemark
 	
+	//实报金额
+	@GridColumn(name="报销人",width="80px",colIdx=2)
 	String ExpenseReimbursementPerson
 	
-	//申请日期
+	//报销日期
+	@GridColumn(name="报销日期",colIdx=7)
 	Date ExpenseReimbursementDate=new Date()
 	def getFormatteExpenseReimbursementDate(){
 		if(ExpenseReimbursementDate!=null){
@@ -57,6 +63,11 @@ class ExpenseReimbursement {
 	
 	//创建日期
 	Date createdDate = new Date()
+	
+	
+	//报销清单
+	List items
+	static hasMany=[items:ExpenseReimbursementItem]
 	
 	static belongsTo = [company:Company]
 	

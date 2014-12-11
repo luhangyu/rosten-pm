@@ -120,4 +120,167 @@ class BaseinforService {
 		return c.count(query)
 	}
 	
+	
+	//----------------------------------------------------1
+	//供应商
+	def getSupplierListLayout ={
+		def gridUtil = new GridUtil()
+		return gridUtil.buildLayoutJSON(new Supplier())
+	}
+	def getSupplierListDataStore ={params,searchArgs->
+		Integer offset = (params.offset)?params.offset.toInteger():0
+		Integer max = (params.max)?params.max.toInteger():15
+		def propertyList = getAllSupplier(offset,max,params.company,searchArgs)
+
+		def gridUtil = new GridUtil()
+		return gridUtil.buildDataList("id","title",propertyList,offset)
+	}
+	private def getAllSupplier={offset,max,company,searchArgs->
+		def c = Supplier.createCriteria()
+		def pa=[max:max,offset:offset]
+		def query = {
+			eq("company",company)
+			order("createdDate", "desc")
+			
+			searchArgs.each{k,v->
+				like(k,"%" + v + "%")
+			}
+		}
+		return c.list(pa,query)
+	}
+	def getSupplierCount ={company,searchArgs->
+		def c = Supplier.createCriteria()
+		def query = {
+			eq("company",company)
+			searchArgs.each{k,v->
+				like(k,"%" + v + "%")
+			}
+		}
+		return c.count(query)
+	}
+	//----------------------------------------------------1
+	
+	
+	
+	//----------------------------------------------------2
+	//材料信息
+	def getMaterialInfoListLayout ={
+		def gridUtil = new GridUtil()
+		return gridUtil.buildLayoutJSON(new MaterialInfo())
+	}
+	def getMaterialInfoListDataStore ={params,searchArgs->
+		Integer offset = (params.offset)?params.offset.toInteger():0
+		Integer max = (params.max)?params.max.toInteger():15
+		def propertyList = getAllMaterialInfo(offset,max,params.company,searchArgs)
+
+		def gridUtil = new GridUtil()
+		return gridUtil.buildDataList("id","title",propertyList,offset)
+	}
+	private def getAllMaterialInfo={offset,max,company,searchArgs->
+		def c = MaterialInfo.createCriteria()
+		def pa=[max:max,offset:offset]
+		def query = {
+			eq("company",company)
+			order("createdDate", "desc")
+			
+			searchArgs.each{k,v->
+				like(k,"%" + v + "%")
+			}
+		}
+		return c.list(pa,query)
+	}
+	def getMaterialInfoCount ={company,searchArgs->
+		def c = MaterialInfo.createCriteria()
+		def query = {
+			eq("company",company)
+			searchArgs.each{k,v->
+				like(k,"%" + v + "%")
+			}
+		}
+		return c.count(query)
+	}
+	//----------------------------------------------------2
+	
+	
+	
+	
+	//----------------------------------------------------3
+	//材料类型
+	def getMaterialTypeListLayout ={
+		def gridUtil = new GridUtil()
+		return gridUtil.buildLayoutJSON(new MaterialType())
+	}
+	def getMaterialTypeListDataStore ={params,searchArgs->
+		Integer offset = (params.offset)?params.offset.toInteger():0
+		Integer max = (params.max)?params.max.toInteger():15
+		def propertyList = getAllMaterialType(offset,max,params.company,searchArgs)
+
+		def gridUtil = new GridUtil()
+		return gridUtil.buildDataList("id","title",propertyList,offset)
+	}
+	private def getAllMaterialType={offset,max,company,searchArgs->
+		def c = MaterialType.createCriteria()
+		def pa=[max:max,offset:offset]
+		def query = {
+			eq("company",company)
+			order("createdDate", "desc")
+			
+			searchArgs.each{k,v->
+				like(k,"%" + v + "%")
+			}
+		}
+		return c.list(pa,query)
+	}
+	def getMaterialTypeCount ={company,searchArgs->
+		def c = MaterialType.createCriteria()
+		def query = {
+			eq("company",company)
+			searchArgs.each{k,v->
+				like(k,"%" + v + "%")
+			}
+		}
+		return c.count(query)
+	}
+	//----------------------------------------------------3
+	
+	
+	//----------------------------------------------------4
+	//工种
+	def getWorkerTypeListLayout ={
+		def gridUtil = new GridUtil()
+		return gridUtil.buildLayoutJSON(new WorkerType())
+	}
+	def getWorkerTypeListDataStore ={params,searchArgs->
+		Integer offset = (params.offset)?params.offset.toInteger():0
+		Integer max = (params.max)?params.max.toInteger():15
+		def propertyList = getAllWorkerType(offset,max,params.company,searchArgs)
+
+		def gridUtil = new GridUtil()
+		return gridUtil.buildDataList("id","title",propertyList,offset)
+	}
+	private def getAllWorkerType={offset,max,company,searchArgs->
+		def c = WorkerType.createCriteria()
+		def pa=[max:max,offset:offset]
+		def query = {
+			eq("company",company)
+			order("createdDate", "desc")
+			
+			searchArgs.each{k,v->
+				like(k,"%" + v + "%")
+			}
+		}
+		return c.list(pa,query)
+	}
+	def getWorkerTypeCount ={company,searchArgs->
+		def c = WorkerType.createCriteria()
+		def query = {
+			eq("company",company)
+			searchArgs.each{k,v->
+				like(k,"%" + v + "%")
+			}
+		}
+		return c.count(query)
+	}
+	//----------------------------------------------------4
+	
 }

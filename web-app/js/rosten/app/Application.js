@@ -10,6 +10,32 @@ define(["dojo/_base/lang",
 		"rosten/kernel/_kernel"], function(lang,registry,MultiSelectDialog,PickTreeDialog,DepartUserDialog,ShowDialog) {
 			
 	var application = {};
+	/*
+	 * 获取表格中的数据集合，并返回jsonString类型
+	 * grid:表格widget;dealArray:需要处理的字段名称集合;query:查询参数json类型
+	 */
+	application.getGridDataCollect =function(grid,dealArray,query){
+		var gridContent=[]
+		
+		var searchQuery = {id:"*"};
+		if(query) searchQuery = query;
+		
+		var store = grid.getStore();
+		store.fetch({
+			query:searchQuery,onComplete:function(items){
+				for(var i=0;i < items.length;i++){
+					var _item = items[i];
+					var jsonObj = {};
+					
+					for(var j = 0 ;j<dealArray.length;j++){
+						jsonObj[dealArray[j]] = store.getValue(_item, dealArray[j]);
+					}
+					gridContent.push(jsonObj);
+				}
+			},queryOptions:{deep:true}
+		});
+		return JSON.stringify(gridContent);
+	};
 	application.checkData = function(chenkids){
 		var flag=true;
 		for(var i = 0 ;i<chenkids.length;i++){
@@ -62,6 +88,7 @@ define(["dojo/_base/lang",
 		 * reload:是否重新载入
 		 * defaultValue：对话框中显示的值,为[]数组
 		 */
+    	
 		if (!(rosten[id] && registry.byId(id))) {
 			rosten[id] = new MultiSelectDialog({
 				title:dialogTitle,
@@ -278,6 +305,7 @@ define(["dojo/_base/lang",
     	 * type:是否单选
     	 * initValue:"单位1,单位2...",inputName:页面input显示id，inputId：页面input隐藏Id
     	 */
+  
         var id = "base_contactCorpDialog";
         var initValue =[];
         if(initValues){
@@ -295,6 +323,8 @@ define(["dojo/_base/lang",
                 _data.push(item.name);
                 _data_1.push(item.value);
             }
+            
+            
             if( inputName !=undefined){
                 registry.byId(inputName).attr("value", _data.join(","));
             }

@@ -46,6 +46,16 @@ class FinanceController {
 		entity.properties = params
 		entity.clearErrors()
 		
+		JSON.parse(params.expenseItemValues).eachWithIndex{elem, i ->
+			def expenseReimbursementItem = new ExpenseReimbursementItem(elem)
+			entity.addToItems(expenseReimbursementItem)
+		}
+//			def _entity = new ExpenseReimbursementItem(elem)
+//			_entity.clearErrors()
+//			_entity.ExpenseReimItemType = elem.ExpenseReimItemType
+//			
+
+		
 		if(entity.save(flush:true)){
 			model["result"] = "true"
 		}else{
@@ -54,6 +64,8 @@ class FinanceController {
 			}
 			model["result"] = "false"
 		}
+		println entity.id
+		
 		render model as JSON
 	}
 	def expenseReimbursementDelete ={
@@ -106,18 +118,18 @@ class FinanceController {
 	def expenseListItemAdd ={
 		redirect(action:"expenseListShow",params:params)
 	}
-	def  expenseListShow ={
+	def expenseListShow ={
 		def model =[:]
 		if(params.id){
-			model["expenseReimbursementItem"] = ExpenseReimbursementItem.get(params.id)
+			model["ExpenseReimbursementItem"] = ExpenseReimbursementItem.get(params.id)
 		}else{
-			model["expenseReimbursementItem"] = new ExpenseReimbursementItem()
+			model["ExpenseReimbursementItem"] = new ExpenseReimbursementItem()
 		}
 		render(view:'/finance/expenseReimbursementItem',model:model)
 	}
 	def expenseListGrid ={
 		def json=[:]		
-		def expenseReimbursementItem = ExpenseReimbursementItem.get(params.id)
+		def expenseReimbursement = ExpenseReimbursement.get(params.id)
 		if(params.refreshHeader){
 			json["gridHeader"] = financeService.getExpenseReimburseItemListLayout()
 		}
@@ -125,7 +137,7 @@ class FinanceController {
 		//2014-9-1 增加搜索功能
 		def searchArgs =[:]
 		if(params.refreshData){
-			if(!expenseReimbursementItem){
+			if(!expenseReimbursement){				
 				json["gridData"] = ["identifier":"id","label":"name","items":[]]
 			}else{
 				def args =[:]
@@ -134,17 +146,17 @@ class FinanceController {
 				
 				args["offset"] = (nowPage-1) * perPageNum
 				args["max"] = perPageNum
-				args["expenseReimbursementItem"] = expenseReimbursementItem
+				args["expenseReimbursement"] = expenseReimbursement
 				
 				def gridData = financeService.getExpenseReimburseItemListDataStore(args,searchArgs)
 				json["gridData"] = gridData
 			}
 		}
 		if(params.refreshPageControl){
-			if(!expenseReimbursementItem){
+			if(!expenseReimbursement){
 				json["pageControl"] = ["total":"0"]
 			}else{
-				def total = financeService.getExpenseReimburseItemCount(expenseReimbursementItem,searchArgs)
+				def total = financeService.getExpenseReimburseItemCount(expenseReimbursement,searchArgs)
 				json["pageControl"] = ["total":total.toString()]
 			}
 			

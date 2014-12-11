@@ -56,6 +56,6 @@ class CompanyInfor {
 	
 	static mapping = {
 		id generator:'uuid.hex',params:[separator:'-']
-		table "RS_COMPANY_INFOR"
+		table "RS_base_COMPANY"
 	}
 }

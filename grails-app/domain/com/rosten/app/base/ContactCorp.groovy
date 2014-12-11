@@ -1,12 +1,10 @@
 package com.rosten.app.base
 
 import java.util.Date;
-
 import com.rosten.app.annotation.GridColumn
 import com.rosten.app.system.Company
 
 class ContactCorp {
-
 	/*
 	 往来单位信息
 	 */
@@ -27,7 +25,8 @@ class ContactCorp {
 	@GridColumn(name="地址",colIdx=2,width="280px")
 	String contactCorpAddress
 	
-	
+	//邮编
+	String contactCorpPost
 	//联系人
 	@GridColumn(name="联系人",colIdx=6,width="80px")
 	String contactCorpLinkMan
@@ -43,6 +42,8 @@ class ContactCorp {
 	@GridColumn(name="法人",colIdx=4,width="80px")
 	String contactCorpLealPerson
 	
+	//法人职务
+	String contactCorpLealPersonDuty
 	//税务登记号
 	String contactCorpTax
 	
@@ -55,6 +56,7 @@ class ContactCorp {
 	
 	//email
 	String contactCorpEMail
+	
 	
 	//备注
 	String contactCorpRemark

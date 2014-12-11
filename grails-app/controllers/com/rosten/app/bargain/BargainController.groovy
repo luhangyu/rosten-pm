@@ -1,13 +1,13 @@
 package com.rosten.app.bargain
 
-
-
 import grails.converters.JSON
 import com.rosten.app.util.FieldAcl
 import com.rosten.app.util.SystemUtil
 import com.rosten.app.util.Util
 import com.rosten.app.system.Company
 import com.rosten.app.system.User
+import com.rosten.app.base.ContactCorp
+
 
 
 class BargainController {
@@ -15,7 +15,7 @@ class BargainController {
 	def springSecurityService
 	def bargainService
 	
-	//承包合同<--start
+	//合同<--start
 	def bargainAdd ={
 		redirect(action:"bargainShow",params:params)
 	}
@@ -37,6 +37,10 @@ class BargainController {
 		model["fieldAcl"] = fa
 		render(view:'/bargain/bargain',model:model)
 	}
+	
+	
+	
+	
 	def bargainSave ={
 		def model=[:]
 		
@@ -51,17 +55,49 @@ class BargainController {
 		entity.properties = params
 		entity.clearErrors()
 		//日期字段值处理，convertToTimestamp
-		entity.bargainSignDate = Util.convertToTimestamp(params.bargainSignDate)
+		entity.bargainSigningDate = Util.convertToTimestamp(params.bargainSigningDate)
 		
+		
+		if(entity.items){
+			def _list = []
+			_list += entity.items
+			entity.items.clear()
+			_list.each{
+				it.delete()
+			}
+		}
+		
+		//清单表保存
+		if("采购合同".equals(params.bargainType)){
+			JSON.parse(params.bargainGoodsValues).eachWithIndex{elem, i ->
+				def bargainGoods = new BargainGoods(elem)
+				entity.addToItems(bargainGoods)
+			}
+		}
+		
+		
+		//两个类字段保存
+		def bargainVendorCorpNameOBJ = ContactCorp.get(params.bargainVendorCorpNameId)
+		if(bargainVendorCorpNameOBJ){
+			entity.BargainVendorCorpName = bargainVendorCorpNameOBJ
+		}
+		def bargainPurchaserCorpNameOBJ = ContactCorp.get(params.bargainPurchaserCorpNameId)
+		if(bargainPurchaserCorpNameOBJ){
+			entity.BargainPurchaserCorpName = bargainPurchaserCorpNameOBJ
+		}
 		
 		if(entity.save(flush:true)){
 			model["result"] = "true"
+
 		}else{
 			entity.errors.each{
 				println it
 			}
 			model["result"] = "false"
 		}
+		
+		
+		
 		render model as JSON
 	}
 	def bargainDelete ={
@@ -108,10 +144,62 @@ class BargainController {
 		render model as JSON
 	}
 	
-	//承包合同end-->
+	//合同end-->
 	
+	//采购货物明细start
+	def bargainGoodsAdd ={
+		redirect(action:"bargainGoodsShow",params:params)
+	}
+	def bargainGoodsShow ={
+		def model =[:]
+		if(params.id){
+			model["bargainGoods"] = BargainGoods.get(params.id)
+		}else{
+			model["bargainGoods"] = new BargainGoods()
+		}
+		render(view:'/bargain/bargainGoods',model:model)
+	}
+	def bargainGoodsGrid ={
+		def json=[:]
+		def bargain = Bargain.get(params.id)
+			
+		def bargainVendorCorpName = bargain?.BargainPurchaserCorpName
+		def contactCorpName = bargainVendorCorpName?.contactCorpName
+		
+		if(params.refreshHeader){
+			json["gridHeader"] = bargainService.getBargainGoodsListLayout()
+		}
+		//2014-9-1 增加搜索功能
+		def searchArgs =[:]
+		if(params.refreshData){
+			if(!bargain){
+				json["gridData"] = ["identifier":"id","label":"name","items":[]]
+			}else{
+				def args =[:]
+				int perPageNum = Util.str2int(params.perPageNum)
+				int nowPage =  Util.str2int(params.showPageNum)
+				
+				args["offset"] = (nowPage-1) * perPageNum
+				args["max"] = perPageNum
+				args["bargain"] = bargain
+				
+				def gridData = bargainService.getBargainGoodsListDataStore(args,searchArgs)
+				json["gridData"] = gridData
+			}
+		}
+		if(params.refreshPageControl){
+			if(!bargain){
+				json["pageControl"] = ["total":"0"]
+			}else{
+				def total = bargainService.getBargainGoodsCount(bargain,searchArgs)
+				json["pageControl"] = ["total":total.toString()]
+			}
+			
+		}
+		render json as JSON
+	}
 	
-	
+	//采购货物明细end
 	
 
 }

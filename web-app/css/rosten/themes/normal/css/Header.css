@@ -124,6 +124,7 @@
 .rosten .headerMenu .naviMenuList a:hover span {
     color:#243C5F;
     border: 1px solid #004c7e;
+    margin:-1px;
 } 
 .rosten .headerMenu .naviMenuList a:hover {
 	

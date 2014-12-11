@@ -40,7 +40,7 @@ class BankInfor {
 	
 	static mapping = {
 		id generator:'uuid.hex',params:[separator:'-']
-		table "RS_BANK_INFOR"
+		table "RS_base_BANKINFO"
 	}
 	
 }

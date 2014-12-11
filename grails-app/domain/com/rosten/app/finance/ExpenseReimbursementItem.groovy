@@ -10,8 +10,16 @@ class ExpenseReimbursementItem {
 	String id
 	
 	//发生日期
-	@GridColumn(name="发生日期",formatter="expenseReimburseItem_formatTopic",colIdx=1,width="60px")
-	Date ExpenseReimHappenDate
+	Date ExpenseReimHappenDate=new Date()
+	@GridColumn(name="发生日期",formatter="expenseReimburseItem_formatTopic",colIdx=1,width="100px")
+	def getFormatteExpenseReimHappenDate(){
+		if(ExpenseReimHappenDate!=null){
+			SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd")
+			return sd.format(ExpenseReimHappenDate)
+		}else{
+			return ""
+		}
+	}
 	
 	//费用类型
 	@GridColumn(name="费用类型",width="160px",colIdx=2)

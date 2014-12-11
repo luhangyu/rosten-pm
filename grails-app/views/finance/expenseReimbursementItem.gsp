@@ -4,11 +4,13 @@
     <title>报销子表单</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   </head>
+ 
 <body>
 	<div style="text-Align:center">
 		<input  data-dojo-type="dijit/form/ValidationTextBox" id="itemId"  data-dojo-props='name:"itemId",style:{display:"none"}' />
         <div class="rosten_form" style="width:700px;text-align:left">
-        	<input id="Expensereimbursementid" data-dojo-type="dijit/form/ValidationTextBox"  data-dojo-props='name:"Expensereimbursementid",style:{display:"none"},value:""' />
+        <input  data-dojo-type="dijit/form/ValidationTextBox" id="ExpenseReimbursementId" data-dojo-props='name:"ExpenseReimbursementId",style:{display:"none"},value:"${ExpenseReimbursement?.id }"' />
+        	
             <fieldset class="fieldset-form">
                 <legend class="tableHeader">信息添加</legend>
                 <table class="tableData">
@@ -21,7 +23,7 @@
 						    	<input id="ExpenseReimHappenDate" data-dojo-type="dijit/form/DateTextBox" 
 				                	data-dojo-props='name:"ExpenseReimHappenDate",
 				                	trim:true,required:true,missingMessage:"请正确填写发布时间！",invalidMessage:"请正确填写发布时间！",
-				                	value:"${ExpenseReimbursementItem?.ExpenseReimHappenDate()}"
+				                	value:"${ExpenseReimbursementItem?.getFormatteExpenseReimHappenDate()}"
 				               '/>
 					    	</td>
 					    	
