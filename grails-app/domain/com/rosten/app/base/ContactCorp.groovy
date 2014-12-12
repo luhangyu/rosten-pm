@@ -67,6 +67,8 @@ class ContactCorp {
 	static constraints = {
 		contactCorpRemark nullable:true,blank:true
 		contactCorpType nullable:true,blank:true
+		contactCorpLealPersonDuty nullable:true,blank:true
+		contactCorpPost nullable:true,blank:true
 	}
 	
 	static belongsTo = [company:Company]

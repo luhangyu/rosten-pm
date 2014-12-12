@@ -8,6 +8,13 @@ define(["dojo/_base/connect",
         "rosten/kernel/behavior"], function(connect,registry,General) {
 	var general = new General();
 	
+	import_user = function(){
+    	var companyId = rosten.kernel.getUserInforByKey("companyid");
+		rosten.kernel.createRostenShowDialog(rosten.webPath + "/system/importUser/"+ companyId, {
+            onLoadFunction : function() {
+            }
+        });
+    };
 	user_search = function(){
 		var content = {};
 		

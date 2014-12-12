@@ -253,16 +253,18 @@
 			<div data-dojo-type="rosten/widget/TitlePane" data-dojo-props='title:"合同信息",toggleable:false,moreText:"",marginBottom:"2px"'>
 				<table border="0" width="740" align="left">
 					<tr>
-					    <td><div align="right"><span style="color:red">*&nbsp;</span>合同名称：</div></td>
-					    <td >
+					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>合同名称：</div></td>
+					    <td colspan=3>
 					    	<input id="bargainName" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,required:true,name:"bargainName",
 									value:"${bargain?.bargainName}"
 			                '/>
 					    </td>
-						    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>合同类型：</div></td>
-						    <td width="250">
-						    	<select id="bargainType"  onChange='bargainType_onChange()'   data-dojo-type="dijit/form/FilteringSelect" 
+					</tr>
+					<tr>
+					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>合同类型：</div></td>
+					    <td  width="250">
+					    	<select id="bargainType"  onChange='bargainType_onChange()'   data-dojo-type="dijit/form/FilteringSelect" 
 					                data-dojo-props='name:"bargainType",${fieldAcl.isReadOnly("bargainType")},
 					                trim:true,required:true,missingMessage:"请选择类别！",invalidMessage:"请选择类别！",
 					      			value:"${bargain?.bargainType}",
@@ -272,7 +274,14 @@
 								<option value="采购合同">采购合同</option>
 								<option value="销售合同">销售合同</option>
 					    	</select>
-				           </td>
+					    </td>
+					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>合同状态：</div></td>
+					    <td width="250">
+					    	<input id="bargainName" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='readOnly:true,trim:true,required:true,name:"bargainName",
+									value:"${bargain?.status}"
+			                '/>
+			           </td>
 					</tr>
 					<tr>
 						<td><div align="right"><span style="color:red">*&nbsp;</span>合同号：</div></td>

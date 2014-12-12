@@ -67,7 +67,7 @@ class Supplier {
 	
 	static constraints = {
 		supplierRemark nullable:true,blank:true
-		
+		supplierGrade nullable:true,blank:true
 	}
 	
 	static belongsTo = [company:Company]
