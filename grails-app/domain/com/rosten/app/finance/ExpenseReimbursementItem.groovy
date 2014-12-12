@@ -43,6 +43,6 @@ class ExpenseReimbursementItem {
 	
 	static mapping = {
 		id generator:'uuid.hex',params:[separator:'-']
-		table "RS_Finance_ExpReimburseItem"
+		table "RS_FIN_EXPRBI"
 	}
 }

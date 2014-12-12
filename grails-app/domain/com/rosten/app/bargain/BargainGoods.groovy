@@ -45,6 +45,6 @@ class BargainGoods {
 	
 	static mapping = {
 		id generator:'uuid.hex',params:[separator:'-']
-		table "RS_Bargain_BargainGoods"
+		table "RS_BARGAIN_GOODS"
 	}
 }

@@ -74,6 +74,6 @@ class Supplier {
 	
 	static mapping = {
 		id generator:'uuid.hex',params:[separator:'-']
-		table "RS_base_supplier"
+		table "RS_BASE_SUPP"
 	}
 }

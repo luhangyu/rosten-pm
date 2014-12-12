@@ -30,7 +30,7 @@ class WorkerType {
 	
 	static mapping = {
 		id generator:'uuid.hex',params:[separator:'-']
-		table "RS_base_WorkerType"
+		table "RS_BASE_WRKTYPE"
 	}
 	
 }

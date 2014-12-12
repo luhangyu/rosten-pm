@@ -80,6 +80,6 @@ class ProjectManage {
 
 	static mapping = {
 			id generator:'uuid.hex',params:[separator:'-']
-			table "RS_Project_ProjectMag"
+			table "RS_PRO"
 		}
 }

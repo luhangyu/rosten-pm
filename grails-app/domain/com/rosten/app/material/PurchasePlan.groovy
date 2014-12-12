@@ -26,7 +26,7 @@ class PurchasePlan {
 
 	static mapping = {
 			id generator:'uuid.hex',params:[separator:'-']
-			table "RS_Material_purchasePlan"
+			table "RS_MAT_PURPLAN"
 		}
 		
  

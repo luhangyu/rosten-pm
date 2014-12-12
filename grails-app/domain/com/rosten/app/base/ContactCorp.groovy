@@ -73,7 +73,7 @@ class ContactCorp {
 	
 	static mapping = {
 		id generator:'uuid.hex',params:[separator:'-']
-		table "RS_base_contactcorp"
+		table "RS_BASE_CONCORP"
 	}
   
 	

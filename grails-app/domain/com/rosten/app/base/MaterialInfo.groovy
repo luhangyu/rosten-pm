@@ -58,6 +58,6 @@ class MaterialInfo {
 	
 	static mapping = {
 		id generator:'uuid.hex',params:[separator:'-']
-		table "RS_base_MaterialInfo"
+		table "RS_BASE_MAT"
 	}
 }

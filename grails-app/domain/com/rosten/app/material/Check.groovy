@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat
 import com.rosten.app.annotation.GridColumn
 import com.rosten.app.system.Company
 class Check {
-
+	String id
     static constraints = {
     }
 	
@@ -15,7 +15,7 @@ class Check {
 		
 		static mapping = {
 			id generator:'uuid.hex',params:[separator:'-']
-			table "RS_Material_Check"
+			table "RS_MAT_CHECK"
 		}
 	
 }

@@ -28,6 +28,6 @@ class MaterialType {
 	
 	static mapping = {
 		id generator:'uuid.hex',params:[separator:'-']
-		table "RS_base_MaterialType"
+		table "RS_BASE_MATTYPE"
 	}
 }
