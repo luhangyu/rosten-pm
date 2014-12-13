@@ -2,12 +2,13 @@
  * @author rosten
  */
 define(["dojo/_base/lang",
+        "dojo/dom",
 		"dijit/registry",
 		"rosten/widget/MultiSelectDialog",
 		"rosten/widget/PickTreeDialog",
 		"rosten/widget/DepartUserDialog",
 		"rosten/widget/ShowDialog",
-		"rosten/kernel/_kernel"], function(lang,registry,MultiSelectDialog,PickTreeDialog,DepartUserDialog,ShowDialog) {
+		"rosten/kernel/_kernel"], function(lang,dom,registry,MultiSelectDialog,PickTreeDialog,DepartUserDialog,ShowDialog) {
 			
 	var application = {};
 	/*
@@ -266,19 +267,26 @@ define(["dojo/_base/lang",
         }; 
         return rosten[id];
     };
-	application.selectDepart = function(url,type,inputName,inputId) {
+    application.selectDepart = function(url,type,inputName,inputId,showRoot) {
         var id = "sys_departDialog";
-
+        
         if (rosten[id] && registry.byId(id)) {
             rosten[id].open();
             rosten[id].refresh();
         } else {
             var args = {
                 url : url,
-                rootLabel : "部门层级",
+//                rootLabel : "部门层级",
                 showCheckBox : type,
+                title:"部门选择",
                 folderClass : "departTree"
             };
+            if(showRoot!=undefined && !showRoot){
+            	args.showRoot=false;
+            }else{
+            	args.showRoot=true;
+            	args.rootLabel = "部门层级";
+            }
             rosten[id] = new PickTreeDialog(args);
             rosten[id].open();
         }
@@ -295,9 +303,15 @@ define(["dojo/_base/lang",
             	registry.byId(inputName).attr("value", _data.join(","));
             }
             if( inputId !=undefined){
-            	registry.byId(inputId).attr("value", _data_1.join(","));
+            	if(registry.byId(inputId)){
+            		registry.byId(inputId).attr("value", _data_1.join(","));
+            	}else{
+            		dom.byId(inputId).value = _data_1.join(",");
+            	}
+            	
             }
         };
+        return rosten[id];
     };
     application.selectBaseSelect = function(title,url,type,inputName,inputId,initValues) {
     	/*
