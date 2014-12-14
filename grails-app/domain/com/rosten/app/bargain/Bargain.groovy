@@ -51,13 +51,13 @@ class Bargain {
 	//制表人
 	String bargainMaker
 	
-	Date bargainSigningDate = new Date()
+	Date bargainSignDate = new Date()
 	
 	@GridColumn(name="签订日期",colIdx=7)
 	def getFormatteBargainSignDate(){
-		if(bargainSigningDate!=null){
+		if(bargainSignDate!=null){
 			SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd")
-			return sd.format(bargainSigningDate)
+			return sd.format(bargainSignDate)
 		}else{
 			return ""
 		}
@@ -156,6 +156,6 @@ class Bargain {
 	
 	static mapping = {
 		id generator:'uuid.hex',params:[separator:'-']
-		table "RS_BARAIN"
+		table "RS_BARGAIN"
 	}
 }

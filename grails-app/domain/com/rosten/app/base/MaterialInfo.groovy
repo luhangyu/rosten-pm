@@ -10,47 +10,47 @@ class MaterialInfo {
 	
 	//物料名称
 	@GridColumn(name="材料名称",colIdx=1,formatter="materialInfo_formatTopic")
-	String materialInfoName
+	String matInfoName
 	
 	//物料类型
 	@GridColumn(name="材料类型",colIdx=2)
-	String materialInfoType
+	String matInfoType
 	
 	//物料类型
 	@GridColumn(name="材料小类",colIdx=2)
-	String materialInfoSonType
+	String matInfoSonType
 	
 	//采购材料单位
 	@GridColumn(name="材料采购单位",colIdx=3)
-	String materialInfoPurchaseUnit
+	String matInfoPurchaseUnit
 	
 	//换算数量
 	@GridColumn(name="换算数量",colIdx=3)
-	double materialInfoQuantity
+	double matInfoQuantity
 	
 	//材料领用单位
 	@GridColumn(name="材料领用单位",colIdx=3)
-	String materialInfoGetUnit
+	String matInfoGetUnit
 	
 	//材料规格
-	String materialInfoSpecification
+	String matInfoNorms
 	
 	//材料品牌
-	String materialInfoBrand
+	String matInfoBrand
 	
 	//进价参考价
-	double materialInfoRefPrice
+	double mInfoRefPrice
 	
 	//批发价
-	double materialInfoWPrice
+	double mInfoWPrice
 	
 	//零售价
-	double materialInfoRPrice
+	double mInfoRPrice
 	
 	//底线价
-	double materialInfoLowestPrice
+	double mInfoLowPrice
 	
-	String materialInfoRemark
+	String matInfoRemark
 	//创建日期
 	Date createdDate = new Date()
 	

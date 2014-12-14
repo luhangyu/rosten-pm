@@ -14,60 +14,60 @@ class Supplier {
 	
 	
 	//账号
-	String supplierBankAccountNo
+	String suppBankAccNo
 	//开户行
-	String supplierBankAccountBank
+	String suppBankAccBank
 	//户主
-	String supplierBankAccountMaster
+	String suppBankAccMaster
 	
 
 	//地址
 	@GridColumn(name="地址",colIdx=2,width="280px")
-	String supplierAddress
+	String suppAddress
 	
 	//邮编
-	String supplierPost
+	String suppPost
 	
 	
 	//联系电话
 	@GridColumn(name="联系电话",colIdx=7,width="80px")
-	String supplierPhone
+	String suppPhone
 	
 	//传真
-	String supplierFax
+	String suppFax
 	
 	//法人
 	@GridColumn(name="法人",colIdx=4,width="80px")
-	String supplierLealPerson
+	String suppLeader
 	
 	//法人职务
-	String supplierLealPersonDuty
+	String suppLeaderDuty
 	//税务登记号
-	String supplierTax
+	String suppTax
 	
 	
 	//网址
-	String supplierWebSite
+	String suppWebSite
 	
 	//email
-	String supplierEMail
+	String suppEMail
 	
 	
 	//助记码
-	String supplierCode
+	String suppCode
 	
 	//备注
-	String supplierRemark
+	String suppRemark
 	
 	//供应商评分
-	Long supplierGrade
+	Long suppGrade
 	
 	//创建日期
 	Date createdDate = new Date()
 	
 	static constraints = {
-		supplierRemark nullable:true,blank:true
-		supplierGrade nullable:true,blank:true
+		suppRemark nullable:true,blank:true
+		suppGrade nullable:true,blank:true
 	}
 	
 	static belongsTo = [company:Company]

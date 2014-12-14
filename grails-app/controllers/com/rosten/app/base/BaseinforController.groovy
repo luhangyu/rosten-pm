@@ -39,6 +39,26 @@ class BaseinforController {
 		render _List as JSON
 	}
 	
+	//
+	def contactCorpGet ={
+		
+		
+		println "params.corpId"
+		println params.corpId
+		//if(params.id){
+			//402880e4-4a46b210-014a-46bdce0d-0002
+			//entity = ContactCorp.get(params.corpId)
+		def entity = ContactCorp.findAllWhere(contactCorpName:params.corpId)
+		if(entity){
+			println "find nothing"
+		}
+		
+		jsonStr= [contactCorpVendor:entity]
+		
+		
+		render jsonStr as JSON
+		
+	}
 	
 	
 	//1.公司基本信息
@@ -225,10 +245,11 @@ class BaseinforController {
 	//--------------------------------------------------------------------------------------------------
 	
 	//2014-11-25 xkf-----往来单位信息-------------------------------------------------------------------
-	def ContactCorpAdd ={
+	def contactCorpAdd ={
 		redirect(action:"ContactCorpShow",params:params)
 	}
-	def ContactCorpShow ={
+
+	def contactCorpShow ={
 		def model =[:]
 		def currentUser = springSecurityService.getCurrentUser()
 		model["company"] = Company.get(params.companyId)
@@ -246,7 +267,8 @@ class BaseinforController {
 		model["fieldAcl"] = fa
 		render(view:'/baseinfor/ContactCorp',model:model)
 	}
-	def ContactCorpSave ={
+	
+	def contactCorpSave ={
 		def model=[:]
 		
 		def company = Company.get(params.companyId)
@@ -270,7 +292,7 @@ class BaseinforController {
 		}
 		render model as JSON
 	}
-	def ContactCorpDelete ={
+	def contactCorpDelete ={
 		def ids = params.id.split(",")
 		def json
 		try{
@@ -286,7 +308,7 @@ class BaseinforController {
 		}
 		render json as JSON
 	}
-	def ContactCorpGrid ={
+	def contactCorpGrid ={
 		def model=[:]
 		def company = Company.get(params.companyId)
 		if(params.refreshHeader){
@@ -317,10 +339,10 @@ class BaseinforController {
 	
 	
 	//2014-12-05 xkf-----供应商-------------------------------------------------------------------
-	def SupplierAdd ={
+	def supplierAdd ={
 		redirect(action:"SupplierShow",params:params)
 	}
-	def SupplierShow ={
+	def supplierShow ={
 		def model =[:]
 		def currentUser = springSecurityService.getCurrentUser()
 		model["company"] = Company.get(params.companyId)
@@ -338,7 +360,7 @@ class BaseinforController {
 		model["fieldAcl"] = fa
 		render(view:'/baseinfor/Supplier',model:model)
 	}
-	def SupplierSave ={
+	def supplierSave ={
 		def model=[:]
 		
 		def company = Company.get(params.companyId)
@@ -362,7 +384,7 @@ class BaseinforController {
 		}
 		render model as JSON
 	}
-	def SupplierDelete ={
+	def supplierDelete ={
 		def ids = params.id.split(",")
 		def json
 		try{
@@ -378,7 +400,7 @@ class BaseinforController {
 		}
 		render json as JSON
 	}
-	def SupplierGrid ={
+	def supplierGrid ={
 		def model=[:]
 		def company = Company.get(params.companyId)
 		if(params.refreshHeader){
@@ -408,10 +430,10 @@ class BaseinforController {
 	//--------------------------------------------------------------------------------------------------
 	
 	//2014-12-05 xkf-----材料信息-------------------------------------------------------------------
-	def MaterialInfoAdd ={
+	def materialInfoAdd ={
 		redirect(action:"MaterialInfoShow",params:params)
 	}
-	def MaterialInfoShow ={
+	def materialInfoShow ={
 		def model =[:]
 		def currentUser = springSecurityService.getCurrentUser()
 		model["company"] = Company.get(params.companyId)
@@ -429,7 +451,7 @@ class BaseinforController {
 		model["fieldAcl"] = fa
 		render(view:'/baseinfor/MaterialInfo',model:model)
 	}
-	def MaterialInfoSave ={
+	def materialInfoSave ={
 		def model=[:]
 		
 		def company = Company.get(params.companyId)
@@ -453,7 +475,7 @@ class BaseinforController {
 		}
 		render model as JSON
 	}
-	def MaterialInfoDelete ={
+	def materialInfoDelete ={
 		def ids = params.id.split(",")
 		def json
 		try{
@@ -469,7 +491,7 @@ class BaseinforController {
 		}
 		render json as JSON
 	}
-	def MaterialInfoGrid ={
+	def materialInfoGrid ={
 		def model=[:]
 		def company = Company.get(params.companyId)
 		if(params.refreshHeader){
@@ -501,10 +523,10 @@ class BaseinforController {
 	
 	
 	//2014-12-05 xkf-----材料类型-------------------------------------------------------------------
-	def MaterialTypeAdd ={
+	def materialTypeAdd ={
 		redirect(action:"MaterialTypeShow",params:params)
 	}
-	def MaterialTypeShow ={
+	def materialTypeShow ={
 		def model =[:]
 		def currentUser = springSecurityService.getCurrentUser()
 		model["company"] = Company.get(params.companyId)
@@ -522,7 +544,7 @@ class BaseinforController {
 		model["fieldAcl"] = fa
 		render(view:'/baseinfor/MaterialType',model:model)
 	}
-	def MaterialTypeSave ={
+	def materialTypeSave ={
 		def model=[:]
 		
 		def company = Company.get(params.companyId)
@@ -546,7 +568,7 @@ class BaseinforController {
 		}
 		render model as JSON
 	}
-	def MaterialTypeDelete ={
+	def materialTypeDelete ={
 		def ids = params.id.split(",")
 		def json
 		try{
@@ -562,7 +584,7 @@ class BaseinforController {
 		}
 		render json as JSON
 	}
-	def MaterialTypeGrid ={
+	def materialTypeGrid ={
 		def model=[:]
 		def company = Company.get(params.companyId)
 		if(params.refreshHeader){
@@ -593,10 +615,10 @@ class BaseinforController {
 	
 	
 	//2014-12-05 xkf-----工种-------------------------------------------------------------------
-	def WorkerTypeAdd ={
+	def workerTypeAdd ={
 		redirect(action:"WorkerTypeShow",params:params)
 	}
-	def WorkerTypeShow ={
+	def workerTypeShow ={
 		def model =[:]
 		def currentUser = springSecurityService.getCurrentUser()
 		model["company"] = Company.get(params.companyId)
@@ -614,7 +636,7 @@ class BaseinforController {
 		model["fieldAcl"] = fa
 		render(view:'/baseinfor/WorkerType',model:model)
 	}
-	def WorkerTypeSave ={
+	def workerTypeSave ={
 		def model=[:]
 		
 		def company = Company.get(params.companyId)
@@ -638,7 +660,7 @@ class BaseinforController {
 		}
 		render model as JSON
 	}
-	def WorkerTypeDelete ={
+	def workerTypeDelete ={
 		def ids = params.id.split(",")
 		def json
 		try{
@@ -654,7 +676,7 @@ class BaseinforController {
 		}
 		render json as JSON
 	}
-	def WorkerTypeGrid ={
+	def workerTypeGrid ={
 		def model=[:]
 		def company = Company.get(params.companyId)
 		if(params.refreshHeader){

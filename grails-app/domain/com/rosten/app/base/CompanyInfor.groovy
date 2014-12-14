@@ -16,7 +16,7 @@ class CompanyInfor {
 	
 	//简称
 	@GridColumn(name="公司简称",colIdx=2,width="60px")
-	String companyAbbreviation
+	String companyAbbr
 	
 	//电话号码
 	@GridColumn(name="电话号码",colIdx=3,width="80px")
@@ -43,7 +43,7 @@ class CompanyInfor {
 	Date createdDate = new Date()
 	
     static constraints = {
-		companyAbbreviation nullable:true,blank:true
+		companyAbbr nullable:true,blank:true
 		companyPhone nullable:true,blank:true
 		companyFax nullable:true,blank:true
 		companyAddress nullable:true,blank:true

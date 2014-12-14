@@ -14,19 +14,19 @@ class OfficeWorkerAttendance {
 	
 	//账号名称
 	@GridColumn(name="员工姓名",width="100px",colIdx=1,formatter="officeWorkerAttendance_formatTopic")
-	String officeAttendanceName
+	String offAttenName
 	
 	//当前部门
 	@GridColumn(name="部门",width="160px",colIdx=2)
-	String officeAttendanceDepart
+	String offAttenDepart
 	
 	//考勤日期
-	Date officeAttendanceDate=new Date()
+	Date offAttenDate=new Date()
 	@GridColumn(name="考勤日期",colIdx=3)
-	def getFormatteofficeAttendanceDate(){
-		if(officeAttendanceDate!=null){
+	def getFormatteoffAttenDate(){
+		if(offAttenDate!=null){
 			SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd")
-			return sd.format(officeAttendanceDate)
+			return sd.format(offAttenDate)
 		}else{
 			return ""
 		}
@@ -47,7 +47,7 @@ class OfficeWorkerAttendance {
 	double earlyAwayNumber
 	
 	static constraints = {
-		officeAttendanceDate nullable:true,blank:true
+		offAttenDate nullable:true,blank:true
 	}
 	static belongsTo = [company:Company]
 

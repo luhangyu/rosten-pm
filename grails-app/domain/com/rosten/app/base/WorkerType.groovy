@@ -11,18 +11,18 @@ class WorkerType {
 	
 	//物料名称
 	@GridColumn(name="工种名称",colIdx=1,formatter="workerType_formatTopic")
-	String workerTypeName
+	String wrkTypeName
 	
 	//物料类型
 	@GridColumn(name="父工种",colIdx=2)
-	String workerTypeParentName
+	String wrkTypePaName
 	
 	//状态：废弃？正常？
 	@GridColumn(name="状态",colIdx=3)
-	String workerTypeStatus
+	String wrkTypeStatus
 	
 	
-	String  workerTypeRemark
+	String  wrkTypeRemark
 	//创建日期
 	Date createdDate = new Date()
 	

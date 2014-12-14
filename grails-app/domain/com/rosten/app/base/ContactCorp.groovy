@@ -19,17 +19,17 @@ class ContactCorp {
 	String contactCorpType
 	
 	//省份
-	String contactCorpProvince
+	String contactCorpProv
 
 	//地址
 	@GridColumn(name="地址",colIdx=2,width="280px")
-	String contactCorpAddress
+	String contactCorpAddr
 	
 	//邮编
 	String contactCorpPost
 	//联系人
 	@GridColumn(name="联系人",colIdx=6,width="80px")
-	String contactCorpLinkMan
+	String contCorpLinkMan
 	
 	//联系电话
 	@GridColumn(name="联系电话",colIdx=7,width="80px")
@@ -40,34 +40,34 @@ class ContactCorp {
 	
 	//法人
 	@GridColumn(name="法人",colIdx=4,width="80px")
-	String contactCorpLealPerson
+	String contCorpLeader
 	
 	//法人职务
-	String contactCorpLealPersonDuty
+	String cCorpLeaderDuty
 	//税务登记号
 	String contactCorpTax
 	
 	//营业执照
 	@GridColumn(name="营业执照",colIdx=5,width="80px")
-	String contactCorpLicense
+	String contCorpLicense
 	
 	//网址
-	String contactCorpWebSite
+	String contCorpWebSite
 	
 	//email
-	String contactCorpEMail
+	String contCorpEMail
 	
 	
 	//备注
-	String contactCorpRemark
+	String contCorpRemark
 
 	//创建日期
 	Date createdDate = new Date()
 	
 	static constraints = {
-		contactCorpRemark nullable:true,blank:true
+		contCorpRemark nullable:true,blank:true
 		contactCorpType nullable:true,blank:true
-		contactCorpLealPersonDuty nullable:true,blank:true
+		cCorpLeaderDuty nullable:true,blank:true
 		contactCorpPost nullable:true,blank:true
 	}
 	
@@ -75,7 +75,7 @@ class ContactCorp {
 	
 	static mapping = {
 		id generator:'uuid.hex',params:[separator:'-']
-		table "RS_BASE_CONCORP"
+		table "RS_BASE_CONTCORP"
 	}
   
 	

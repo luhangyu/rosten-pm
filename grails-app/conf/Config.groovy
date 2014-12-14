@@ -90,6 +90,14 @@ log4j = {
            'net.sf.ehcache.hibernate'
 }
 
+rostenFileConfig {
+	fileUpload = "rostenFileUpload"
+	fileSize = 10 //单位为M
+	sizeLimit = false
+//	databaseType="oracle"
+	databaseType="mysql"
+}
+
 // Added by the Spring Security Core plugin:
 grails.plugin.springsecurity.userLookup.userDomainClassName = 'com.rosten.app.system.User'
 grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'com.rosten.app.system.UserRole'
@@ -107,3 +115,47 @@ grails.plugin.springsecurity.interceptUrlMap = [
 
 grails.plugin.springsecurity.useSecurityEventListener = true
 //------------------ Added by the Grails Activiti plugin:start------------------------------------
+activiti {
+	processEngineName = "activiti-engine-default"
+//	  databaseType="oracle"
+	  databaseType = "mysql"
+
+	  deploymentName = appName
+	  deploymentResources = ["file:./grails-app/conf/**/*.bpmn*.xml",
+							 "file:./grails-app/conf/**/*.png",
+							 "file:./src/taskforms/**/*.form"]
+	  jobExecutorActivate = false
+	  mailServerHost = "smtp.yourserver.com"
+	  mailServerPort = "25"
+	  mailServerUsername = ""
+	  mailServerPassword = ""
+	  mailServerDefaultFrom = "username@yourserver.com"
+	  history = "audit" // "none", "activity", "audit" or "full"
+	  sessionUsernameKey = "username"
+	  useFormKey = true
+	  activityFontName = "宋体"
+}
+environments {
+	development {
+		activiti {
+			  processEngineName = "activiti-engine-dev"
+			  databaseSchemaUpdate = true // true, false or "create-drop"
+		}
+	}
+	test {
+		activiti {
+			  processEngineName = "activiti-engine-test"
+			  databaseSchemaUpdate = true
+		  mailServerPort = "5025"
+		}
+	}
+	production {
+		activiti {
+			  processEngineName = "activiti-engine-prod"
+			  databaseSchemaUpdate = true
+			  jobExecutorActivate = true
+		}
+	}
+}
+//----------------------activiti config end ----------------------------------
+

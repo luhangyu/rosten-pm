@@ -16,9 +16,6 @@
 		
 		}
 		
-		.divHide{
-			display:none;
-		}
     </style>
 	<script type="text/javascript">
 	require(["dojo/parser",
@@ -219,16 +216,49 @@
 				page_quit = function(){
 					rosten.pagequit();
 				};
+
+				//获取甲方乙方单位信息串
+				getContactCorpDatas= function(){
+					var corpName = registry.byId("barVendorCorp").get("value");
+					var url = "${createLink(controller:'baseinfor',action:'contactCorpGet')}";
+					url += "?corpId="+encodeURI(corpName);
+					var ioArgs = {
+							url : url,
+							handleAs : "json",
+							load : function(response,args) {
+								if(response.result=="false"){ 
+									rosten.alert("注意：！");
+									return;
+								}else{
+									//增加对多次单击的次数----2014-9-4
+									var buttonWidget = object.target;
+									rosten.toggleAction(buttonWidget,true);
+									
+								}
+							},
+							error : function(response,args) {
+								rosten.alert(response.message);
+								return;
+							}
+						};
+						dojo.xhrPost(ioArgs);
+						
+
+						
+					
+						
+					}
+				
 				showSelectDialog = function(type){
 					switch(type){
 					case "BargainVendorCorpName":
-						var corpName = registry.byId("BargainVendorCorpName").get("value");
-						rosten.selectBaseSelect("单位选择","${createLink(controller:'baseinfor',action:'getContactCorpSelect',params:[companyId:company?.id])}",false,"BargainVendorCorpName","bargainVendorCorpNameId",corpName);
+						var corpName = registry.byId("barVendorCorp").get("value");
+						rosten.selectBaseSelect("单位选择","${createLink(controller:'baseinfor',action:'getContactCorpSelect',params:[companyId:company?.id])}",false,"barVendorCorp","barVendorCorpId",corpName);
 						break;
 
 					case "BargainPurchaserCorpName":
-						var corpName = registry.byId("BargainPurchaserCorpName").get("value");
-						rosten.selectBaseSelect("单位选择","${createLink(controller:'baseinfor',action:'getContactCorpSelect',params:[companyId:company?.id])}",false,"BargainPurchaserCorpName","bargainPurchaserCorpNameId",corpName);
+						var corpName = registry.byId("barPurchaserCorp").get("value");
+						rosten.selectBaseSelect("单位选择","${createLink(controller:'baseinfor',action:'getContactCorpSelect',params:[companyId:company?.id])}",false,"barPurchaserCorp","barPurchaserCorpId",corpName);
 						break;	
 					}
 					
@@ -256,7 +286,7 @@
 					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>合同名称：</div></td>
 					    <td colspan=3>
 					    	<input id="bargainName" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"bargainName",
+			                 	data-dojo-props='trim:true,required:true,name:"bargainName",style:{width:"550px"},
 									value:"${bargain?.bargainName}"
 			                '/>
 					    </td>
@@ -277,8 +307,8 @@
 					    </td>
 					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>合同状态：</div></td>
 					    <td width="250">
-					    	<input id="bargainName" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='readOnly:true,trim:true,required:true,name:"bargainName",
+					    	<input id="status" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='readOnly:true,trim:true,required:true,name:"status",
 									value:"${bargain?.status}"
 			                '/>
 			           </td>
@@ -347,13 +377,13 @@
 					    </td>
 						<td width="120"><div align="right"><span style="color:red">*&nbsp;</span>甲方单位名称：</div></td>
 					    <td width="250">
-					    	<input id="BargainVendorCorpName" data-dojo-type="dijit/form/ValidationTextBox" 
-				               	data-dojo-props='name:"BargainVendorCorpName",
+					    	<input id="barVendorCorp" onChange="getContactCorpDatas()" data-dojo-type="dijit/form/ValidationTextBox" 
+				               	data-dojo-props='name:"barVendorCorp",
 				               		trim:true,required:true,
-									value:"${bargain?.getBargainVendorName()}"
+									value:"${bargain?.barVendorCorp?.contactCorpName}"
 				          	'/>
-				          	<g:if test="${!onlyShow }">
-					         	<g:hiddenField data-dojo-type="dijit/form/ValidationTextBox" name="bargainVendorCorpNameId" value="${bargain?.BargainVendorCorpName?.id}" />
+				          	 <g:if test="${!onlyShow }">
+					         	<g:hiddenField data-dojo-type="dijit/form/ValidationTextBox" name="barVendorCorpId" value="${bargain?.barVendorCorp?.id}" />
 								<button data-dojo-type="dijit.form.Button" 
 									data-dojo-props='onClick:function(){
 										showSelectDialog("BargainVendorCorpName");	
@@ -421,13 +451,13 @@
 					    </td>
 						<td width="120"><div align="right"><span style="color:red">*&nbsp;</span>乙方单位名称：</div></td>
 					    <td width="250">
-					    	<input id="BargainPurchaserCorpName" data-dojo-type="dijit/form/ValidationTextBox" 
-				               	data-dojo-props='name:"BargainPurchaserCorpName",
+					    	<input id="barPurchaserCorp" data-dojo-type="dijit/form/ValidationTextBox" 
+				               	data-dojo-props='name:"barPurchaserCorp",
 				               		trim:true,required:true,
-									value:"${bargain?.getBargainPurchaserName()}"
+									value:"${bargain?.barPurchaserCorp?.contactCorpName}"
 				          	'/>
 				          <g:if test="${!onlyShow }">
-					         	<g:hiddenField data-dojo-type="dijit/form/ValidationTextBox" name="bargainPurchaserCorpNameId" value="${Bargain?.BargainPurchaserCorpName?.id}" />
+					         	<g:hiddenField data-dojo-type="dijit/form/ValidationTextBox" name="barPurchaserCorpId" value="${Bargain?.barPurchaserCorp?.id}" />
 								<button data-dojo-type="dijit.form.Button" 
 									data-dojo-props='onClick:function(){
 										showSelectDialog("BargainPurchaserCorpName");	
@@ -440,14 +470,14 @@
 					    <td >
 					    	<input  data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,required:true, 
-									value:"${bargain?.BargainPurchaserCorpName?.contactCorpLealPerson}"
+									value:"${bargain?.barPurchaserCorp?.contactCorpLealPerson}"
 			                '/>
 					    </td>
 					    <td ><div align="right"><span style="color:red">*&nbsp;</span>法人职务：</div></td>
 					    <td >
 					    	<input   data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,required:true, 
-									value:"${BargainPurchaserCorpName?.contactCorpLealPersonDuty}"
+									value:"${bargain?.barPurchaserCorp?.contactCorpLealPersonDuty}"
 			                '/>
 					    </td>
 					</tr>
@@ -456,14 +486,14 @@
 					    <td >
 					    	<input  data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,required:true, 
-									value:"${BargainPurchaserCorpName?.contactCorpPhone}"
+									value:"${bargain?.barPurchaserCorp?.contactCorpPhone}"
 			                '/>
 					    </td>
 					    <td ><div align="right"><span style="color:red">*&nbsp;</span>邮编：</div></td>
 					    <td >
 					    	<input   data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,required:true, 
-									value:"${BargainPurchaserCorpName?.contactCorpPost}"
+									value:"${bargain?.barPurchaserCorp?.contactCorpPost}"
 			                '/>
 					    </td>
 					</tr>
@@ -472,7 +502,7 @@
 					    <td colspan=3>
 					    	<input  data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,required:true,style:{width:"550px"},
-									value:"${BargainPurchaserCorpName?.contactCorpAddress}"
+									value:"${bargain?.barPurchaserCorp?.contactCorpAddress}"
 			                '/>
 					    </td>
 					   

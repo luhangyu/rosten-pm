@@ -12,16 +12,16 @@ class ConstructionWorkerAttendance {
 	
 	//单位名称
 	@GridColumn(name="单位名称",colIdx=1,formatter="constructionWorkerAttendance_formatTopic")
-	String ConstructionWorkerAttendanceName
+	String ConWrkAttenName
 	
 	//类型甲方、分包商、材料商、监理单位
 	@GridColumn(name="类型",colIdx=2,width="60px")
-	String ConstructionWorkerAttendanceType
+	String ConWrkAttenType
     static constraints = {
     }
 	
 	//备注
-	String ConstructionWorkerAttendanceRemark
+	String ConWrkAttenRemark
 
 	//创建日期
 	Date createdDate = new Date()

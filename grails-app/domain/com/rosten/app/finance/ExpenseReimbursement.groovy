@@ -15,10 +15,10 @@ class ExpenseReimbursement {
 	
 	//项目名称
 	@GridColumn(name="项目名称",width="180px",colIdx=1,formatter="expenseReimbursement_formatTopic")
-	String ExpenseReimbursementName
+	String expRmbName
 	
 	//项目归属部门
-	String ExpenseReimbursementBelongDept
+	String expRmbBelongDept
 	
 	//是否冲抵借款
 	boolean IsOffset = false
@@ -29,33 +29,33 @@ class ExpenseReimbursement {
 	
 	//费用类型
 	@GridColumn(name="费用类型",width="160px",colIdx=3)
-	String ExpenseReimbursementType
+	String expRmbType
 	
 	//票面金额
 	@GridColumn(name="票面金额",width="160px",colIdx=5)
-	Long ExpenseReimbursementBillMoney
+	Long expRmbBillMoney
 	
 	//实报金额
 	@GridColumn(name="实报金额",width="160px",colIdx=4)
-	Long ExpenseReimbursementMoney
+	Long expRmbMoney
 	
 	//实报金额
 	@GridColumn(name="票据张数",width="60px",colIdx=6)
-	Long ExpenseReimbursementPaperNum
+	Long expRmbPaperNum
 	
-	String ExpenseReimbursementRemark
+	String expRmbRemark
 	
 	//实报金额
 	@GridColumn(name="报销人",width="80px",colIdx=2)
-	String ExpenseReimbursementPerson
+	String expRmbPerson
 	
 	//报销日期
 	@GridColumn(name="报销日期",colIdx=7)
-	Date ExpenseReimbursementDate=new Date()
-	def getFormatteExpenseReimbursementDate(){
-		if(ExpenseReimbursementDate!=null){
+	Date expRmbDate=new Date()
+	def getFormatteExpRmbDate(){
+		if(expRmbDate!=null){
 			SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd")
-			return sd.format(ExpenseReimbursementDate)
+			return sd.format(expRmbDate)
 		}else{
 			return ""
 		}
