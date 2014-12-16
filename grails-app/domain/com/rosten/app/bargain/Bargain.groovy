@@ -31,7 +31,7 @@ class Bargain {
 	String bargainNo
 	
 	//合同金额
-	@GridColumn(name="合同金额",colIdx=6)
+	@GridColumn(name="合同金额（元）",colIdx=6)
 	Long bargainMoney
 	
 	//甲方
@@ -136,7 +136,7 @@ class Bargain {
 	
 	static constraints = {
 		barVendorCorp nullable:true,blank:true
-		bargainPurchaser nullable:true,blank:true
+		barPurchaserCorp nullable:true,blank:true
 		bargainPayMemo nullable:true,blank:true
 		
 		//流程相关-------------------------------------------------------------

@@ -203,9 +203,9 @@
 					
 					var bargainType = registry.byId("bargainType").get("value");
 					if(bargainType=="采购合同"){
-							dojo.query(".rostenTitleGrid").style("display","block");
+							kernel.query(".rostenTitleGrid").style("display","block");
 						}else{
-							dojo.query(".rostenTitleGrid").style("display","none");
+							kernel.query(".rostenTitleGrid").style("display","none");
 					}
 					
 					};
@@ -308,7 +308,7 @@
 					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>合同状态：</div></td>
 					    <td width="250">
 					    	<input id="status" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='readOnly:true,trim:true,required:true,name:"status",
+			                 	data-dojo-props='disabled:true,trim:true,required:true,name:"status",
 									value:"${bargain?.status}"
 			                '/>
 			           </td>
@@ -326,7 +326,7 @@
 					    	<input id="bargainMoney" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,required:true,name:"bargainMoney",
 									value:"${bargain?.bargainMoney}"
-			                '/>
+			                '/>&nbsp;元
 					    </td>
 					</tr>
 					<tr>
@@ -347,7 +347,7 @@
 			            </td>
 					</tr>
 					<tr>
-					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>付款情况：</div></td>
+					    <td width="120"><div align="right">付款情况：</div></td>
 					    <td colspan=3>
 					    	<textarea id="bargainPayMemo" data-dojo-type="dijit/form/SimpleTextarea" 
     							data-dojo-props='name:"bargainPayMemo","class":"input",
@@ -375,11 +375,11 @@
 									value:"${bargain?.bargainVendor}"
 			                '/>
 					    </td>
-						<td width="120"><div align="right"><span style="color:red">*&nbsp;</span>甲方单位名称：</div></td>
+						<td width="120"><div align="right">甲方单位名称：</div></td>
 					    <td width="250">
-					    	<input id="barVendorCorp" onChange="getContactCorpDatas()" data-dojo-type="dijit/form/ValidationTextBox" 
+					    	<input id="barVendorCorp" data-dojo-type="dijit/form/ValidationTextBox" 
 				               	data-dojo-props='name:"barVendorCorp",
-				               		trim:true,required:true,
+				               		trim:true,readOnly:true,
 									value:"${bargain?.barVendorCorp?.contactCorpName}"
 				          	'/>
 				          	 <g:if test="${!onlyShow }">
@@ -392,41 +392,42 @@
 			           	</td>
 					</tr>
 										<tr>
-						<td ><div align="right"><span style="color:red">*&nbsp;</span>法人：</div></td>
+						<td ><div align="right">法人：</div></td>
 					    <td >
 					    	<input data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='trim:true,required:true,
+					    			placeHolder:"系统自动赋值",
 									value:"${BargainVendorCorpName?.contactCorpLealPerson}"
 			                '/>
 					    </td>
-					    <td ><div align="right"><span style="color:red">*&nbsp;</span>法人职务：</div></td>
+					    <td ><div align="right">法人职务：</div></td>
 					    <td >
 					    	<input data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,
+			                 	data-dojo-props='trim:true,placeHolder:"系统自动赋值",
 									value:"${BargainVendorCorpName?.contactCorpLealPersonDuty}"
 			                '/>
 					    </td>
 					</tr>
 					<tr>
-						<td ><div align="right"><span style="color:red">*&nbsp;</span>电话：</div></td>
+						<td ><div align="right">电话：</div></td>
 					    <td >
 					    	<input  data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,
+			                 	data-dojo-props='trim:true,placeHolder:"系统自动赋值",
 									value:"${BargainVendorCorpName?.contactCorpPhone}"
 			                '/>
 					    </td>
-					    <td ><div align="right"><span style="color:red">*&nbsp;</span>邮编：</div></td>
+					    <td ><div align="right">邮编：</div></td>
 					    <td >
 					    	<input  data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,
+			                 	data-dojo-props='trim:true,placeHolder:"系统自动赋值",
 									value:"${BargainVendorCorpName?.contactCorpPost}"
 			                '/>
 					    </td>
 					</tr>
 					<tr>
-						<td ><div align="right"><span style="color:red">*&nbsp;</span>地址：</div></td>
+						<td ><div align="right">地址：</div></td>
 					 	 <td colspan=3>
 					    	<input  data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,style:{width:"550px"},
+			                 	data-dojo-props='trim:true,placeHolder:"系统自动赋值",style:{width:"550px"},
 									value:"${BargainVendorCorpName?.contactCorpAddress}"
 			                '/>
 					    </td>
@@ -449,11 +450,11 @@
 									value:"${bargain?.bargainPurchaser}"
 			                '/>
 					    </td>
-						<td width="120"><div align="right"><span style="color:red">*&nbsp;</span>乙方单位名称：</div></td>
+						<td width="120"><div align="right">乙方单位名称：</div></td>
 					    <td width="250">
 					    	<input id="barPurchaserCorp" data-dojo-type="dijit/form/ValidationTextBox" 
 				               	data-dojo-props='name:"barPurchaserCorp",
-				               		trim:true,required:true,
+				               		trim:true,required:true,readOnly:true,
 									value:"${bargain?.barPurchaserCorp?.contactCorpName}"
 				          	'/>
 				          <g:if test="${!onlyShow }">
@@ -466,42 +467,42 @@
 			           	</td>
 					</tr>
 					<tr>
-						<td ><div align="right"><span style="color:red">*&nbsp;</span>法人：</div></td>
+						<td ><div align="right">法人：</div></td>
 					    <td >
 					    	<input  data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true, 
+			                 	data-dojo-props='trim:true,placeHolder:"系统自动赋值",
 									value:"${bargain?.barPurchaserCorp?.contactCorpLealPerson}"
 			                '/>
 					    </td>
-					    <td ><div align="right"><span style="color:red">*&nbsp;</span>法人职务：</div></td>
+					    <td ><div align="right">法人职务：</div></td>
 					    <td >
 					    	<input   data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true, 
+			                 	data-dojo-props='trim:true,placeHolder:"系统自动赋值",
 									value:"${bargain?.barPurchaserCorp?.contactCorpLealPersonDuty}"
 			                '/>
 					    </td>
 					</tr>
 					<tr>
-						<td ><div align="right"><span style="color:red">*&nbsp;</span>电话：</div></td>
+						<td ><div align="right">电话：</div></td>
 					    <td >
 					    	<input  data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true, 
+			                 	data-dojo-props='trim:true,placeHolder:"系统自动赋值",
 									value:"${bargain?.barPurchaserCorp?.contactCorpPhone}"
 			                '/>
 					    </td>
-					    <td ><div align="right"><span style="color:red">*&nbsp;</span>邮编：</div></td>
+					    <td ><div align="right">邮编：</div></td>
 					    <td >
 					    	<input   data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true, 
+			                 	data-dojo-props='trim:true,placeHolder:"系统自动赋值",
 									value:"${bargain?.barPurchaserCorp?.contactCorpPost}"
 			                '/>
 					    </td>
 					</tr>
 					<tr>
-						<td ><div align="right"><span style="color:red">*&nbsp;</span>地址：</div></td>
+						<td ><div align="right">地址：</div></td>
 					    <td colspan=3>
 					    	<input  data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,style:{width:"550px"},
+			                 	data-dojo-props='trim:true,placeHolder:"系统自动赋值",style:{width:"550px"},
 									value:"${bargain?.barPurchaserCorp?.contactCorpAddress}"
 			                '/>
 					    </td>

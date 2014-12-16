@@ -29,6 +29,7 @@ class BargainController {
 			entity = Bargain.get(params.id)
 		}else{
 			entity = new Bargain()
+			entity.bargainMaker = currentUser.getFormattedName()
 		}
 		model["bargain"] = entity
 		model["user"] = currentUser
@@ -54,14 +55,15 @@ class BargainController {
 		
 		entity.properties = params
 		entity.clearErrors()
+		
 		//日期字段值处理，convertToTimestamp
 		entity.bargainSigningDate = Util.convertToTimestamp(params.bargainSigningDate)
 		
 		
-		if(entity.items){
+		if(entity.bargainGoods){
 			def _list = []
-			_list += entity.items
-			entity.items.clear()
+			_list += entity.bargainGoods
+			entity.bargainGoods.clear()
 			_list.each{
 				it.delete()
 			}
@@ -71,20 +73,26 @@ class BargainController {
 		if("采购合同".equals(params.bargainType)){
 			JSON.parse(params.bargainGoodsValues).eachWithIndex{elem, i ->
 				def bargainGoods = new BargainGoods(elem)
-				entity.addToItems(bargainGoods)
+				bargainGoods.clearErrors()
+				entity.addToBargainGoods(bargainGoods)
 			}
 		}
 		
-		
 		//两个类字段保存
-		def bargainVendorCorpNameOBJ = ContactCorp.get(params.bargainVendorCorpNameId)
-		if(bargainVendorCorpNameOBJ){
-			entity.BargainVendorCorpName = bargainVendorCorpNameOBJ
+		if(params.barVendorCorpId){
+			def bargainVendorCorpOBJ = ContactCorp.get(params.barVendorCorpId)
+			if(bargainVendorCorpOBJ){
+				entity.barVendorCorp = bargainVendorCorpOBJ
+			}
 		}
-		def bargainPurchaserCorpNameOBJ = ContactCorp.get(params.bargainPurchaserCorpNameId)
-		if(bargainPurchaserCorpNameOBJ){
-			entity.BargainPurchaserCorpName = bargainPurchaserCorpNameOBJ
+		
+		if(params.barPurchaserCorpId){
+			def bargainPurchaserCorpOBJ = ContactCorp.get(params.barPurchaserCorpId)
+			if(bargainPurchaserCorpOBJ){
+				entity.barPurchaserCorp = bargainPurchaserCorpOBJ
+			}
 		}
+		
 		
 		if(entity.save(flush:true)){
 			model["result"] = "true"
@@ -95,9 +103,6 @@ class BargainController {
 			}
 			model["result"] = "false"
 		}
-		
-		
-		
 		render model as JSON
 	}
 	def bargainDelete ={
