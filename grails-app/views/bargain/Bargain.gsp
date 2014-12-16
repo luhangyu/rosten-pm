@@ -13,7 +13,6 @@
 		}
 		.rosten .rostenTitleGrid .dijitTitlePaneContentInner{
 			padding:1px;
-		
 		}
 		
     </style>
@@ -34,8 +33,7 @@
 		 		"dijit/form/Form",
 		     	"rosten/widget/ActionBar",
 		     	"rosten/widget/TitlePane",
-		     	"rosten/app/Application",
-		     	"rosten/kernel/behavior"],
+		     	"rosten/app/BargainApplication"],
 			function(parser,kernel,registry,dom,lang){
 				kernel.addOnLoad(function(){
 					rosten.init({webpath:"${request.getContextPath()}",dojogridcss : true});
@@ -48,18 +46,29 @@
 						return;
 					}
 					var content = {};
+					var bargainGoodsNames =["bargainGoodsName","bargainGoodsCorp","bargainGoodsUnit","bargainGoodsNum","bargainGoodsPrice","bargainGoodsDiscount","bargainGoodsRemark"]
+					content.bargainGoodsValues = rosten.getGridDataCollect(bargainGoodsGrid,bargainGoodsNames);
 
-					content.bargainGoodsValues = rosten.getGridDataCollect(bargainGoodsGrid,[
-					                                                     					"bargainGoodsName",
-					                                                     					"bargainGoodsCorp",
-																							"bargainGoodsUnit",
-																							"bargainGoodsNum",
-																							"bargainGoodsPrice",
-																							"bargainGoodsDiscount",
-																							"bargainGoodsRemark",
-					]
-							);
+					//流程相关信息
+					<g:if test='${flowCode}'>
+						content.flowCode = "${flowCode}";
+						content.relationFlow = "${relationFlow}";
+					</g:if>
 
+					//添加新增时添加附件功能
+					<g:if test="${!officialApply?.id}">
+						var filenode = dom.byId("fileUpload_show");
+						var fileIds = [];
+
+				       	var node=filenode.firstChild;
+				       	while(node!=null){
+				            node=node.nextSibling;
+				            if(node!=null){
+				            	fileIds.push(node.getAttribute("id"));
+					        }
+				        }
+						content.attachmentIds = fileIds.join(",");
+					</g:if>
 					
 					//增加对多次单击的次数----2014-9-4
 					var buttonWidget = object.target;
@@ -68,7 +77,11 @@
 					rosten.readSync(rosten.webPath + "/bargain/bargainSave",content,function(data){
 						if(data.result=="true" || data.result == true){
 							rosten.alert("保存成功！").queryDlgClose= function(){
-								page_quit();
+								if(window.location.href.indexOf(data.id)==-1){
+									window.location.replace(window.location.href + "&id=" + data.id);
+								}else{
+									window.location.reload();
+								}
 							};
 						}else{
 							rosten.alert("保存失败!");
@@ -80,175 +93,193 @@
 					},"rosten_form");
 					
 				};
-
-
-
-				//增加清单ITEM~~~~~~~~
-				bargainGoods_addItem = function(){
-					rosten.createRostenShowDialog(rosten.webPath + "/bargain/bargainGoodsAdd", {
-			            onLoadFunction : function() {
-
-				            }
-			        });
+				bargain_addComment = function(){
+					//flowCode为是否需要走流程，如需要，则flowCode为业务流程代码
+					var commentDialog = rosten.addCommentDialog({type:"bargain"});
+					commentDialog.callback = function(_data){
+						var content = {dataStr:_data.content,userId:"${user?.id}",status:"${bargain?.status}",flowCode:"${flowCode}"};
+						rosten.readSync(rosten.webPath + "/share/addComment/${bargain?.id}",content,function(data){
+							if(data.result=="true" || data.result == true){
+								rosten.alert("成功！").queryDlgClose= function(){
+									var selectWidget = rosten_tabContainer.selectedChildWidget;
+									if(selectWidget.get("id")=="flowComment"){
+										rosten_tabContainer.selectedChildWidget.refresh();
+									}
+								};
+							}else{
+								rosten.alert("失败!");
+							}	
+						});
+					};
 				};
-				bargainGoods_Submit = function(){
-					//var chenkids = ["ExpenseReimHappenDate","ExpenseReimItemType","ExpenseReimItemMoney"];
-					//if(!rosten.checkData(chenkids)) return;					
-					var itemId = registry.byId("itemId").get("value");
+				bargain_submit = function(object,conditionObj){
+					/*
+					 * 从后台获取下一处理人;conditionObj为流程中排他分支使用
+					 */
+					//增加对多次单击的控制
+					var buttonWidget = object.target;
+					rosten.toggleAction(buttonWidget,true);
 					
-					function gotAll(items,request){
-						var node;
-						for(var i=0;i < items.length;i++){
-							var id = store.getValue(items[i], "id");
-							if(id==itemId){
-								node = items[i];
-								break;
+					var content = {};
+
+					//增加对排他分支的控制
+					if(conditionObj){
+						lang.mixin(content,conditionObj);
+					}
+					rosten.readSync("${createLink(controller:'share',action:'getSelectFlowUser',params:[userId:user?.id,taskId:bargain?.taskId,drafterUsername:bargain?.drafter?.username])}",content,function(data){
+						if(data.dealFlow==false){
+							//流程无下一节点
+							bargain_deal("submit",null,buttonWidget,conditionObj);
+							return;
+						}
+						var url = "${createLink(controller:'system',action:'userTreeDataStore',params:[companyId:company?.id])}";
+						if(data.dealType=="user"){
+							//人员处理
+							if(data.showDialog==false){
+								//单一处理人
+								var _data = [];
+								_data.push(data.userId + ":" + data.userDepart);
+								bargain_deal("submit",_data,buttonWidget,conditionObj);
+							}else{
+								//多人，多部门处理
+								url += "&type=user&user=" + data.user;
+								bargain_select(url,buttonWidget,conditionObj);
 							}
+						}else{
+							//群组处理
+							url += "&type=group&groupIds=" + data.groupIds;
+							if(data.limitDepart){
+								url += "&limitDepart="+data.limitDepart;
+							}
+							bargain_select(encodeURI(url),buttonWidget,conditionObj);
+						}
+
+					},function(error){
+						rosten.alert("系统错误，请通知管理员！");
+						rosten.toggleAction(buttonWidget,false);
+					});
+				};
+				bargain_select = function(url,buttonWidget,conditionObj){
+					var rostenShowDialog = rosten.selectFlowUser(url,"single");
+		            rostenShowDialog.callback = function(data) {
+		            	if(data.length==0){
+			            	rosten.alert("请正确选择人员！");
+		            		rosten.toggleAction(buttonWidget,false);
+			            }else{
+			            	var _data = [];
+			            	for (var k = 0; k < data.length; k++) {
+			            		var item = data[k];
+			            		_data.push(item.value + ":" + item.departId);
+			            	};
+			            	bargain_deal("submit",_data,buttonWidget,conditionObj);
+			            }
+		            };
+					rostenShowDialog.afterLoad = function(){
+						var _data = rostenShowDialog.getData();
+			            if(_data && _data.length==1){
+				            //直接调用
+			            	rostenShowDialog.doAction();
+				        }else{
+							//显示对话框
+							rostenShowDialog.open();
+					    }
+					};
+					rostenShowDialog.queryDlgClose = function(){
+						rosten.toggleAction(buttonWidget,false);
+					};	
+				};
+				bargain_deal = function(type,readArray,buttonWidget,conditionObj){
+					var content = {};
+					content.id = "${officialApply?.id}";
+					content.deal = type;
+					if(readArray){
+						content.dealUser = readArray.join(",");
+					}
+					if(conditionObj){
+						lang.mixin(content,conditionObj);
+					}
+					rosten.readSync(rosten.webPath + "/bargain/bargainFlowDeal",content,function(data){
+						if(data.result=="true" || data.result == true){
+							var ostr = "成功！";
+							if(data.nextUserName && data.nextUserName!=""){
+								ostr += "下一处理人<" + data.nextUserName +">";
+							}
+							rosten.alert(ostr).queryDlgClose= function(){
+								//刷新待办事项内容
+								window.opener.showStartGtask("${user?.id}","${company?.id }");
+								
+								if(data.refresh=="true" || data.refresh==true){
+									window.location.reload();
+								}else{
+									rosten.pagequit();
+								}
+							}
+						}else{
+							rosten.alert("失败!");
+							rosten.toggleAction(buttonWidget,false);
+						}	
+					},function(error){
+						rosten.alert("系统错误，请通知管理员！");
+						rosten.toggleAction(buttonWidget,false);
+					});
+				};
+				bargain_back = function(object,conditionObj){
+					//增加对多次单击的控制
+					var buttonWidget = object.target;
+					rosten.toggleAction(buttonWidget,true);
+					
+					var content = {};
+					rosten.readSync("${createLink(controller:'bargain',action:'bargainFlowBack',params:[id:bargain?.id])}",content,function(data){
+						if(data.result=="true" || data.result == true){
+							rosten.alert("成功！下一处理人<" + data.nextUserName +">").queryDlgClose= function(){
+								//刷新待办事项内容
+								window.opener.showStartGtask("${user?.id}","${company?.id }");
+								
+								if(data.refresh=="true" || data.refresh==true){
+									window.location.reload();
+								}else{
+									rosten.pagequit();
+								}
+							}
+						}else{
+							rosten.alert("失败!");
+							rosten.toggleAction(buttonWidget,false);
 						}
 						
-						if(node){
-							
-							store.setValue(items[i],"itemId",registry.byId("id").get("value"));
-							store.setValue(items[i],"bargainGoodsName",registry.byId("bargainGoodsName").get("value"));
-							store.setValue(items[i],"bargainGoodsCorp",registry.byId("bargainGoodsCorp").get("value"));
-							store.setValue(items[i],"bargainGoodsUnit",registry.byId("bargainGoodsUnit").get("value"));
-							store.setValue(items[i],"bargainGoodsNum",registry.byId("bargainGoodsNum").get("value"));
-							store.setValue(items[i],"bargainGoodsPrice",registry.byId("bargainGoodsPrice").get("value"));
-							store.setValue(items[i],"bargainGoodsDiscount",registry.byId("bargainGoodsDiscount").get("value"));
-							store.setValue(items[i],"bargainGoodsRemark",registry.byId("bargainGoodsRemark").get("value"));
-							
-						}else{
-							
-							var randId = Math.random();
-							var content ={
-									id:randId,
-									bargainGoodsId:randId,
-									rowIndex:items.length+1,
-									//BargainId:registry.byId("BargainId").get("value"),
-									itemId:registry.byId("id").get("value"),
-									bargainGoodsName:registry.byId("bargainGoodsName").get("value"),
-									bargainGoodsCorp:registry.byId("bargainGoodsCorp").get("value"),
-									bargainGoodsUnit:registry.byId("bargainGoodsUnit").get("value"),
-									bargainGoodsNum:registry.byId("bargainGoodsNum").get("value"),
-									bargainGoodsPrice:registry.byId("bargainGoodsPrice").get("value"),
-									bargainGoodsDiscount:registry.byId("bargainGoodsDiscount").get("value"),
-									bargainGoodsRemark:registry.byId("bargainGoodsRemark").get("value"),
-
-									
-							};
-							store.newItem(content);
-
-						}
-					}
-					
-					var store = bargainGoodsGrid.getStore();
-					store.fetch({
-						query:{id:"*"},onComplete:gotAll,queryOptions:{deep:true}
-					});
-					rosten.hideRostenShowDialog();
-				};
-				bargainGoods_formatTopic = function(value,rowIndex){
-					return "<a href=\"javascript:bargainGoods_onMessageOpen(" + rowIndex + ");\">" + value+ "</a>";
-				};
-				bargainGoods_onMessageOpen = function(rowIndex){
-					//打开systemCodeItem信息
-			    	rosten.createRostenShowDialog(rosten.webPath + "/bargain/bargainGoodsShow", {
-			            onLoadFunction : function() {
-				            
-			            	var id = rosten.getGridItemValue(bargainGoodsGrid,rowIndex,"id");			            
-			            	var bargainGoodsName = rosten.getGridItemValue(bargainGoodsGrid,rowIndex,"bargainGoodsName");
-			            	var bargainGoodsCorp = rosten.getGridItemValue(bargainGoodsGrid,rowIndex,"bargainGoodsCorp");
-			            	var bargainGoodsUnit = rosten.getGridItemValue(bargainGoodsGrid,rowIndex,"bargainGoodsUnit");
-			            	var bargainGoodsNum = rosten.getGridItemValue(bargainGoodsGrid,rowIndex,"bargainGoodsNum");
-			            	var bargainGoodsPrice = rosten.getGridItemValue(bargainGoodsGrid,rowIndex,"bargainGoodsPrice");
-			            	var bargainGoodsDiscount = rosten.getGridItemValue(bargainGoodsGrid,rowIndex,"bargainGoodsDiscount");
-			            	var bargainGoodsRemark = rosten.getGridItemValue(bargainGoodsGrid,rowIndex,"bargainGoodsRemark");
-							
-			            	
-			            	registry.byId("itemId").set("value",id);
-			            	registry.byId("bargainGoodsName").set("value",bargainGoodsName);
-			            	registry.byId("bargainGoodsCorp").set("value",bargainGoodsCorp);
-			            	registry.byId("bargainGoodsUnit").set("value",bargainGoodsUnit);
-			            	registry.byId("bargainGoodsNum").set("value",bargainGoodsNum);
-			            	registry.byId("bargainGoodsPrice").set("value",bargainGoodsPrice);
-			            	registry.byId("bargainGoodsDiscount").set("value",bargainGoodsDiscount);
-			            	registry.byId("bargainGoodsRemark").set("value",bargainGoodsRemark);
-
-			            
-				        }
-			        });
-			    };
-
-			    bargainGoods_action = function(value,rowIndex){
-			    	return "<a href=\"javascript:bargainGoods_onDelete(" + rowIndex + ");\">" + "删除" + "</a>";
-				};
-				bargainGoods_onDelete = function(rowIndex){
-					//删除item信息
-					var store = bargainGoodsGrid.getStore();
-				    var item = rosten.getGridItem(bargainGoodsGrid,rowIndex);
-					store.deleteItem(item);
-					//更新store中的rowIndex号
-					store.fetch({
-						query:{id:"*"},onComplete:function(items){
-							for(var i=0;i < items.length;i++){
-								var _item = items[i];
-								store.setValue(_item,"rowIndex",i+1);
-							}
-						},queryOptions:{deep:true}
+					},function(error){
+						rosten.alert("系统错误，请通知管理员！");
+						rosten.toggleAction(buttonWidget,false);
 					});
 				};
-
-
-				bargainType_onChange=function(){
-					
-					var bargainType = registry.byId("bargainType").get("value");
-					if(bargainType=="采购合同"){
-							kernel.query(".rostenTitleGrid").style("display","block");
-						}else{
-							kernel.query(".rostenTitleGrid").style("display","none");
-					}
-					
-					};
-				
-				//ITEM~~~~~~~
-
-				
 				page_quit = function(){
 					rosten.pagequit();
 				};
-
 				//获取甲方乙方单位信息串
 				getContactCorpDatas= function(){
 					var corpName = registry.byId("barVendorCorp").get("value");
 					var url = "${createLink(controller:'baseinfor',action:'contactCorpGet')}";
 					url += "?corpId="+encodeURI(corpName);
 					var ioArgs = {
-							url : url,
-							handleAs : "json",
-							load : function(response,args) {
-								if(response.result=="false"){ 
-									rosten.alert("注意：！");
-									return;
-								}else{
-									//增加对多次单击的次数----2014-9-4
-									var buttonWidget = object.target;
-									rosten.toggleAction(buttonWidget,true);
-									
-								}
-							},
-							error : function(response,args) {
-								rosten.alert(response.message);
+						url : url,
+						handleAs : "json",
+						load : function(response,args) {
+							if(response.result=="false"){ 
+								rosten.alert("注意：！");
 								return;
+							}else{
+								//增加对多次单击的次数----2014-9-4
+								var buttonWidget = object.target;
+								rosten.toggleAction(buttonWidget,true);
+								
 							}
-						};
-						dojo.xhrPost(ioArgs);
-						
-
-						
-					
-						
-					}
-				
+						},
+						error : function(response,args) {
+							rosten.alert(response.message);
+							return;
+						}
+					};
+					dojo.xhrPost(ioArgs);
+				}
 				showSelectDialog = function(type){
 					switch(type){
 					case "BargainVendorCorpName":
@@ -263,7 +294,6 @@
 					}
 					
 				}
-			
 		});
     </script>
 </head>
@@ -277,11 +307,11 @@
 <div data-dojo-type="dijit/layout/TabContainer" data-dojo-props='doLayout:false,persist:false,tabStrip:true,style:{width:"800px",margin:"0 auto"}' >
 	<div data-dojo-type="dijit/layout/ContentPane" title="基本信息" data-dojo-props='doLayout:false'>
 		<form id="rosten_form" data-dojo-type="dijit/form/Form" name="rosten_form" onsubmit="return false;" class="rosten_form" style="padding:0px">
-			<input  data-dojo-type="dijit/form/ValidationTextBox" id="id"  data-dojo-props='name:"id",style:{display:"none"}',value:"${bargain?.id}"' />
+			<input  data-dojo-type="dijit/form/ValidationTextBox" id="id"  data-dojo-props='name:"id",style:{display:"none"},value:"${bargain?.id}"' />
         	<input  data-dojo-type="dijit/form/ValidationTextBox" id="companyId" data-dojo-props='name:"companyId",style:{display:"none"},value:"${company?.id}"' />
         	
 			<div data-dojo-type="rosten/widget/TitlePane" data-dojo-props='title:"合同信息",toggleable:false,moreText:"",marginBottom:"2px"'>
-				<table border="0" width="740" align="left">
+				<table border="0"align="left">
 					<tr>
 					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>合同名称：</div></td>
 					    <td colspan=3>
@@ -339,8 +369,8 @@
 					    </td>
 					    <td><div align="right"><span style="color:red">*&nbsp;</span>签订日期：</div></td>
 					    <td>
-						    <input id="bargainSigningDate" data-dojo-type="dijit/form/DateTextBox" 
-		               		data-dojo-props='name:"bargainSigningDate",${fieldAcl.isReadOnly("bargainSigningDate")},
+						    <input id="bargainSignDate" data-dojo-type="dijit/form/DateTextBox" 
+		               		data-dojo-props='name:"bargainSignDate",${fieldAcl.isReadOnly("bargainSignDate")},
 		               		trim:true,required:true,
 							value:"${bargain?.getFormatteBargainSignDate()}"
 		          			'/>
@@ -359,12 +389,7 @@
 					</tr>
 					</table>
 					<div style="clear:both;"></div>
-
 			</div>
-
-		
-		
-		
 			<div data-dojo-type="rosten/widget/TitlePane" data-dojo-props='title:"合同甲方信息",toggleable:false,moreText:"",marginBottom:"2px"'>
 				<table border="0" width="740" align="left">
 					<tr>
@@ -378,12 +403,11 @@
 						<td width="120"><div align="right">甲方单位名称：</div></td>
 					    <td width="250">
 					    	<input id="barVendorCorp" data-dojo-type="dijit/form/ValidationTextBox" 
-				               	data-dojo-props='name:"barVendorCorp",
-				               		trim:true,readOnly:true,
+				               	data-dojo-props='trim:true,readOnly:true,
 									value:"${bargain?.barVendorCorp?.contactCorpName}"
 				          	'/>
 				          	 <g:if test="${!onlyShow }">
-					         	<g:hiddenField data-dojo-type="dijit/form/ValidationTextBox" name="barVendorCorpId" value="${bargain?.barVendorCorp?.id}" />
+					         	<g:hiddenField id="barVendorCorpId" data-dojo-type="dijit/form/ValidationTextBox" name="barVendorCorpId" value="${bargain?.barVendorCorp?.id}" />
 								<button data-dojo-type="dijit.form.Button" 
 									data-dojo-props='onClick:function(){
 										showSelectDialog("BargainVendorCorpName");	
@@ -394,7 +418,7 @@
 										<tr>
 						<td ><div align="right">法人：</div></td>
 					    <td >
-					    	<input data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='trim:true,required:true,
+					    	<input data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='trim:true,
 					    			placeHolder:"系统自动赋值",
 									value:"${BargainVendorCorpName?.contactCorpLealPerson}"
 			                '/>
@@ -453,12 +477,11 @@
 						<td width="120"><div align="right">乙方单位名称：</div></td>
 					    <td width="250">
 					    	<input id="barPurchaserCorp" data-dojo-type="dijit/form/ValidationTextBox" 
-				               	data-dojo-props='name:"barPurchaserCorp",
-				               		trim:true,required:true,readOnly:true,
+				               	data-dojo-props='trim:true,readOnly:true,
 									value:"${bargain?.barPurchaserCorp?.contactCorpName}"
 				          	'/>
 				          <g:if test="${!onlyShow }">
-					         	<g:hiddenField data-dojo-type="dijit/form/ValidationTextBox" name="barPurchaserCorpId" value="${Bargain?.barPurchaserCorp?.id}" />
+					         	<g:hiddenField id="barPurchaserCorpId" data-dojo-type="dijit/form/ValidationTextBox" name="barPurchaserCorpId" value="${Bargain?.barPurchaserCorp?.id}" />
 								<button data-dojo-type="dijit.form.Button" 
 									data-dojo-props='onClick:function(){
 										showSelectDialog("BargainPurchaserCorpName");	
@@ -515,17 +538,26 @@
 			</div>
 		
 		
-			<div data-dojo-type="rosten/widget/TitlePane" data-dojo-props='"class":"rostenTitleGrid",style:{display:"none"},title:"采购货物明细",toggleable:false,_moreClick:bargainGoods_addItem,moreText:"<span style=\"color:#108ac6\">增加</span>",marginBottom:"2px"'>
+			<div data-dojo-type="rosten/widget/TitlePane" data-dojo-id="bargainGoodsTitlePane" data-dojo-props='"class":"rostenTitleGrid",style:{display:"none"},title:"采购货物明细",toggleable:false,_moreClick:bargainGoods_addItem,moreText:"<span style=\"color:#108ac6\">增加</span>",marginBottom:"2px"'>
             	<div data-dojo-type="rosten/widget/RostenGrid" id="bargainGoodsGrid" data-dojo-id="bargainGoodsGrid"
 					data-dojo-props='imgSrc:"${resource(dir:'images/rosten/share',file:'wait.gif')}",showPageControl:false,url:"${createLink(controller:'bargain',action:'bargainGoodsGrid',id:bargain?.id)}"'></div>             	
             	
             </div>
             
-           
-            
+           <div data-dojo-type="rosten/widget/TitlePane" data-dojo-props='title:"附件信息",toggleable:false,moreText:"",
+				href:"${createLink(controller:'share',action:'getFileUploadNew',id:bargain?.id,params:[uploadPath:'staff',isShowFile:isShowFile])}"'>
+			</div> 
 		</form>
-
 	</div>
+	<g:if test="${bargain?.id}">
+		<div data-dojo-type="dijit/layout/ContentPane" id="flowComment" title="流转意见" data-dojo-props='refreshOnShow:true,style:{width:"740px"},
+			href:"${createLink(controller:'share',action:'getCommentLog',id:bargain?.id)}"
+		'>	
+		</div>
+		<div data-dojo-type="dijit/layout/ContentPane" id="flowLog" title="流程跟踪" data-dojo-props='refreshOnShow:true,
+			href:"${createLink(controller:'share',action:'getFlowLog',id:bargain?.id,params:[processDefinitionId:officialApply?.processDefinitionId,taskId:bargain?.taskId])}"
+		'>	
+		</div>
+	</g:if>
 </div>
-<div style="clear:both;height:50px"></div>
 </body>

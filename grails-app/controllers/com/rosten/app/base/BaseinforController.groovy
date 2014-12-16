@@ -17,8 +17,6 @@ class BaseinforController {
 		def company = Company.get(params.companyId)
 		ContactCorp.findAllByCompany(company).each{
 			def json=[:]
-			println "it.id"
-			println it.id
 			json["id"] = it.id
 			json["name"] = it.contactCorpName
 			_List << json

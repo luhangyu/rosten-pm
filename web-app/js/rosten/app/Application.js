@@ -3,12 +3,14 @@
  */
 define(["dojo/_base/lang",
         "dojo/dom",
+        "dojo/has",
+        "dojo/json",
 		"dijit/registry",
 		"rosten/widget/MultiSelectDialog",
 		"rosten/widget/PickTreeDialog",
 		"rosten/widget/DepartUserDialog",
 		"rosten/widget/ShowDialog",
-		"rosten/kernel/_kernel"], function(lang,dom,registry,MultiSelectDialog,PickTreeDialog,DepartUserDialog,ShowDialog) {
+		"rosten/kernel/_kernel"], function(lang,dom,has,JSON,registry,MultiSelectDialog,PickTreeDialog,DepartUserDialog,ShowDialog) {
 			
 	var application = {};
 	/*
@@ -335,9 +337,8 @@ define(["dojo/_base/lang",
             for (var k = 0; k < data.length; k++) {
                 var item = data[k];
                 _data.push(item.name);
-                _data_1.push(item.value);
+                _data_1.push(item.id);
             }
-            
             
             if( inputName !=undefined){
                 registry.byId(inputName).attr("value", _data.join(","));

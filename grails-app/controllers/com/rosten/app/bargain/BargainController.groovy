@@ -33,15 +33,12 @@ class BargainController {
 		}
 		model["bargain"] = entity
 		model["user"] = currentUser
+		model["isShowFile"] = true
 		
 		FieldAcl fa = new FieldAcl()
 		model["fieldAcl"] = fa
 		render(view:'/bargain/bargain',model:model)
 	}
-	
-	
-	
-	
 	def bargainSave ={
 		def model=[:]
 		
@@ -57,7 +54,7 @@ class BargainController {
 		entity.clearErrors()
 		
 		//日期字段值处理，convertToTimestamp
-		entity.bargainSigningDate = Util.convertToTimestamp(params.bargainSigningDate)
+		entity.bargainSignDate = Util.convertToTimestamp(params.bargainSignDate)
 		
 		
 		if(entity.bargainGoods){
@@ -168,9 +165,6 @@ class BargainController {
 		def json=[:]
 		def bargain = Bargain.get(params.id)
 			
-		def bargainVendorCorpName = bargain?.BargainPurchaserCorpName
-		def contactCorpName = bargainVendorCorpName?.contactCorpName
-		
 		if(params.refreshHeader){
 			json["gridHeader"] = bargainService.getBargainGoodsListLayout()
 		}
