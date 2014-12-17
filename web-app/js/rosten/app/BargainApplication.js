@@ -31,13 +31,13 @@ define(["dojo/dom",
 			if(node){
 				
 				store.setValue(items[i],"itemId",registry.byId("id").get("value"));
-				store.setValue(items[i],"bargainGoodsName",registry.byId("bargainGoodsName").get("value"));
-				store.setValue(items[i],"bargainGoodsCorp",registry.byId("bargainGoodsCorp").get("value"));
-				store.setValue(items[i],"bargainGoodsUnit",registry.byId("bargainGoodsUnit").get("value"));
-				store.setValue(items[i],"bargainGoodsNum",registry.byId("bargainGoodsNum").get("value"));
-				store.setValue(items[i],"bargainGoodsPrice",registry.byId("bargainGoodsPrice").get("value"));
-				store.setValue(items[i],"bargainGoodsDiscount",registry.byId("bargainGoodsDiscount").get("value"));
-				store.setValue(items[i],"bargainGoodsRemark",registry.byId("bargainGoodsRemark").get("value"));
+				store.setValue(items[i],"barGoodsName",registry.byId("barGoodsName").get("value"));
+				store.setValue(items[i],"barGoodsCorp",registry.byId("barGoodsCorp").get("value"));
+				store.setValue(items[i],"barGoodsUnit",registry.byId("barGoodsUnit").get("value"));
+				store.setValue(items[i],"barGoodsNum",registry.byId("barGoodsNum").get("value"));
+				store.setValue(items[i],"barGoodsPrice",registry.byId("barGoodsPrice").get("value"));
+				store.setValue(items[i],"barGoodsDiscount",registry.byId("barGoodsDiscount").get("value"));
+				store.setValue(items[i],"barGoodsRemark",registry.byId("barGoodsRemark").get("value"));
 				
 			}else{
 				
@@ -48,13 +48,13 @@ define(["dojo/dom",
 						rowIndex:items.length+1,
 						//BargainId:registry.byId("BargainId").get("value"),
 						itemId:registry.byId("id").get("value"),
-						bargainGoodsName:registry.byId("bargainGoodsName").get("value"),
-						bargainGoodsCorp:registry.byId("bargainGoodsCorp").get("value"),
-						bargainGoodsUnit:registry.byId("bargainGoodsUnit").get("value"),
-						bargainGoodsNum:registry.byId("bargainGoodsNum").get("value"),
-						bargainGoodsPrice:registry.byId("bargainGoodsPrice").get("value"),
-						bargainGoodsDiscount:registry.byId("bargainGoodsDiscount").get("value"),
-						bargainGoodsRemark:registry.byId("bargainGoodsRemark").get("value"),
+						barGoodsName:registry.byId("barGoodsName").get("value"),
+						barGoodsCorp:registry.byId("barGoodsCorp").get("value"),
+						barGoodsUnit:registry.byId("barGoodsUnit").get("value"),
+						barGoodsNum:registry.byId("barGoodsNum").get("value"),
+						barGoodsPrice:registry.byId("barGoodsPrice").get("value"),
+						barGoodsDiscount:registry.byId("barGoodsDiscount").get("value"),
+						barGoodsRemark:registry.byId("barGoodsRemark").get("value"),
 
 						
 				};
@@ -78,23 +78,23 @@ define(["dojo/dom",
             onLoadFunction : function() {
 	            
             	var id = rosten.getGridItemValue(bargainGoodsGrid,rowIndex,"id");			            
-            	var bargainGoodsName = rosten.getGridItemValue(bargainGoodsGrid,rowIndex,"bargainGoodsName");
-            	var bargainGoodsCorp = rosten.getGridItemValue(bargainGoodsGrid,rowIndex,"bargainGoodsCorp");
-            	var bargainGoodsUnit = rosten.getGridItemValue(bargainGoodsGrid,rowIndex,"bargainGoodsUnit");
-            	var bargainGoodsNum = rosten.getGridItemValue(bargainGoodsGrid,rowIndex,"bargainGoodsNum");
-            	var bargainGoodsPrice = rosten.getGridItemValue(bargainGoodsGrid,rowIndex,"bargainGoodsPrice");
-            	var bargainGoodsDiscount = rosten.getGridItemValue(bargainGoodsGrid,rowIndex,"bargainGoodsDiscount");
-            	var bargainGoodsRemark = rosten.getGridItemValue(bargainGoodsGrid,rowIndex,"bargainGoodsRemark");
+            	var barGoodsName = rosten.getGridItemValue(bargainGoodsGrid,rowIndex,"barGoodsName");
+            	var barGoodsCorp = rosten.getGridItemValue(bargainGoodsGrid,rowIndex,"barGoodsCorp");
+            	var barGoodsUnit = rosten.getGridItemValue(bargainGoodsGrid,rowIndex,"barGoodsUnit");
+            	var barGoodsNum = rosten.getGridItemValue(bargainGoodsGrid,rowIndex,"barGoodsNum");
+            	var barGoodsPrice = rosten.getGridItemValue(bargainGoodsGrid,rowIndex,"barGoodsPrice");
+            	var barGoodsDiscount = rosten.getGridItemValue(bargainGoodsGrid,rowIndex,"barGoodsDiscount");
+            	var barGoodsRemark = rosten.getGridItemValue(bargainGoodsGrid,rowIndex,"barGoodsRemark");
 				
             	
             	registry.byId("itemId").set("value",id);
-            	registry.byId("bargainGoodsName").set("value",bargainGoodsName);
-            	registry.byId("bargainGoodsCorp").set("value",bargainGoodsCorp);
-            	registry.byId("bargainGoodsUnit").set("value",bargainGoodsUnit);
-            	registry.byId("bargainGoodsNum").set("value",bargainGoodsNum);
-            	registry.byId("bargainGoodsPrice").set("value",bargainGoodsPrice);
-            	registry.byId("bargainGoodsDiscount").set("value",bargainGoodsDiscount);
-            	registry.byId("bargainGoodsRemark").set("value",bargainGoodsRemark);
+            	registry.byId("barGoodsName").set("value",barGoodsName);
+            	registry.byId("barGoodsCorp").set("value",barGoodsCorp);
+            	registry.byId("barGoodsUnit").set("value",barGoodsUnit);
+            	registry.byId("bargainGoodsNum").set("value",barGoodsNum);
+            	registry.byId("barGoodsPrice").set("value",barGoodsPrice);
+            	registry.byId("barGoodsDiscount").set("value",barGoodsDiscount);
+            	registry.byId("barGoodsRemark").set("value",barGoodsRemark);
 
             
 	        }

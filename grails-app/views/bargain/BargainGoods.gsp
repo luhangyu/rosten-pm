@@ -17,51 +17,51 @@
 						 <tr>
                             <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>货物名称：</div>
                             <td width="250">
-					    	<input id="bargainGoodsName" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"bargainGoodsName",
-									value:"${BargainGoods?.bargainGoodsName}"
+					    	<input id="barGoodsName" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,required:true,name:"barGoodsName",
+									value:"${BargainGoods?.barGoodsName}"
 			                '/>
 					    	</td>
                           
                             <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>生产厂家：</div>
                             <td width="250">
-					    	<input id="bargainGoodsCorp" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"bargainGoodsCorp",
-									value:"${BargainGoods?.bargainGoodsCorp}"
+					    	<input id="barGoodsCorp" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,required:true,name:"barGoodsCorp",
+									value:"${BargainGoods?.barGoodsCorp}"
 			                '/>
 					    	</td>
 					    </tr>
 				          <tr>
                             <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>单位：</div>
                             <td width="250">
-					    	<input id="bargainGoodsUnit" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"bargainGoodsUnit",
-									value:"${BargainGoods?.bargainGoodsUnit}"
+					    	<input id="barGoodsUnit" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,required:true,name:"barGoodsUnit",
+									value:"${BargainGoods?.barGoodsUnit}"
 			                '/>
 					    	</td>
                           
                             <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>数量：</div>
                             <td width="250">
-					    	<input id="bargainGoodsNum" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"bargainGoodsNum",
-									value:"${BargainGoods?.bargainGoodsNum}"
+					    	<input id="barGoodsNum" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,required:true,name:"barGoodsNum",
+									value:"${BargainGoods?.barGoodsNum}"
 			                '/>
 					    	</td>
 					    </tr>
 					     <tr>
                             <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>市场价：</div>
                             <td width="250">
-					    	<input id="bargainGoodsPrice" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"bargainGoodsPrice",
-									value:"${BargainGoods?.bargainGoodsPrice}"
+					    	<input id="barGoodsPrice" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,required:true,name:"barGoodsPrice",
+									value:"${BargainGoods?.barGoodsPrice}"
 			                '/>
 					    	</td>
                           
                             <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>折扣：</div>
                             <td width="250">
-					    	<input id="bargainGoodsDiscount" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"bargainGoodsDiscount",
-									value:"${BargainGoods?.bargainGoodsDiscount}"
+					    	<input id="barGoodsDiscount" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,required:true,name:"barGoodsDiscount",
+									value:"${BargainGoods?.barGoodsDiscount}"
 			                '/>
 					    	</td>
 					    </tr>
@@ -69,10 +69,10 @@
 						<tr>
 					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>备注：</div></td>
 					    <td colspan=3>
-					    	<textarea id="bargainGoodsRemark" data-dojo-type="dijit/form/SimpleTextarea" 
-    							data-dojo-props='name:"bargainGoodsRemark","class":"input",
+					    	<textarea id="barGoodsRemark" data-dojo-type="dijit/form/SimpleTextarea" 
+    							data-dojo-props='name:"barGoodsRemark","class":"input",
                                		style:{width:"550px"},rows:"2",
-                               		trim:true,value:"${BargainGoods?.bargainGoodsRemark}"
+                               		trim:true,value:"${BargainGoods?.barGoodsRemark}"
                            '>
                            </textarea>
 					    </td>

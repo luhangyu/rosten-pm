@@ -37,7 +37,7 @@
 			function(parser,kernel,registry,dom,lang){
 				kernel.addOnLoad(function(){
 					rosten.init({webpath:"${request.getContextPath()}",dojogridcss : true});
-					rosten.cssinit();
+					rosten.cssinit();					
 				});
 				bargain_save = function(object){
 					var formWidget = registry.byId("rosten_form");
@@ -46,7 +46,7 @@
 						return;
 					}
 					var content = {};
-					var bargainGoodsNames =["bargainGoodsName","bargainGoodsCorp","bargainGoodsUnit","bargainGoodsNum","bargainGoodsPrice","bargainGoodsDiscount","bargainGoodsRemark"]
+					var bargainGoodsNames =["barGoodsName","barGoodsCorp","barGoodsUnit","barGoodsNum","barGoodsPrice","barGoodsDiscount","barGoodsRemark"]
 					content.bargainGoodsValues = rosten.getGridDataCollect(bargainGoodsGrid,bargainGoodsNames);
 
 					//流程相关信息
