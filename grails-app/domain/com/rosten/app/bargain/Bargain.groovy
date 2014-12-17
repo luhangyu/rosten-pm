@@ -9,6 +9,8 @@ import com.rosten.app.system.Company
 import com.rosten.app.system.User;
 import com.rosten.app.base.ContactCorp
 import com.rosten.app.system.Attachment
+import com.rosten.app.gtask.Gtask
+import com.rosten.app.share.*
 
 class Bargain {
 
@@ -157,5 +159,22 @@ class Bargain {
 	static mapping = {
 		id generator:'uuid.hex',params:[separator:'-']
 		table "RS_BARGAIN"
+	}
+	def beforeDelete(){
+		Bargain.withNewSession{session ->
+			Gtask.findAllByContentId(this.id).each{item->
+				item.delete()
+			}
+			FlowComment.findAllByBelongToId(this.id).each{item->
+				item.delete()
+			}
+			FlowLog.findAllByBelongToId(this.id).each{item->
+				item.delete()
+			}
+			Attachment.findAllByBeUseId(this.id).each{item->
+				item.delete()
+			}
+			session.flush()
+		}
 	}
 }

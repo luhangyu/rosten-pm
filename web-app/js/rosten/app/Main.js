@@ -288,19 +288,20 @@ define(["dojo/_base/kernel"
     		companyId = rosten.kernel.getUserInforByKey("companyid");
     	}
 //    	showStartBbs(userId,companyId);
-//    	showStartGtask(userId,companyId);
+    	showStartGtask(userId,companyId);
 //    	showStartMail(userId,companyId);
-//    	showStartDownloadFile(userId,companyId);
+    	showStartDownloadFile(userId,companyId);
     };
     showStartGtask = function(userId,companyId){
-    	rosten.readNoTime(rosten.webPath + "/start/getGtask", {userId:userId,companyId:companyId}, function(data) {
+    	rosten.readNoTime(rosten.webPath + "/start/getGtask", {userId:userId,companyId:companyId}, function(_data) {
     		var titlePaneNode = registry.byId("home_gtask");
-    		if(data.length>0){
-    			titlePaneNode.changeTitleCount("(" + data.length + "条)");
+    		if(_data.dataCount){
+    			titlePaneNode.changeTitleCount("(" + _data.dataCount + "条)");
     		}else{
-    			titlePaneNode.changeTitleCount("");
+    			titlePaneNode.changeTitleCount("(暂无工作)");
     		}
     		
+    		var data = _data.dataList;
     		var node = titlePaneNode.containerNode;
         	node.innerHTML = "";
         	
@@ -365,14 +366,8 @@ define(["dojo/_base/kernel"
     	case "【公告】":
     		rosten.openNewWindow("bbs", rosten.webPath + "/bbs/bbsShow/" + id + "?userid=" + userid + "&companyId=" + companyId);
     		break;
-    	case "【发文】":
-    		rosten.openNewWindow("sendFile", rosten.webPath + "/sendFile/sendFileShow/" + id + "?userid=" + userid + "&companyId=" + companyId);
-    		break;
-    	case "【大事记】":
-    		rosten.openNewWindow("dsj", rosten.webPath + "/dsj/dsjShow/" + id + "?userid=" + userid + "&companyId=" + companyId);
-    		break;
-    	case "【会议通知】":
-    		rosten.openNewWindow("meeting", rosten.webPath + "/meeting/meetingShow/" + id + "?userid=" + userid + "&companyId=" + companyId);
+    	case "【合同管理】":
+    		rosten.openNewWindow("bargainApply", rosten.webPath + "/bargain/bargainShow/" + id + "?userid=" + userid + "&companyId=" + companyId + "&flowCode=bargainApply");
     		break;
     	}
     	
@@ -484,17 +479,28 @@ define(["dojo/_base/kernel"
         	addUlInformation("home_bbs","openBbs",_data);
         });
     };
-    addUlInformation = function(idname,functionName,data){
+    addUlInformation = function(idname,functionName,_data){
     	
     	var titlePaneNode = registry.byId(idname);
-		if(data.length>0){
-			titlePaneNode.changeTitleCount("(" + data.length + "条)");
+    	
+		if(_data.dataCount>0){
+			titlePaneNode.changeTitleCount("(" + _data.dataCount + "条)");
 		}else{
-			titlePaneNode.changeTitleCount("");
+			var _showName = "暂无数据";
+			switch(idname){
+			case "home_bbs":
+				_showName = "暂无公告";
+				break;
+			case "home_download":
+				_showName = "暂无下载文件";
+				break;
+			}
+			titlePaneNode.changeTitleCount("(" + _showName + ")");
 		}
 		
 		var node = titlePaneNode.containerNode;
     	node.innerHTML = "";
+    	var data = _data.dataList;
     	
     	var ul = document.createElement("ul");
     	for (var i = 0; i < data.length; i++) {

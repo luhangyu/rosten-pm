@@ -56,7 +56,7 @@
 					</g:if>
 
 					//添加新增时添加附件功能
-					<g:if test="${!officialApply?.id}">
+					<g:if test="${!bargain?.id}">
 						var filenode = dom.byId("fileUpload_show");
 						var fileIds = [];
 
@@ -190,7 +190,7 @@
 				};
 				bargain_deal = function(type,readArray,buttonWidget,conditionObj){
 					var content = {};
-					content.id = "${officialApply?.id}";
+					content.id = "${bargain?.id}";
 					content.deal = type;
 					if(readArray){
 						content.dealUser = readArray.join(",");
@@ -254,32 +254,6 @@
 				page_quit = function(){
 					rosten.pagequit();
 				};
-				//获取甲方乙方单位信息串
-				getContactCorpDatas= function(){
-					var corpName = registry.byId("barVendorCorp").get("value");
-					var url = "${createLink(controller:'baseinfor',action:'contactCorpGet')}";
-					url += "?corpId="+encodeURI(corpName);
-					var ioArgs = {
-						url : url,
-						handleAs : "json",
-						load : function(response,args) {
-							if(response.result=="false"){ 
-								rosten.alert("注意：！");
-								return;
-							}else{
-								//增加对多次单击的次数----2014-9-4
-								var buttonWidget = object.target;
-								rosten.toggleAction(buttonWidget,true);
-								
-							}
-						},
-						error : function(response,args) {
-							rosten.alert(response.message);
-							return;
-						}
-					};
-					dojo.xhrPost(ioArgs);
-				}
 				showSelectDialog = function(type){
 					switch(type){
 					case "BargainVendorCorpName":
@@ -304,7 +278,7 @@
 	</div>
 </div>
 
-<div data-dojo-type="dijit/layout/TabContainer" data-dojo-props='doLayout:false,persist:false,tabStrip:true,style:{width:"800px",margin:"0 auto"}' >
+<div data-dojo-id="rosten_tabContainer" data-dojo-type="dijit/layout/TabContainer" data-dojo-props='doLayout:false,persist:false,tabStrip:true,style:{width:"800px",margin:"0 auto"}' >
 	<div data-dojo-type="dijit/layout/ContentPane" title="基本信息" data-dojo-props='doLayout:false'>
 		<form id="rosten_form" data-dojo-type="dijit/form/Form" name="rosten_form" onsubmit="return false;" class="rosten_form" style="padding:0px">
 			<input  data-dojo-type="dijit/form/ValidationTextBox" id="id"  data-dojo-props='name:"id",style:{display:"none"},value:"${bargain?.id}"' />
@@ -316,7 +290,7 @@
 					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>合同名称：</div></td>
 					    <td colspan=3>
 					    	<input id="bargainName" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"bargainName",style:{width:"550px"},
+			                 	data-dojo-props='trim:true,required:true,name:"bargainName",style:{width:"550px"},${fieldAcl.isReadOnly("bargainName")},
 									value:"${bargain?.bargainName}"
 			                '/>
 					    </td>
@@ -347,14 +321,14 @@
 						<td><div align="right"><span style="color:red">*&nbsp;</span>合同号：</div></td>
 					    <td >
 					    	<input id="bargainNo" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"bargainNo",
+			                 	data-dojo-props='trim:true,required:true,name:"bargainNo",${fieldAcl.isReadOnly("bargainNo")},
 									value:"${bargain?.bargainNo}"
 			                '/>
 					    </td>
 					    <td><div align="right"><span style="color:red">*&nbsp;</span>合同金额：</div></td>
 					    <td >
 					    	<input id="bargainMoney" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"bargainMoney",
+			                 	data-dojo-props='trim:true,required:true,name:"bargainMoney",${fieldAcl.isReadOnly("bargainMoney")},
 									value:"${bargain?.bargainMoney}"
 			                '/>&nbsp;元
 					    </td>
@@ -363,7 +337,7 @@
 						<td><div align="right"><span style="color:red">*&nbsp;</span>制表人：</div></td>
 					    <td >
 					    	<input id="bargainMaker" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"bargainMaker",
+			                 	data-dojo-props='trim:true,required:true,name:"bargainMaker",${fieldAcl.isReadOnly("bargainMaker")},
 									value:"${bargain?.bargainMaker}"
 			                '/>
 					    </td>
@@ -381,7 +355,7 @@
 					    <td colspan=3>
 					    	<textarea id="bargainPayMemo" data-dojo-type="dijit/form/SimpleTextarea" 
     							data-dojo-props='name:"bargainPayMemo","class":"input",
-                               		style:{width:"550px"},rows:"2",
+                               		style:{width:"550px"},rows:"2",${fieldAcl.isReadOnly("bargainPayMemo")},
                                		trim:true,value:"${bargain?.bargainPayMemo}"
                            '>
                            </textarea>
@@ -396,7 +370,7 @@
 					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>甲方：</div></td>
 					    <td width="250">
 					    	<input id="bargainVendor" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"bargainVendor",
+			                 	data-dojo-props='trim:true,required:true,name:"bargainVendor",${fieldAcl.isReadOnly("bargainVendor")},
 									value:"${bargain?.bargainVendor}"
 			                '/>
 					    </td>
@@ -406,7 +380,7 @@
 				               	data-dojo-props='trim:true,readOnly:true,
 									value:"${bargain?.barVendorCorp?.contactCorpName}"
 				          	'/>
-				          	 <g:if test="${!onlyShow }">
+				          	 <g:if test="${isShowFile }">
 					         	<g:hiddenField id="barVendorCorpId" data-dojo-type="dijit/form/ValidationTextBox" name="barVendorCorpId" value="${bargain?.barVendorCorp?.id}" />
 								<button data-dojo-type="dijit.form.Button" 
 									data-dojo-props='onClick:function(){
@@ -420,14 +394,14 @@
 					    <td >
 					    	<input data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='trim:true,
 					    			placeHolder:"系统自动赋值",
-									value:"${BargainVendorCorpName?.contactCorpLealPerson}"
+									value:"${bargain?.barVendorCorp?.contCorpLeader}"
 			                '/>
 					    </td>
 					    <td ><div align="right">法人职务：</div></td>
 					    <td >
 					    	<input data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,placeHolder:"系统自动赋值",
-									value:"${BargainVendorCorpName?.contactCorpLealPersonDuty}"
+									value:"${bargain?.barVendorCorp?.cCorpLeaderDuty}"
 			                '/>
 					    </td>
 					</tr>
@@ -436,14 +410,14 @@
 					    <td >
 					    	<input  data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,placeHolder:"系统自动赋值",
-									value:"${BargainVendorCorpName?.contactCorpPhone}"
+									value:"${bargain?.barVendorCorp?.contactCorpPhone}"
 			                '/>
 					    </td>
 					    <td ><div align="right">邮编：</div></td>
 					    <td >
 					    	<input  data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,placeHolder:"系统自动赋值",
-									value:"${BargainVendorCorpName?.contactCorpPost}"
+									value:"${bargain?.barVendorCorp?.contactCorpPost}"
 			                '/>
 					    </td>
 					</tr>
@@ -452,7 +426,7 @@
 					 	 <td colspan=3>
 					    	<input  data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,placeHolder:"系统自动赋值",style:{width:"550px"},
-									value:"${BargainVendorCorpName?.contactCorpAddress}"
+									value:"${bargain?.barVendorCorp?.contactCorpAddr}"
 			                '/>
 					    </td>
 					   
@@ -470,7 +444,7 @@
 					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>乙方：</div></td>
 					    <td width="250">
 					    	<input id="bargainPurchaser" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"bargainPurchaser",
+			                 	data-dojo-props='trim:true,required:true,name:"bargainPurchaser",${fieldAcl.isReadOnly("bargainPurchaser")},
 									value:"${bargain?.bargainPurchaser}"
 			                '/>
 					    </td>
@@ -480,7 +454,7 @@
 				               	data-dojo-props='trim:true,readOnly:true,
 									value:"${bargain?.barPurchaserCorp?.contactCorpName}"
 				          	'/>
-				          <g:if test="${!onlyShow }">
+				          <g:if test="${isShowFile }">
 					         	<g:hiddenField id="barPurchaserCorpId" data-dojo-type="dijit/form/ValidationTextBox" name="barPurchaserCorpId" value="${Bargain?.barPurchaserCorp?.id}" />
 								<button data-dojo-type="dijit.form.Button" 
 									data-dojo-props='onClick:function(){
@@ -494,14 +468,14 @@
 					    <td >
 					    	<input  data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,placeHolder:"系统自动赋值",
-									value:"${bargain?.barPurchaserCorp?.contactCorpLealPerson}"
+									value:"${bargain?.barPurchaserCorp?.contCorpLeader}"
 			                '/>
 					    </td>
 					    <td ><div align="right">法人职务：</div></td>
 					    <td >
 					    	<input   data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,placeHolder:"系统自动赋值",
-									value:"${bargain?.barPurchaserCorp?.contactCorpLealPersonDuty}"
+									value:"${bargain?.barPurchaserCorp?.cCorpLeaderDuty}"
 			                '/>
 					    </td>
 					</tr>
@@ -526,7 +500,7 @@
 					    <td colspan=3>
 					    	<input  data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,placeHolder:"系统自动赋值",style:{width:"550px"},
-									value:"${bargain?.barPurchaserCorp?.contactCorpAddress}"
+									value:"${bargain?.barPurchaserCorp?.contactCorpAddr}"
 			                '/>
 					    </td>
 					   
@@ -555,7 +529,7 @@
 		'>	
 		</div>
 		<div data-dojo-type="dijit/layout/ContentPane" id="flowLog" title="流程跟踪" data-dojo-props='refreshOnShow:true,
-			href:"${createLink(controller:'share',action:'getFlowLog',id:bargain?.id,params:[processDefinitionId:officialApply?.processDefinitionId,taskId:bargain?.taskId])}"
+			href:"${createLink(controller:'share',action:'getFlowLog',id:bargain?.id,params:[processDefinitionId:bargain?.processDefinitionId,taskId:bargain?.taskId])}"
 		'>	
 		</div>
 	</g:if>
