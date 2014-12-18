@@ -315,7 +315,7 @@ define(["dojo/_base/lang",
         };
         return rosten[id];
     };
-    application.selectBaseSelect = function(title,url,type,inputName,inputId,initValues) {
+    application.selectBaseDialog = function(title,url,type,inputName,inputId,initValues) {
     	/*
     	 * url:http://.....
     	 * type:是否单选
@@ -347,7 +347,7 @@ define(["dojo/_base/lang",
                 registry.byId(inputId).attr("value",_data_1.join(","));
             }
         };
-        return application[id];
+        return rosten[id];
     };
     lang.mixin(rosten,application);
     

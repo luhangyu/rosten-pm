@@ -19,6 +19,11 @@ class BaseinforController {
 			def json=[:]
 			json["id"] = it.id
 			json["name"] = it.contactCorpName
+			json["contCorpLeader"] = it.contCorpLeader
+			json["cCorpLeaderDuty"] = it.cCorpLeaderDuty
+			json["contactCorpPhone"] = it.contactCorpPhone
+			json["contactCorpPost"] = it.contactCorpPost
+			json["contactCorpAddr"] = it.contactCorpAddr
 			_List << json
 		}
 		render _List as JSON

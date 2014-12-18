@@ -39,6 +39,10 @@ class BargainGoods {
 	@GridColumn(name="备注",colIdx=7)
 	String barGoodsRemark
 	
+	@GridColumn(name="操作",colIdx=8,width="80px",formatter="bargainGoods_action")
+	def bargainGoodsId(){
+		return id
+	}
 	
 	static belongsTo = [bargain:Bargain]
 	

@@ -52,7 +52,7 @@ class BargainService {
 	def getBargainGoodsListDataStore ={params,searchArgs->
 		Integer offset = (params.offset)?params.offset.toInteger():0
 		Integer max = (params.max)?params.max.toInteger():15
-		def propertyList = getAllBargainGoodsList(offset,max,params.Bargain,searchArgs)
+		def propertyList = getAllBargainGoodsList(offset,max,params.bargain,searchArgs)
 		def gridUtil = new GridUtil()
 		return gridUtil.buildDataList("id","title",propertyList,offset)
 	}

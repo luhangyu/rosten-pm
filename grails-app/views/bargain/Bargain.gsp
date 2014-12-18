@@ -258,12 +258,67 @@
 					switch(type){
 					case "BargainVendorCorpName":
 						var corpName = registry.byId("barVendorCorp").get("value");
-						rosten.selectBaseSelect("单位选择","${createLink(controller:'baseinfor',action:'getContactCorpSelect',params:[companyId:company?.id])}",false,"barVendorCorp","barVendorCorpId",corpName);
+						var dialog = rosten.selectBaseDialog("单位选择","${createLink(controller:'baseinfor',action:'getContactCorpSelect',params:[companyId:company?.id])}",false,"barVendorCorp","barVendorCorpId",corpName);
+						dialog.callback = function(data){
+							if(data.length>0){
+								var dealId = data[0].id
+								/*
+								 * 特殊字段赋值
+								 */
+								dialog.getStoreDate(dealId,function(item){
+									registry.byId("barVendorCorpId").attr("value", dialog.chkboxStore.getValue(item, "id"));
+									registry.byId("barVendorCorp").attr("value", dialog.chkboxStore.getValue(item, "name"));
+									registry.byId("j_contCorpLeader").attr("value",dialog.chkboxStore.getValue(item, "contCorpLeader"));
+									registry.byId("j_cCorpLeaderDuty").attr("value", dialog.chkboxStore.getValue(item, "cCorpLeaderDuty"));
+									registry.byId("j_contactCorpPhone").attr("value", dialog.chkboxStore.getValue(item, "contactCorpPhone"));
+									registry.byId("j_contactCorpPost").attr("value", dialog.chkboxStore.getValue(item, "contactCorpPost"));
+									registry.byId("j_contactCorpAddr").attr("value", dialog.chkboxStore.getValue(item, "contactCorpAddr"));
+									
+								});
+								
+							}else{
+								registry.byId("barVendorCorp").attr("value","");
+								registry.byId("barVendorCorpId").attr("value", "");
+								registry.byId("j_contCorpLeader").attr("value", "");
+								registry.byId("j_cCorpLeaderDuty").attr("value", "");
+								registry.byId("j_contactCorpPhone").attr("value", "");
+								registry.byId("j_contactCorpPost").attr("value", "");
+								registry.byId("j_contactCorpAddr").attr("value", "");
+							}
+						};
 						break;
 
 					case "BargainPurchaserCorpName":
 						var corpName = registry.byId("barPurchaserCorp").get("value");
-						rosten.selectBaseSelect("单位选择","${createLink(controller:'baseinfor',action:'getContactCorpSelect',params:[companyId:company?.id])}",false,"barPurchaserCorp","barPurchaserCorpId",corpName);
+						var dialog = rosten.selectBaseDialog("单位选择","${createLink(controller:'baseinfor',action:'getContactCorpSelect',params:[companyId:company?.id])}",false,"barPurchaserCorp","barPurchaserCorpId",corpName);
+						dialog.callback = function(data){
+							if(data.length>0){
+								var dealId = data[0].id
+								/*
+								 * 特殊字段赋值
+								 */
+								dialog.getStoreDate(dealId,function(item){
+									registry.byId("barPurchaserCorpId").attr("value", dialog.chkboxStore.getValue(item, "id"));
+									registry.byId("barPurchaserCorp").attr("value", dialog.chkboxStore.getValue(item, "name"));
+									registry.byId("y_contCorpLeader").attr("value",dialog.chkboxStore.getValue(item, "contCorpLeader"));
+									registry.byId("y_cCorpLeaderDuty").attr("value", dialog.chkboxStore.getValue(item, "cCorpLeaderDuty"));
+									registry.byId("y_contactCorpPhone").attr("value", dialog.chkboxStore.getValue(item, "contactCorpPhone"));
+									registry.byId("y_contactCorpPost").attr("value", dialog.chkboxStore.getValue(item, "contactCorpPost"));
+									registry.byId("y_contactCorpAddr").attr("value", dialog.chkboxStore.getValue(item, "contactCorpAddr"));
+									
+								});
+								
+							}else{
+								registry.byId("barPurchaserCorp").attr("value","");
+								registry.byId("barPurchaserCorpId").attr("value", "");
+								registry.byId("y_contCorpLeader").attr("value", "");
+								registry.byId("y_cCorpLeaderDuty").attr("value", "");
+								registry.byId("y_contactCorpPhone").attr("value", "");
+								registry.byId("y_contactCorpPost").attr("value", "");
+								registry.byId("y_contactCorpAddr").attr("value", "");
+							}
+						};
+
 						break;	
 					}
 					
@@ -392,14 +447,14 @@
 										<tr>
 						<td ><div align="right">法人：</div></td>
 					    <td >
-					    	<input data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='trim:true,
+					    	<input id="j_contCorpLeader" data-dojo-type="dijit/form/ValidationTextBox" data-dojo-props='trim:true,
 					    			placeHolder:"系统自动赋值",
 									value:"${bargain?.barVendorCorp?.contCorpLeader}"
 			                '/>
 					    </td>
 					    <td ><div align="right">法人职务：</div></td>
 					    <td >
-					    	<input data-dojo-type="dijit/form/ValidationTextBox" 
+					    	<input id="j_cCorpLeaderDuty" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,placeHolder:"系统自动赋值",
 									value:"${bargain?.barVendorCorp?.cCorpLeaderDuty}"
 			                '/>
@@ -408,14 +463,14 @@
 					<tr>
 						<td ><div align="right">电话：</div></td>
 					    <td >
-					    	<input  data-dojo-type="dijit/form/ValidationTextBox" 
+					    	<input  id="j_contactCorpPhone" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,placeHolder:"系统自动赋值",
 									value:"${bargain?.barVendorCorp?.contactCorpPhone}"
 			                '/>
 					    </td>
 					    <td ><div align="right">邮编：</div></td>
 					    <td >
-					    	<input  data-dojo-type="dijit/form/ValidationTextBox" 
+					    	<input  id="j_contactCorpPost" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,placeHolder:"系统自动赋值",
 									value:"${bargain?.barVendorCorp?.contactCorpPost}"
 			                '/>
@@ -424,7 +479,7 @@
 					<tr>
 						<td ><div align="right">地址：</div></td>
 					 	 <td colspan=3>
-					    	<input  data-dojo-type="dijit/form/ValidationTextBox" 
+					    	<input  id="j_contactCorpAddr" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,placeHolder:"系统自动赋值",style:{width:"550px"},
 									value:"${bargain?.barVendorCorp?.contactCorpAddr}"
 			                '/>
@@ -466,14 +521,14 @@
 					<tr>
 						<td ><div align="right">法人：</div></td>
 					    <td >
-					    	<input  data-dojo-type="dijit/form/ValidationTextBox" 
+					    	<input id="y_contCorpLeader"  data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,placeHolder:"系统自动赋值",
 									value:"${bargain?.barPurchaserCorp?.contCorpLeader}"
 			                '/>
 					    </td>
 					    <td ><div align="right">法人职务：</div></td>
 					    <td >
-					    	<input   data-dojo-type="dijit/form/ValidationTextBox" 
+					    	<input  id="y_cCorpLeaderDuty" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,placeHolder:"系统自动赋值",
 									value:"${bargain?.barPurchaserCorp?.cCorpLeaderDuty}"
 			                '/>
@@ -482,14 +537,14 @@
 					<tr>
 						<td ><div align="right">电话：</div></td>
 					    <td >
-					    	<input  data-dojo-type="dijit/form/ValidationTextBox" 
+					    	<input id="y_contactCorpPhone" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,placeHolder:"系统自动赋值",
 									value:"${bargain?.barPurchaserCorp?.contactCorpPhone}"
 			                '/>
 					    </td>
 					    <td ><div align="right">邮编：</div></td>
 					    <td >
-					    	<input   data-dojo-type="dijit/form/ValidationTextBox" 
+					    	<input id="y_contactCorpPost"  data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,placeHolder:"系统自动赋值",
 									value:"${bargain?.barPurchaserCorp?.contactCorpPost}"
 			                '/>
@@ -498,7 +553,7 @@
 					<tr>
 						<td ><div align="right">地址：</div></td>
 					    <td colspan=3>
-					    	<input  data-dojo-type="dijit/form/ValidationTextBox" 
+					    	<input id="y_contactCorpAddr" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,placeHolder:"系统自动赋值",style:{width:"550px"},
 									value:"${bargain?.barPurchaserCorp?.contactCorpAddr}"
 			                '/>
@@ -512,7 +567,8 @@
 			</div>
 		
 		
-			<div data-dojo-type="rosten/widget/TitlePane" data-dojo-id="bargainGoodsTitlePane" data-dojo-props='"class":"rostenTitleGrid",style:{display:"none"},title:"采购货物明细",toggleable:false,_moreClick:bargainGoods_addItem,moreText:"<span style=\"color:#108ac6\">增加</span>",marginBottom:"2px"'>
+			<div data-dojo-type="rosten/widget/TitlePane" data-dojo-id="bargainGoodsTitlePane" 
+				data-dojo-props='"class":"rostenTitleGrid",<g:if test="${bargain?.bargainType!="采购合同"}">style:{display:"none"},</g:if>title:"采购货物明细",toggleable:false,_moreClick:bargainGoods_addItem,moreText:"<span style=\"color:#108ac6\">增加</span>",marginBottom:"2px"'>
             	<div data-dojo-type="rosten/widget/RostenGrid" id="bargainGoodsGrid" data-dojo-id="bargainGoodsGrid"
 					data-dojo-props='imgSrc:"${resource(dir:'images/rosten/share',file:'wait.gif')}",showPageControl:false,url:"${createLink(controller:'bargain',action:'bargainGoodsGrid',id:bargain?.id)}"'></div>             	
             	
