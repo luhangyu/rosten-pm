@@ -90,16 +90,16 @@
 					<tr>
 					    <td width="120px"><div align="right"><span style="color:red">*&nbsp;</span>供应商名称：</div></td>
 					   <td width="250px">
-					    	<input id="supplierName" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"supplierName",
-									value:"${supplier?.supplierName}"
+					    	<input id="suppName" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,required:true,name:"suppName",
+									value:"${supplier?.suppName}"
 			                '/>
 					    </td>
 					    <td width="120px"><div align="right">税务登记号：</div></td>
 					    <td width="250px">
-					    	<input id="supplierTax" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='name:"supplierTax",trim:true,
-									value:"${supplier?.supplierTax}"
+					    	<input id="suppTax" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='name:"suppTax",trim:true,
+									value:"${supplier?.suppTax}"
 			                '/>
 					    </td>
 					</tr>
@@ -107,16 +107,16 @@
 					<tr>
 					    <td><div align="right">法人：</div></td>
 					    <td>
-					    	<input id="supplierLealPerson" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='name:"supplierLealPerson",trim:true,
-									value:"${supplier?.supplierLealPerson}"
+					    	<input id="suppLeader" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='name:"suppLeader",trim:true,
+									value:"${supplier?.suppLeader}"
 			                '/>
 					    </td>
 					     <td><div align="right">法人职务：</div></td>
 					    <td>
-					    	<input id="supplierLealPersonDuty" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='name:"supplierLealPersonDuty",trim:true,
-									value:"${supplier?.supplierLealPersonDuty}"
+					    	<input id="suppLeaderDuty" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='name:"suppLeaderDuty",trim:true,
+									value:"${supplier?.suppLeaderDuty}"
 			                '/>
 					    </td>
 					</tr>
@@ -124,16 +124,16 @@
 					<tr>
 					    <td><div align="right">联系电话：</div></td>
 					    <td >
-					    	<input id="supplierPhone" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='name:"supplierPhone",trim:true,
-									value:"${supplier?.supplierPhone}"
+					    	<input id="suppPhone" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='name:"suppPhone",trim:true,
+									value:"${supplier?.suppPhone}"
 			                '/>
 					    </td>
 					    <td><div align="right">传真：</div></td>
 					    <td >
-					    	<input id="supplierFax" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='name:"supplierFax",trim:true,
-									value:"${supplier?.supplierFax}"
+					    	<input id="suppFax" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='name:"suppFax",trim:true,
+									value:"${supplier?.suppFax}"
 			                '/>
 					    </td>
 					</tr>
@@ -141,60 +141,60 @@
 					<tr>
 					    <td><div align="right">地址：</div></td>
 					    <td colspan="3">
-					    	<input id="supplierAddress" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='name:"supplierAddress",trim:true,style:"width:550px",
-									value:"${supplier?.supplierAddress}"
+					    	<input id="suppAddress" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='name:"suppAddress",trim:true,style:"width:550px",
+									value:"${supplier?.suppAddress}"
 			                '/>
 					    </td>
 					</tr>
 						<tr>
 					     <td><div align="right">邮编：</div></td>
 					    <td >
-					    	<input id="supplierPost" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='name:"supplierPost",trim:true,
-									value:"${supplier?.supplierPost}"
+					    	<input id="suppPost" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='name:"suppPost",trim:true,
+									value:"${supplier?.suppPost}"
 			                '/>
 					    </td>
 					</tr>
 						<tr>
 					    <td><div align="right">网址：</div></td>
 					    <td >
-					    	<input id="supplierWebSite" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='name:"supplierWebSite",trim:true,
-									value:"${supplier?.supplierWebSite}"
+					    	<input id="suppWebSite" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='name:"suppWebSite",trim:true,
+									value:"${supplier?.suppWebSite}"
 			                '/>
 					    </td>
 					    <td><div align="right">电子邮箱：</div></td>
 					    <td >
-					    	<input id="supplierEMail" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='name:"supplierEMail",trim:true,
-									value:"${supplier?.supplierEMail}"
+					    	<input id="suppEMail" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='name:"suppEMail",trim:true,
+									value:"${supplier?.suppEMail}"
 			                '/>
 					    </td>
 					</tr>
 						<tr>
 					    <td><div align="right">供应商评分：</div></td>
 					    <td >
-					    	<input id="supplierGrade" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='name:"supplierGrade",trim:true,
-									value:"${supplier?.supplierGrade}"
+					    	<input id="suppGrade" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='name:"suppGrade",trim:true,
+									value:"${supplier?.suppGrade}"
 			                '/>
 					    </td>
 					    <td><div align="right">助记码：</div></td>
 					    <td >
-					    	<input id="supplierCode" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='name:"supplierCode",trim:true,
-									value:"${supplier?.supplierCode}"
+					    	<input id="suppCode" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='name:"suppCode",trim:true,
+									value:"${supplier?.suppCode}"
 			                '/>
 					    </td>
 					</tr>
 					<tr>
 					    <td><div align="right">备注：</div></td>
 					    <td  colspan=3>
-					    	<textarea id="supplierRemark" data-dojo-type="dijit/form/SimpleTextarea" 
-    							data-dojo-props='name:"supplierRemark","class":"input",
+					    	<textarea id="suppRemark" data-dojo-type="dijit/form/SimpleTextarea" 
+    							data-dojo-props='name:"suppRemark","class":"input",
                                		style:{width:"550px"},rows:"2",
-                               		trim:true,value:"${supplier?.supplierRemark}"
+                               		trim:true,value:"${supplier?.suppRemark}"
                            '>
     						</textarea>
 					    </td>
@@ -210,25 +210,25 @@
 					<tr>
 					    <td width="120px"><div align="right"><span style="color:red">*&nbsp;</span>户主：</div></td>
 					   <td width="250px">
-					    	<input id="supplierBankAccountMaster" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"supplierBankAccountMaster",
-									value:"${supplier?.supplierBankAccountMaster}"
+					    	<input id="suppBankAccMaster" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,required:true,name:"suppBankAccMaster",
+									value:"${supplier?.suppBankAccMaster}"
 			                '/>
 					    </td>
 					    <td width="120px"><div align="right">开户行：</div></td>
 					    <td width="250px">
-					    	<input id="supplierBankAccountBank" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='name:"supplierBankAccountBank",trim:true,
-									value:"${supplier?.supplierBankAccountBank}"
+					    	<input id="suppBankAccBank" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='name:"suppBankAccBank",trim:true,
+									value:"${supplier?.suppBankAccBank}"
 			                '/>
 					    </td>
 					</tr>
 					<tr>
 					    <td width="120px"><div align="right"><span style="color:red">*&nbsp;</span>账号：</div></td>
 					   <td width="250px">
-					    	<input id="supplierBankAccountNo" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"supplierBankAccountNo",
-									value:"${supplier?.supplierBankAccountNo}"
+					    	<input id="suppBankAccNo" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,required:true,name:"suppBankAccNo",
+									value:"${supplier?.suppBankAccNo}"
 			                '/>
 					    </td>
 					  

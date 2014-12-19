@@ -10,7 +10,7 @@ class Supplier {
 	
 	//单位名称
 	@GridColumn(name="客户名称",colIdx=1,formatter="supplier_formatTopic")
-	String supplierName
+	String suppName
 	
 	
 	//账号

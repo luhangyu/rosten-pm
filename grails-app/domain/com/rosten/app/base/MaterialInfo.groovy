@@ -22,7 +22,7 @@ class MaterialInfo {
 	
 	//采购材料单位
 	@GridColumn(name="材料采购单位",colIdx=3)
-	String matInfoPurchaseUnit
+	String matInfoPurUnit
 	
 	//换算数量
 	@GridColumn(name="换算数量",colIdx=3)
@@ -46,7 +46,6 @@ class MaterialInfo {
 	
 	//零售价
 	double mInfoRPrice
-	
 	//底线价
 	double mInfoLowPrice
 	
