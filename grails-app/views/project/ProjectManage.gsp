@@ -90,9 +90,9 @@
 					<tr>
 					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>项目名称：</div></td>
 					    <td width="250">
-					    	<input id="projectName" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"projectName",
-									value:"${projectManage?.projectName}"
+					    	<input id="projName" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,required:true,name:"projName",
+									value:"${projectManage?.projName}"
 			                '/>
 					    </td>
 						<td width="120"><div align="right"><span style="color:red">*&nbsp;</span>项目编号：</div></td>
