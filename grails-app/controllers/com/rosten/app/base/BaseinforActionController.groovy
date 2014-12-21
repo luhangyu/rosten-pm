@@ -150,21 +150,21 @@ class BaseinforActionController {
 	}
 	
 	
-	//工种分类141205
-	def workerTypeForm ={
+	//141220物料单位
+	def materialUnitForm ={
 		def webPath = request.getContextPath() + "/"
 		def actionList = []
-		def strname = "workerType"
+		def strname = "materialUnit"
 		actionList << createAction("返回",webPath + imgPath + "quit_1.gif","page_quit")
 		actionList << createAction("保存",webPath +imgPath + "Save.gif",strname + "_save")
 		render actionList as JSON
 	}
-	def workerTypeView ={
+	def materialUnitView ={
 		def actionList =[]
 		def user = User.get(params.userId)
-		def strname = "workerType"
+		def strname = "materialUnit"
 		actionList << createAction("退出",imgPath + "quit_1.gif","returnToMain")
-		actionList << createAction("新增工种",imgPath + "add.png","add_"+ strname)
+		actionList << createAction("新增",imgPath + "add.png","add_"+ strname)
 		
 		if("admin".equals(user.getUserType()) || user.getAllRolesValue().contains("系统管理员")){
 			actionList << createAction("删除",imgPath + "delete.png","delete_" + strname)

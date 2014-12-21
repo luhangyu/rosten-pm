@@ -258,33 +258,33 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general", "rosten/k
 	
 	//------------------------------------------4
 	//工种
-	workerType_formatTopic = function(value,rowIndex){
-		return "<a href=\"javascript:workerType_onMessageOpen(" + rowIndex + ");\">" + value + "</a>";
+	materialUnit_formatTopic = function(value,rowIndex){
+		return "<a href=\"javascript:materialUnit_onMessageOpen(" + rowIndex + ");\">" + value + "</a>";
 	};
-	workerType_onMessageOpen = function(rowIndex){
+	materialUnit_onMessageOpen = function(rowIndex){
         var unid = rosten.kernel.getGridItemValue(rowIndex,"id");
         var userid = rosten.kernel.getUserInforByKey("idnumber");
 		var companyId = rosten.kernel.getUserInforByKey("companyid");
-		rosten.openNewWindow("workerType", rosten.webPath + "/baseinfor/workerTypeShow/" + unid + "?userid=" + userid + "&companyId=" + companyId);
+		rosten.openNewWindow("materialUnit", rosten.webPath + "/baseinfor/materialUnitShow/" + unid + "?userid=" + userid + "&companyId=" + companyId);
 		rosten.kernel.getGrid().clearSelected();
 	};
-	add_workerType = function() {
+	add_materialUnit = function() {
 		var userid = rosten.kernel.getUserInforByKey("idnumber");
         var companyId = rosten.kernel.getUserInforByKey("companyid");
-        rosten.openNewWindow("workerType", rosten.webPath + "/baseinfor/workerTypeAdd?companyId=" + companyId + "&userid=" + userid);
+        rosten.openNewWindow("materialUnit", rosten.webPath + "/baseinfor/materialUnitAdd?companyId=" + companyId + "&userid=" + userid);
     };
-	change_workerType = function() {
+	change_materialUnit = function() {
 		var unid = rosten.getGridUnid("single");
 		if (unid == "")
 			return;
 		var userid = rosten.kernel.getUserInforByKey("idnumber");
 		var companyId = rosten.kernel.getUserInforByKey("companyid");
-		rosten.openNewWindow("workerType", rosten.webPath + "/baseinfor/workerTypeShow/" + unid + "?userid=" + userid + "&companyId=" + companyId);
+		rosten.openNewWindow("materialUnit", rosten.webPath + "/baseinfor/materialUnitShow/" + unid + "?userid=" + userid + "&companyId=" + companyId);
 	};
-	read_workerType = function() {
-		change_workerType();
+	read_materialUnit = function() {
+		change_materialUnit();
 	};
-	delete_workerType = function() {
+	delete_materialUnit = function() {
 		var _1 = rosten.confirm("删除后将无法恢复，是否继续?");
 		_1.callback = function() {
 			var unids = rosten.getGridUnid("multi");
@@ -292,7 +292,7 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general", "rosten/k
 				return;
 			var content = {};
 			content.id = unids;
-			rosten.readNoTime(rosten.webPath + "/baseinfor/workerTypeDelete", content,rosten.deleteCallback);
+			rosten.readNoTime(rosten.webPath + "/baseinfor/materialUnitDelete", content,rosten.deleteCallback);
 		};
 	};
 	//-------------------------------------------4
@@ -356,11 +356,11 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general", "rosten/k
 			};
 			rosten.kernel.addRightContent(naviJson);
 			break;	
-		case "workerType":
+		case "materialUnit":
 			var naviJson = {
 				identifier : oString,
-				actionBarSrc : rosten.webPath + "/baseinforAction/workerTypeView?userId=" + userid,
-				gridSrc : rosten.webPath + "/baseinfor/workerTypeGrid?companyId=" + companyId + "&userId=" + userid
+				actionBarSrc : rosten.webPath + "/baseinforAction/materialUnitView?userId=" + userid,
+				gridSrc : rosten.webPath + "/baseinfor/materialUnitGrid?companyId=" + companyId + "&userId=" + userid
 			};
 			rosten.kernel.addRightContent(naviJson);
 			break;		

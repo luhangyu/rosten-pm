@@ -127,11 +127,15 @@ class BaseinforController {
 		render json as JSON
 	}
 	def companyInforGrid ={
+		
+		
 		def model=[:]
 		def company = Company.get(params.companyId)
 		if(params.refreshHeader){
 			model["gridHeader"] = baseinforService.getCompanyInforListLayout()
 		}
+		
+		
 		
 		//增加查询条件
 		def searchArgs =[:]
@@ -617,35 +621,35 @@ class BaseinforController {
 	//--------------------------------------------------------------------------------------------------
 	
 	
-	//2014-12-05 xkf-----工种-------------------------------------------------------------------
-	def workerTypeAdd ={
-		redirect(action:"WorkerTypeShow",params:params)
+	//2014-12-20 xkf-----物料单位-------------------------------------------------------------------
+	def materialUnitAdd ={
+		redirect(action:"materialUnitShow",params:params)
 	}
-	def workerTypeShow ={
+	def materialUnitShow ={
 		def model =[:]
 		def currentUser = springSecurityService.getCurrentUser()
 		model["company"] = Company.get(params.companyId)
 		
 		def entity
 		if(params.id){
-			entity = WorkerType.get(params.id)
+			entity = MaterialUnit.get(params.id)
 		}else{
-			entity = new WorkerType()
+			entity = new MaterialUnit()
 		}
-		model["workerType"] = entity
+		model["materialUnit"] = entity
 		model["user"] = currentUser
 		
 		FieldAcl fa = new FieldAcl()
 		model["fieldAcl"] = fa
-		render(view:'/baseinfor/WorkerType',model:model)
+		render(view:'/baseinfor/MaterialUnit',model:model)
 	}
-	def workerTypeSave ={
+	def materialUnitSave ={
 		def model=[:]
 		
 		def company = Company.get(params.companyId)
-		def entity = new WorkerType()
+		def entity = new MaterialUnit()
 		if(params.id && !"".equals(params.id)){
-			entity = WorkerType.get(params.id)
+			entity = MaterialUnit.get(params.id)
 		}else{
 			entity.company = company
 		}
@@ -663,12 +667,12 @@ class BaseinforController {
 		}
 		render model as JSON
 	}
-	def workerTypeDelete ={
+	def materialUnitDelete ={
 		def ids = params.id.split(",")
 		def json
 		try{
 			ids.each{
-				def entity = WorkerType.get(it)
+				def entity = MaterialUnit.get(it)
 				if(entity){
 					entity.delete(flush: true)
 				}
@@ -679,11 +683,11 @@ class BaseinforController {
 		}
 		render json as JSON
 	}
-	def workerTypeGrid ={
+	def materialUnitGrid ={
 		def model=[:]
 		def company = Company.get(params.companyId)
 		if(params.refreshHeader){
-			model["gridHeader"] = baseinforService.getWorkerTypeListLayout()
+			model["gridHeader"] = baseinforService.getMaterialUnitListLayout()
 		}
 		
 		//增加查询条件
@@ -697,11 +701,11 @@ class BaseinforController {
 			args["offset"] = (nowPage-1) * perPageNum
 			args["max"] = perPageNum
 			args["company"] = company
-			model["gridData"] = baseinforService.getWorkerTypeListDataStore(args,searchArgs)
+			model["gridData"] = baseinforService.getMaterialUnitListDataStore(args,searchArgs)
 			
 		}
 		if(params.refreshPageControl){
-			def total = baseinforService.getWorkerTypeCount(company,searchArgs)
+			def total = baseinforService.getMaterialUnitCount(company,searchArgs)
 			model["pageControl"] = ["total":total.toString()]
 		}
 		render model as JSON

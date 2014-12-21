@@ -245,21 +245,21 @@ class BaseinforService {
 	
 	
 	//----------------------------------------------------4
-	//工种
-	def getWorkerTypeListLayout ={
+	//物料单位 141220
+	def getMaterialUnitListLayout ={
 		def gridUtil = new GridUtil()
-		return gridUtil.buildLayoutJSON(new WorkerType())
+		return gridUtil.buildLayoutJSON(new MaterialUnit())
 	}
-	def getWorkerTypeListDataStore ={params,searchArgs->
+	def getMaterialUnitListDataStore ={params,searchArgs->
 		Integer offset = (params.offset)?params.offset.toInteger():0
 		Integer max = (params.max)?params.max.toInteger():15
-		def propertyList = getAllWorkerType(offset,max,params.company,searchArgs)
+		def propertyList = getAllMaterialUnit(offset,max,params.company,searchArgs)
 
 		def gridUtil = new GridUtil()
 		return gridUtil.buildDataList("id","title",propertyList,offset)
 	}
-	private def getAllWorkerType={offset,max,company,searchArgs->
-		def c = WorkerType.createCriteria()
+	private def getAllMaterialUnit={offset,max,company,searchArgs->
+		def c = MaterialUnit.createCriteria()
 		def pa=[max:max,offset:offset]
 		def query = {
 			eq("company",company)
@@ -271,8 +271,8 @@ class BaseinforService {
 		}
 		return c.list(pa,query)
 	}
-	def getWorkerTypeCount ={company,searchArgs->
-		def c = WorkerType.createCriteria()
+	def getMaterialUnitCount ={company,searchArgs->
+		def c = MaterialUnit.createCriteria()
 		def query = {
 			eq("company",company)
 			searchArgs.each{k,v->
