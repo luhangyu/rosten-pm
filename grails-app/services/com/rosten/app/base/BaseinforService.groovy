@@ -205,6 +205,19 @@ class BaseinforService {
 	
 	
 	//----------------------------------------------------3
+	def deleteMatType ={matType->
+		for(def index=0;matType.children.size();index++){
+			deleteMatType(matType.children[index])
+		}
+		def p = matType.parent
+		if(p){
+			p.removeFromChildren(matType)
+			p.save(flush:true)
+		}
+		matType.refresh()
+		matType.delete(flush:true)
+	}
+
 	//材料类型
 	def getMaterialTypeListLayout ={
 		def gridUtil = new GridUtil()
@@ -283,4 +296,41 @@ class BaseinforService {
 	}
 	//----------------------------------------------------4
 	
+	//工种
+	def getWorkerTypeListLayout ={
+		def gridUtil = new GridUtil()
+		return gridUtil.buildLayoutJSON(new WorkerType())
+	}
+	def getWorkerTypeListDataStore ={params,searchArgs->
+		Integer offset = (params.offset)?params.offset.toInteger():0
+		Integer max = (params.max)?params.max.toInteger():15
+		def propertyList = getAllWorkerType(offset,max,params.company,searchArgs)
+
+		def gridUtil = new GridUtil()
+		return gridUtil.buildDataList("id","title",propertyList,offset)
+	}
+	private def getAllWorkerType={offset,max,company,searchArgs->
+		def c = WorkerType.createCriteria()
+		def pa=[max:max,offset:offset]
+		def query = {
+			eq("company",company)
+			order("createdDate", "desc")
+			
+			searchArgs.each{k,v->
+				like(k,"%" + v + "%")
+			}
+		}
+		return c.list(pa,query)
+	}
+	def getWorkerTypeCount ={company,searchArgs->
+		def c = WorkerType.createCriteria()
+		def query = {
+			eq("company",company)
+			searchArgs.each{k,v->
+				like(k,"%" + v + "%")
+			}
+		}
+		return c.count(query)
+	}
+	//----------------------------------------------------5
 }

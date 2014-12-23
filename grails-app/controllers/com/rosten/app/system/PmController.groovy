@@ -20,10 +20,10 @@ class PmController {
 			def modelCodes = ["system","workflow","public","sms","question","personconfig"]
 			Model.findAllByCompany(company).each{
 				if(!modelCodes.contains(it.modelCode)){
-//					FlowBusiness.findAllByModel(it).each{item->
-//						item.model = null
-//						item.save()
-//					}
+					FlowBusiness.findAllByModel(it).each{item->
+						item.model = null
+						item.save()
+					}
 					it.delete()
 				}
 			}
@@ -50,28 +50,28 @@ class PmController {
 			model.addToResources(resource)
 			
 			resource = new Resource()
-			resource.resourceName = "往来单位管理"
+			resource.resourceName = "往来单位"
 			resource.url = "contactCorp"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"
 			resource.serialNo = 3
 			model.addToResources(resource)
 			
 			resource = new Resource()
-			resource.resourceName = "供应商管理"
+			resource.resourceName = "供应商"
 			resource.url = "supplier"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"
 			resource.serialNo = 4
 			model.addToResources(resource)
 			
 			resource = new Resource()
-			resource.resourceName = "材料分类管理"
+			resource.resourceName = "材料分类"
 			resource.url = "materialType"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"
 			resource.serialNo = 5
 			model.addToResources(resource)
 			
 			resource = new Resource()
-			resource.resourceName = "材料信息管理"
+			resource.resourceName = "材料信息"
 			resource.url = "materialInfo"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"
 			resource.serialNo = 6

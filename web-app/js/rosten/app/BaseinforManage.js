@@ -255,9 +255,47 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general", "rosten/k
 	};
 	//-------------------------------------------3
 	
+	//工种
+	workerType_formatTopic = function(value,rowIndex){
+		return "<a href=\"javascript:workerType_onMessageOpen(" + rowIndex + ");\">" + value + "</a>";
+	};
+	workerType_onMessageOpen = function(rowIndex){
+        var unid = rosten.kernel.getGridItemValue(rowIndex,"id");
+        var userid = rosten.kernel.getUserInforByKey("idnumber");
+		var companyId = rosten.kernel.getUserInforByKey("companyid");
+		rosten.openNewWindow("workerType", rosten.webPath + "/baseinfor/workerTypeShow/" + unid + "?userid=" + userid + "&companyId=" + companyId);
+		rosten.kernel.getGrid().clearSelected();
+	};
+	add_workerType = function() {
+		var userid = rosten.kernel.getUserInforByKey("idnumber");
+        var companyId = rosten.kernel.getUserInforByKey("companyid");
+        rosten.openNewWindow("workerType", rosten.webPath + "/baseinfor/workerTypeAdd?companyId=" + companyId + "&userid=" + userid);
+    };
+	change_workerType = function() {
+		var unid = rosten.getGridUnid("single");
+		if (unid == "")
+			return;
+		var userid = rosten.kernel.getUserInforByKey("idnumber");
+		var companyId = rosten.kernel.getUserInforByKey("companyid");
+		rosten.openNewWindow("workerType", rosten.webPath + "/baseinfor/workerTypeShow/" + unid + "?userid=" + userid + "&companyId=" + companyId);
+	};
+	read_workerType = function() {
+		change_workerType();
+	};
+	delete_workerType = function() {
+		var _1 = rosten.confirm("删除后将无法恢复，是否继续?");
+		_1.callback = function() {
+			var unids = rosten.getGridUnid("multi");
+			if (unids == "")
+				return;
+			var content = {};
+			content.id = unids;
+			rosten.readNoTime(rosten.webPath + "/baseinfor/workerTypeDelete", content,rosten.deleteCallback);
+		};
+	};
 	
 	//------------------------------------------4
-	//工种
+	//材料单位
 	materialUnit_formatTopic = function(value,rowIndex){
 		return "<a href=\"javascript:materialUnit_onMessageOpen(" + rowIndex + ");\">" + value + "</a>";
 	};
@@ -341,13 +379,9 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general", "rosten/k
 			rosten.kernel.addRightContent(naviJson);
 			break;	
 		case "materialType":
-			var naviJson = {
-				identifier : oString,
-				actionBarSrc : rosten.webPath + "/baseinforAction/materialTypeView?userId=" + userid,
-				gridSrc : rosten.webPath + "/baseinfor/materialTypeGrid?companyId=" + companyId + "&userId=" + userid
-			};
-			rosten.kernel.addRightContent(naviJson);
-			break;	
+			var companyId = rosten.kernel.getUserInforByKey("companyid");
+            rosten.kernel.setHref(rosten.webPath + "/baseinfor/materialType?companyId=" + companyId, oString);
+            break;
 		case "materialInfo":
 			var naviJson = {
 				identifier : oString,

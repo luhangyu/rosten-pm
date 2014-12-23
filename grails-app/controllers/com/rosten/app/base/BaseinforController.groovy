@@ -527,37 +527,168 @@ class BaseinforController {
 	}
 	//--------------------------------------------------------------------------------------------------
 	
-	
-	
-	//2014-12-05 xkf-----材料类型-------------------------------------------------------------------
-	def materialTypeAdd ={
-		redirect(action:"MaterialTypeShow",params:params)
+	//2014-12-19 lhy-----修改为树形展示
+	def materialType = {
+		def model =[:]
+		model["company"] = Company.get(params.companyId)
+		render(view:'/baseinfor/materialType',model:model)
 	}
-	def materialTypeShow ={
+	def matTypeCreate ={
+		def model =[:]
+		model["parentId"] = params.parentId
+		model["companyId"] = params.companyId
+		model["materialType"] = new MaterialType()
+		
+		//增加对是否二级单位进行控制
+		def parent = MaterialType.get(params.parentId)
+		if(parent){
+			//2014-12-13---增加更换部门功能
+			model["materialType"].parent = parent
+		}
+		
+		render(view:'/baseinfor/materialType_edit',model:model)
+	}
+	def matTypeShow ={
+		def model =[:]
+		model["materialType"] = MaterialType.get(params.id)
+		render(view:'/baseinfor/materialType_edit',model:model)
+	}
+	def matTypeSave ={
+		def entity
+		if(params.id){
+			entity = MaterialType.get(params.id)
+			entity.properties = params
+			entity.clearErrors()
+			
+			//判断部门名称是否已经存在
+			def _entity = MaterialType.findByCompanyAndMatTypeName(entity.company,params.matTypeName)
+			if(_entity && !params.id.equals(_entity.id)){
+				//已经存在
+				flash.message = "<"+params.matTypeName+">已经存在，请重新输入！"
+				render(view:'/baseinfor/materialType_edit',model:[materialType:entity,parentId:params.parentId,companyId:params.companyId])
+				return
+			}
+			
+			if(entity.save(flush:true)){
+				
+				//2014-12-13------增加更换部门功能-----------------------------------
+				if(params.parentId){
+					if(entity.parent && !params.parentId.equals(entity.parent.id)){
+						def oldParent = entity.parent
+						oldParent.removeFromChildren(entity)
+						oldParent.save()
+						
+						def parent = MaterialType.get(params.parentId)
+						parent.addToChildren(entity)
+						parent.save(flush:true)
+					}
+				}
+				//-------------------------------------------------------------
+				
+				flash.refreshTree = true;
+				flash.message = "'"+entity.matTypeName+"' 已成功保存！"
+				render(view:'/baseinfor/materialType_edit',model:[materialType:entity])
+			}else{
+				render(view:'/baseinfor/materialType_edit',model:[materialType:entity])
+			}
+		}else{
+			entity = new MaterialType()
+			entity.properties = params
+			entity.clearErrors()
+			
+			def company = Company.get(params.companyId)
+			
+			//判断部门名称是否已经存在
+			def _entity = MaterialType.findByCompanyAndMatTypeName(company,params.matTypeName)
+			if(_entity){
+				//已经存在
+				flash.message = "<"+params.matTypeName+">已经存在，请重新输入！"
+				render(view:'/baseinfor/materialType_edit',model:[materialType:entity,parentId:params.parentId,companyId:params.companyId])
+				return
+			}
+			
+			entity.company = company
+			entity.save(flush:true)
+			
+			if(params.parentId){
+				def parent = MaterialType.get(params.parentId)
+				parent.addToChildren(entity)
+				parent.save(flush:true)
+			}
+			
+			flash.refreshTree = true;
+			flash.message = "'"+entity.matTypeName+"' 已成功保存！"
+			render(view:'/baseinfor/materialType_edit',model:[materialType:entity])
+		}
+	}
+	def matTypeDelete ={
+		def ids = params.id.split(",")
+		def name
+		try{
+			ids.each{
+				def materialType = MaterialType.get(it)
+				if(materialType){
+					name = materialType.matTypeName
+					baseinforService.deleteMatType(materialType)
+				}
+			}
+		}catch(Exception e){
+			println e
+		}
+		render "<script type='text/javascript'>refreshObjTree()</script><h3>&nbsp;&nbsp;材料类型<"+name+">及其下级节点信息已删除！</h3>"
+	}
+	
+	def matTypeTreeDataStore ={
+		def company = Company.get(params.companyId)
+		def dataList = MaterialType.findAllByCompany(company,[sort: "serialNo", order: "asc"])
+		dataList.removeAll([null])
+		
+		def json = [identifier:'id',label:'name',items:[]]
+		dataList.each{
+			def sMap = ["id":it.id,"name":it.matTypeName,"parentId":it.parent?.id,"children":[]]
+			def childMap
+			it.getSortMatType().each{item->
+				if(null!=item){
+					childMap = ["_reference":item.id]
+					sMap.children += childMap
+				}
+			}
+			json.items+=sMap
+		}
+		render json as JSON
+	}
+	
+	//-----------------------------------------------------------------------------------------
+	
+	//2014-12-05 xkf-----工种-------------------------------------------------------------------
+	def workerTypeAdd ={
+		redirect(action:"WorkerTypeShow",params:params)
+	}
+	def workerTypeShow ={
 		def model =[:]
 		def currentUser = springSecurityService.getCurrentUser()
 		model["company"] = Company.get(params.companyId)
 		
 		def entity
 		if(params.id){
-			entity = MaterialType.get(params.id)
+			entity = WorkerType.get(params.id)
 		}else{
-			entity = new MaterialType()
+			entity = new WorkerType()
 		}
-		model["materialType"] = entity
+		model["workerType"] = entity
 		model["user"] = currentUser
 		
 		FieldAcl fa = new FieldAcl()
 		model["fieldAcl"] = fa
-		render(view:'/baseinfor/MaterialType',model:model)
+		render(view:'/baseinfor/WorkerType',model:model)
 	}
-	def materialTypeSave ={
+	def workerTypeSave ={
 		def model=[:]
 		
 		def company = Company.get(params.companyId)
-		def entity = new MaterialType()
+		def entity = new WorkerType()
 		if(params.id && !"".equals(params.id)){
-			entity = MaterialType.get(params.id)
+			entity = WorkerType.get(params.id)
 		}else{
 			entity.company = company
 		}
@@ -575,12 +706,12 @@ class BaseinforController {
 		}
 		render model as JSON
 	}
-	def materialTypeDelete ={
+	def workerTypeDelete ={
 		def ids = params.id.split(",")
 		def json
 		try{
 			ids.each{
-				def entity = MaterialType.get(it)
+				def entity = WorkerType.get(it)
 				if(entity){
 					entity.delete(flush: true)
 				}
@@ -591,11 +722,11 @@ class BaseinforController {
 		}
 		render json as JSON
 	}
-	def materialTypeGrid ={
+	def workerTypeGrid ={
 		def model=[:]
 		def company = Company.get(params.companyId)
 		if(params.refreshHeader){
-			model["gridHeader"] = baseinforService.getMaterialTypeListLayout()
+			model["gridHeader"] = baseinforService.getWorkerTypeListLayout()
 		}
 		
 		//增加查询条件
@@ -609,11 +740,11 @@ class BaseinforController {
 			args["offset"] = (nowPage-1) * perPageNum
 			args["max"] = perPageNum
 			args["company"] = company
-			model["gridData"] = baseinforService.getMaterialTypeListDataStore(args,searchArgs)
+			model["gridData"] = baseinforService.getWorkerTypeListDataStore(args,searchArgs)
 			
 		}
 		if(params.refreshPageControl){
-			def total = baseinforService.getMaterialTypeCount(company,searchArgs)
+			def total = baseinforService.getWorkerTypeCount(company,searchArgs)
 			model["pageControl"] = ["total":total.toString()]
 		}
 		render model as JSON

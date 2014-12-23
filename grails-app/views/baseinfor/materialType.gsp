@@ -2,138 +2,164 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="layout" content="rosten" />
     <title>材料类型</title>
-    <style type="text/css">
-    	.rosten .dsj_form table tr{
-    		height:30px;
-    		
-    	}
-    	body{
-			overflow:auto;
-		}
-    </style>
 	<script type="text/javascript">
-	require(["dojo/parser",
-		 		"dojo/_base/kernel",
-		 		"dijit/registry",
-		 		"dojo/dom",
-		 		"dojo/_base/lang",
-		 		"dijit/layout/TabContainer",
-		 		"dijit/layout/ContentPane",
-		 		"dijit/form/ValidationTextBox",
-		 		"dijit/form/RadioButton",
-		 		"dijit/form/DateTextBox",
-		 		"dijit/form/SimpleTextarea",
-		 		"dijit/form/NumberTextBox",
-		 		"dijit/form/Button",
-		 		"dijit/form/Form",
-		     	"rosten/widget/ActionBar",
-		     	"rosten/widget/TitlePane",
-		     	"rosten/app/Application",
-		     	"rosten/kernel/behavior"],
-			function(parser,kernel,registry,dom,lang){
-				kernel.addOnLoad(function(){
-					rosten.init({webpath:"${request.getContextPath()}"});
-					rosten.cssinit();
-				});
-				materialType_save = function(object){
-					var formWidget = registry.byId("rosten_form");
-					if(!formWidget.validate()){
-						rosten.alert("请正确填写相关信息！");
-						return;
-					}
-					var content = {};
-					//增加对多次单击的次数----2014-9-4
-					var buttonWidget = object.target;
-					rosten.toggleAction(buttonWidget,true);
-
-					rosten.readSync(rosten.webPath + "/baseinfor/materialTypeSave",content,function(data){
-						if(data.result=="true" || data.result == true){
-							rosten.alert("保存成功！").queryDlgClose= function(){
-								page_quit();
-							};
-						}else{
-							rosten.alert("保存失败!");
-						}
-						rosten.toggleAction(buttonWidget,false);
-					},function(error){
-						rosten.alert("系统错误，请通知管理员！");
-						rosten.toggleAction(buttonWidget,false);
-					},"rosten_form");
-					
-				};
-				page_quit = function(){
-					rosten.pagequit();
-				};
-
+		require([
+				"dojo/_base/kernel",
+				"dijit/registry",
+				"dojo/_base/connect",
+				"dijit/Menu",
+				"dijit/MenuItem",
+				"dojo/data/ItemFileReadStore",
+				"dijit/Tree",
+				"dijit/tree/ForestStoreModel",
+				"dijit/layout/BorderContainer",
+				"dojox/layout/ContentPane",
+				"dijit/form/SimpleTextarea",
+				"dijit/form/Button"
+			], function(kernel,registry,connect,Menu, MenuItem,ItemFileReadStore,Tree,ForestStoreModel){
 			
+			var obj_treenode;
+			treeOnLoad = function(){
+				var menu = registry.byId("obj_tree_menu");
+				var tree = registry.byId("obj_tree");
+				menu.bindDomNode(tree.domNode);
+
+				connect.connect(menu,"_openMyself",tree,function(e){
+					obj_treenode = registry.getEnclosingWidget(e.target);
+				});
+			}
+			kernel.addOnLoad(function(){
+				if(registry.byId("obj_tree_menu")) return;
+				var menu = new Menu({
+					id: 'obj_tree_menu',
+					selector: ".dijitTreeNode"
+				});
+				menu.addChild(new MenuItem({
+					label: "新建类型",
+					disabled:false,
+					iconClass:'docCreateIcon',
+					onClick:function() {createSubObj(obj_treenode)}
+				}));
+				menu.addChild(new MenuItem({
+					label: "编辑类型",
+					iconClass:"docOpenIcon",
+					disabled:false,
+					onClick:function(){editSubObj(obj_treenode)}
+				}));
+				menu.addChild(new MenuItem({
+					label: "删除类型",
+					iconClass:"docDeleteIcon",
+					disabled:false,
+					onClick:function(){deleteSubObj(obj_treenode)}
+				}));
+				
+			});
+			createSubObj = function(selectedTreeNode){
+				var w = registry.byId("objEditPane");
+				var href = "${createLink(controller:'baseinfor',action:'matTypeCreate')}";
+				href = href + "?companyId=${company?.id}";
+				if(!obj_treenode.item.root){
+					href = href + "&parentId="+obj_treenode.item.id;
+				}
+				w.attr("href",href);
+			}
+			editSubObj = function(selectedTreeNode){
+				if(!selectedTreeNode.item.root){
+					var w = registry.byId("objEditPane");
+					var tree = registry.byId("obj_tree");
+					
+					if(tree.model==null) var store = tree.store;
+					else store = tree.model.store;
+					
+					var href = "${createLink(controller:'baseinfor',action:'matTypeShow')}";
+					var href = href+"/"+selectedTreeNode.item.id;
+					w.attr("href",href);
+				}
+			}
+			deleteSubObj = function(selectedTreeNode){
+				var w = registry.byId("objEditPane");
+				var tree = registry.byId("obj_tree");
+				if(tree.model==null) var store = tree.store;
+				else store = tree.model.store;
+							
+				rosten.confirm("您是否将删除所选中的节点？").callback = function(){
+					var href = "${createLink(controller:'baseinfor',action:'matTypeDelete')}";
+					if(!selectedTreeNode.item.root){
+						href = href + "/"+selectedTreeNode.item.id;
+						w.attr("href",href);
+					}
+				}
+			}
+			refreshObjTree = function(){
+				var tree = registry.byId("obj_tree");
+				if(tree){
+					var store = new ItemFileReadStore({url:"${createLink(controller:'baseinfor',action:'matTypeTreeDataStore',params:[companyId:company?.id])}"});
+					tree.destroy();
+					var div = document.createElement("div");
+					var treeModel = new ForestStoreModel({ 
+				    	store: store, // the data store that this model connects to 
+				    	query: {parentId:null}, // filter multiple top level items 
+				    	rootLabel: "材料类型", 
+				    	childrenAttrs: ["children"] // children attributes used in data store. 
+					}); 
+					var tree = new Tree({
+						id:"obj_tree",
+						model: treeModel,
+						onClick:function(item){
+							if(item && !item.root){
+								var w = registry.byId("objEditPane");
+								var href = "${createLink(controller:'baseinfor',action:'matTypeShow')}";
+								var href = href+"/"+item.id;
+								w.attr("href",href);
+							}
+						},
+						onLoad:treeOnLoad,
+						autoExpand:true,
+						showRoot:true,
+						openOnClick:false,openOnDblClick:true},div);
+					var p = registry.byId("objTreePane");
+					p.domNode.appendChild(tree.domNode);
+				}
+			}
+			getItem = function(){
+				var tree = registry.byId('obj_tree');
+				if(tree.selectedItem){
+					if(tree.selectedItem != tree.model.root){
+						console.log(tree.selectedItem.name);
+					}else{
+						console.log("root 节点....");
+					}
+				}else{
+					rosten.alert("请选择节点");
+				}
+				
+			};
 		});
-    </script>
+	</script>
 </head>
 <body>
-<div class="rosten_action">
-	<div data-dojo-type="rosten/widget/ActionBar" data-dojo-id="rosten_actionBar" 
-		data-dojo-props='actionBarSrc:"${createLink(controller:'baseinforAction',action:'materialTypeForm',id:materialType?.id,params:[userid:user?.id])}"'>
-	</div>
-</div>
+	<g:set var="dataurl" scope="page"> ${createLink(controller:'baseinfor',action:'matTypeTreeDataStore',params:[companyId:company?.id])}</g:set>
+	<div data-dojo-id="treeDataStore" data-dojo-type="dojo/data/ItemFileReadStore" data-dojo-props='url:"${dataurl}"'></div>
 
-<div data-dojo-type="dijit/layout/TabContainer" data-dojo-props='persist:false, tabStrip:true,style:{width:"800px",margin:"0 auto"}' >
-	<div data-dojo-type="dijit/layout/ContentPane" title="基本信息" data-dojo-props=''>
-		<form id="rosten_form" data-dojo-type="dijit/form/Form" name="rosten_form" onsubmit="return false;" class="rosten_form" style="padding:0px">
-			<input  data-dojo-type="dijit/form/ValidationTextBox" id="id"  data-dojo-props='name:"id",style:{display:"none"},value:"${materialType?.id }"' />
-        	<input  data-dojo-type="dijit/form/ValidationTextBox" id="companyId" data-dojo-props='name:"companyId",style:{display:"none"},value:"${company?.id }"' />
-        	
-			<div data-dojo-type="rosten/widget/TitlePane" data-dojo-props='title:"材料类别信息",toggleable:false,moreText:"",marginBottom:"2px"'>
-				<table border="0" width="740" align="left">
-
-					<tr>
-					    <td width="120px"><div align="right"><span style="color:red">*&nbsp;</span>材料类型名称：</div></td>
-					   <td width="250px">
-					    	<input id="materialTypeName" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"materialTypeName",
-									value:"${materialType?.materialTypeName}"
-			                '/>
-					    </td>
-					    <td width="120px"><div align="right">父类型：</div></td>
-					    <td width="250px">
-					    	<input id="materialTypeParentName" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='name:"materialTypeParentName",trim:true,
-									value:"${materialType?.materialTypeParentName}"
-			                '/>
-					    </td>
-					</tr>
-
-					<tr>
-					    <td><div align="right">物料计量单位：</div></td>
-					    <td>
-					    	<input id="materialTypeBaseUnit" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='name:"materialTypeBaseUnit",trim:true,
-									value:"${materialType?.materialTypeBaseUnit}"
-			                '/>
-					    </td>
-					  
-					</tr>
-
-					
-					<tr>
-					    <td><div align="right">备注：</div></td>
-					    <td  colspan=3>
-					    	<textarea id="materialTypeRemark" data-dojo-type="dijit/form/SimpleTextarea" 
-    							data-dojo-props='name:"materialTypeRemark","class":"input",
-                               		style:{width:"550px"},rows:"2",
-                               		trim:true,value:"${materialType?.materialTypeRemark}"
-                           '>
-    						</textarea>
-					    </td>
-					</tr>
-					
-				</table>
-				<div style="clear:both;"></div>
+	<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='style:"height:100%;padding:0"'>
+		
+		<div id="objTreePane" data-dojo-type="dojox/layout/ContentPane" data-dojo-props="region:'leading',splitter:true,style:'width:260px'">
+			<div id="obj_tree" data-dojo-type="dijit.Tree" data-dojo-props='store:treeDataStore, query:{parentId:null},
+				showRoot:true,label: "材料类型",
+				autoExpand:true, onLoad:function(){treeOnLoad()}'>
+				<script type="dojo/method" data-dojo-event="onClick" data-dojo-args="item">
+					if(item && !item.root){
+						var w = dijit.byId("objEditPane");
+						var href = "${createLink(controller:'baseinfor',action:'matTypeShow')}";
+						var href = href+"/"+item.id;
+						w.attr("href",href);
+					}
+				</script>
 			</div>
-			
-			
-		</form>
+		</div>
+		<div id="objEditPane" data-dojo-type="dojox/layout/ContentPane" 
+			data-dojo-props="style:'padding:0px',renderStyles:true,region:'center'">
+		</div>
 	</div>
-</div>
 </body>
