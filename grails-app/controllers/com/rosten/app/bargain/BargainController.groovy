@@ -23,6 +23,7 @@ class BargainController {
 	def startService
 	
 	private def bargainStatus = ["新增","已结束"]
+	private def bargainType=["totalpackageBargain":"总包合同"]
 	
 	//合同<--start
 	def bargainAdd ={
@@ -349,7 +350,15 @@ class BargainController {
 		if(params.bargainNo && !"".equals(params.bargainNo)) searchArgs["bargainNo"] = params.bargainNo
 		if(params.bargainName && !"".equals(params.bargainName)) searchArgs["bargainName"] = params.bargainName
 		if(params.departName && !"".equals(params.departName)) searchArgs["currentDepart"] = params.departName
-		
+		if(params.type && !"".equals(params.type)){
+			switch (params.type){
+				case "totalpackageBargain":
+					searchArgs["bargainType"] = this.bargainType[params.type]
+					break;
+			}
+		}else{
+			searchArgs["bargainType"] = params.type
+		}
 		if(params.refreshData){
 			def args =[:]
 			int perPageNum = Util.str2int(params.perPageNum)

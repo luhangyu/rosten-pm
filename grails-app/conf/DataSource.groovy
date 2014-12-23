@@ -2,7 +2,7 @@ dataSource {
     pooled = true
     driverClassName = "com.mysql.jdbc.Driver"
 	username = "root"
-	password = "password"
+	password = ""
 }
 hibernate {
     cache.use_second_level_cache = true
@@ -14,7 +14,7 @@ environments {
     development {
         dataSource {
             dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
-            url = "jdbc:mysql://localhost:3306/pm?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8"
+            url = "jdbc:mysql://localhost:3306/pm?autoReconnect=true&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull"
         }
     }
     test {

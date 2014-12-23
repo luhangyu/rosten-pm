@@ -66,5 +66,11 @@ grails.project.dependency.resolution = {
 		compile ":spring-security-core:2.0-RC2"
 		
 		compile ":activiti:5.12.1"
+
+        compile ":rosten-core-system:1.16"
+
+        compile ":rosten-core-flow:1.10"
+
+        compile ":rosten-system-share:0.6"
     }
 }

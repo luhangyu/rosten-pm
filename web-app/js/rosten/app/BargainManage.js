@@ -55,7 +55,7 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general", "rosten/k
 	add_bargain = function() {
 		var userid = rosten.kernel.getUserInforByKey("idnumber");
         var companyId = rosten.kernel.getUserInforByKey("companyid");
-        rosten.openNewWindow("bargain", rosten.webPath + "/bargain/bargainAdd?companyId=" + companyId + "&userid=" + userid+ "&flowCode=bargainApply");
+        rosten.openNewWindow("bargain", rosten.webPath + "/bargain/bargainAdd?companyId=" + companyId + "&userid=" + userid+ "&flowCode=bargainApply" + "&type=" + rosten.kernel.navigationEntity);
     };
 	change_bargain = function() {
 		var unid = rosten.getGridUnid("single");
@@ -98,7 +98,7 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general", "rosten/k
 				identifier : oString,
 				actionBarSrc : rosten.webPath + "/bargainAction/bargainView?userId=" + userid,
 				searchSrc:rosten.webPath + "/bargain/bargainSearchView",
-				gridSrc : rosten.webPath + "/bargain/bargainGrid?companyId=" + companyId + "&userId=" + userid
+				gridSrc : rosten.webPath + "/bargain/bargainGrid?companyId=" + companyId + "&userId=" + userid + "&type=" + oString
 			};
 			rosten.kernel.addRightContent(naviJson);
 			break;
