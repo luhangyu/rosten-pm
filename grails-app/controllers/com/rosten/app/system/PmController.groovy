@@ -78,7 +78,7 @@ class PmController {
 			model.addToResources(resource)
 			
 			resource = new Resource()
-			resource.resourceName = "物料单位管理"
+			resource.resourceName = "物料单位"
 			resource.url = "materialUnit"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"
 			resource.serialNo = 7
