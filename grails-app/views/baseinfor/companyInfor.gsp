@@ -97,9 +97,9 @@
 					    </td>
 					    <td><div align="right">公司简称：</div></td>
 					    <td >
-					    	<input id="companyAbbreviation" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='name:"companyAbbreviation",trim:true,
-									value:"${companyInfor?.companyAbbreviation}"
+					    	<input id="companyAbbr" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='name:"companyAbbr",trim:true,
+									value:"${companyInfor?.companyAbbr}"
 			                '/>
 					    </td>
 					</tr>

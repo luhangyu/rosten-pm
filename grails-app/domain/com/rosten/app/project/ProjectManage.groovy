@@ -3,6 +3,8 @@ import java.util.Date;
 import java.text.SimpleDateFormat
 import com.rosten.app.annotation.GridColumn
 import com.rosten.app.system.Company
+import com.rosten.app.base.ContactCorp
+
 class ProjectManage {
 	/*
 	 项目
@@ -18,20 +20,21 @@ class ProjectManage {
 	String projNo
 	
 	//建设单位
-	@GridColumn(name="建设单位",width="200px",colIdx=3)
-	String constCorp
+	//@GridColumn(name="建设单位",width="200px",colIdx=3)
+	ContactCorp constCorp
+	
 	//建设方代表
-	String constCorpDele
+	//String constCorpDele
 	//建设方电话
-	String constCorpPhone
+	//String constCorpPhone
 	
 	//监理单位
-	@GridColumn(name="监理单位",width="200px",colIdx=4)
-	String supCorp
+	//@GridColumn(name="监理单位",width="200px",colIdx=4)
+	ContactCorp supCorp
 	//监理方代表
-	String supCorpDele
+	//String supCorpDele
 	//监理方电话
-	String supCorpPhone
+	//String supCorpPhone
 	//项目经理
 	String projectManager
 	//项目副经理

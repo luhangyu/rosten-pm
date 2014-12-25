@@ -97,9 +97,9 @@
 					    </td>
 						<td width="120"><div align="right"><span style="color:red">*&nbsp;</span>项目编号：</div></td>
 					    <td width="250">
-					    	<input id="projectNo" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"projectNo",
-									value:"${projectManage?.projectNo}"
+					    	<input id="projNo" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,required:true,name:"projNo",
+									value:"${projectManage?.projNo}"
 			                '/>
 					    </td>
 					</tr>
@@ -107,10 +107,10 @@
 					<tr>
 						<td width="120"><div align="right"><span style="color:red">*&nbsp;</span>建设单位：</div></td>
 					    <td width="250">
-					    	<input id="constructionCorp" data-dojo-type="dijit/form/ValidationTextBox" 
-				               	data-dojo-props='name:"constructionCorp",
+					    	<input id="constCorp" data-dojo-type="dijit/form/ValidationTextBox" 
+				               	data-dojo-props='name:"constCorp",
 				               		trim:true,required:true,
-									value:"${constructionCorp}"
+									value:"${projectManage?.constCorp?.contactCorpName}"
 				          	'/>
 				          	<g:if test="${!onlyShow }">
 					         	<g:hiddenField name="allowdepartsId" value="${departId}" />
@@ -119,10 +119,10 @@
 			           	</td>
 						<td width="120"><div align="right"><span style="color:red">*&nbsp;</span>监理单位：</div></td>
 					    <td width="250">
-					    	<input id="supervisorCorp" data-dojo-type="dijit/form/ValidationTextBox" 
-				               	data-dojo-props='name:"supervisorCorp",
+					    	<input id="supCorp" data-dojo-type="dijit/form/ValidationTextBox" 
+				               	data-dojo-props='name:"supCorp",
 				               		trim:true,required:true,
-									value:"${supervisorCorp}"
+				               		value:"${projectManage?.supCorp?.contactCorpName}"
 				          	'/>
 				          	<g:if test="${!onlyShow }">
 					         	<g:hiddenField name="allowdepartsId" value="${departId}" />
@@ -135,14 +135,14 @@
 					    <td >
 					    	<input id="constructionCorpRepresentative" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,required:true,name:"constructionCorpRepresentative",
-									value:"${projectManage?.constructionCorpRepresentative}"
+									value:"${projectManage?.constCorp?.contactCorpName}"
 			                '/>
 					    </td>
 					    <td ><div align="right"><span style="color:red">*&nbsp;</span>监理方代表：</div></td>
 					    <td >
 					    	<input id="supervisorCorpRepresentative" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,required:true,name:"supervisorCorpRepresentative",
-									value:"${projectManage?.supervisorCorpRepresentative}"
+									value:"${projectManage?.supCorp?.contactCorpName}"
 			                '/>
 					    </td>
 					</tr>
@@ -151,14 +151,14 @@
 					    <td >
 					    	<input id="constructionCorpPhone" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,required:true,name:"constructionCorpPhone",
-									value:"${projectManage?.constructionCorpPhone}"
+									value:"${projectManage?.supCorp?.contactCorpName}"
 			                '/>
 					    </td>
 					    <td ><div align="right"><span style="color:red">*&nbsp;</span>监理方联系电话：</div></td>
 					    <td >
 					    	<input id="supervisorCorpPhone" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,required:true,name:"supervisorCorpPhone",
-									value:"${projectManage?.supervisorCorpPhone}"
+									value:"${projectManage?.supCorp?.contactCorpName}"
 			                '/>
 					    </td>
 					</tr>
@@ -173,41 +173,41 @@
 					    </td>
 						 <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>副经理：</div></td>
 					    <td width="250">
-					    	<input id="projectAssistantManager" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"projectAssistantManager",
-									value:"${projectManage?.projectAssistantManager}"
+					    	<input id="projAssManager" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,required:true,name:"projAssManager",
+									value:"${projectManage?.projAssManager}"
 			                '/>
 					    </td>
 					</tr>
 					<tr>
 						<td ><div align="right"><span style="color:red">*&nbsp;</span>工地名称：</div></td>
 					    <td >
-					    	<input id="projectWorkPlace" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"projectWorkPlace",
-									value:"${projectManage?.projectWorkPlace}"
+					    	<input id="projWorkPlace" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,required:true,name:"projWorkPlace",
+									value:"${projectManage?.projWorkPlace}"
 			                '/>
 					    </td>
 					    <td ><div align="right"><span style="color:red">*&nbsp;</span>工地地址：</div></td>
 					    <td >
-					    	<input id="projectWorkPlaceAddress" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"projectWorkPlaceAddress",
-									value:"${projectManage?.projectWorkPlaceAddress}"
+					    	<input id="projWrkPlaceAdd" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,required:true,name:"projWrkPlaceAdd",
+									value:"${projectManage?.projWrkPlaceAdd}"
 			                '/>
 					    </td>
 					</tr>
 					<tr>
 						<td ><div align="right"><span style="color:red">*&nbsp;</span>结构：</div></td>
 					    <td >
-					    	<input id="projectConstruction" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"projectConstruction",
-									value:"${projectManage?.projectConstruction}"
+					    	<input id="projConst" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,required:true,name:"projConst",
+									value:"${projectManage?.projConst}"
 			                '/>
 					    </td>
 					    <td ><div align="right"><span style="color:red">*&nbsp;</span>工作量：</div></td>
 					    <td >
-					    	<input id="projectWorkload" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"projectWorkload",
-									value:"${projectManage?.projectWorkload}"
+					    	<input id="projWrkload" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,required:true,name:"projWrkload",
+									value:"${projectManage?.projWrkload}"
 			                '/>
 					    </td>
 					</tr>
@@ -233,19 +233,19 @@
 					<tr>
 						<td ><div align="right"><span style="color:red">*&nbsp;</span>材料预算金额：</div></td>
 					    <td >
-					    	<input id="projectMaterialMoney" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"projectMaterialMoney",
-									value:"${projectManage?.projectMaterialMoney}"
+					    	<input id="projMatMoney" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,required:true,name:"projMatMoney",
+									value:"${projectManage?.projMatMoney}"
 			                '/>
 					    </td>
 					</tr>
 					<tr>
 					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>备注：</div></td>
 					    <td colspan=3>
-					    	<textarea id="projectRemark" data-dojo-type="dijit/form/SimpleTextarea" 
-    							data-dojo-props='name:"projectRemark","class":"input",
+					    	<textarea id="projRemark" data-dojo-type="dijit/form/SimpleTextarea" 
+    							data-dojo-props='name:"projRemark","class":"input",
                                		style:{width:"550px"},rows:"3",
-                               		trim:true,value:"${projectManage?.projectRemark}"
+                               		trim:true,value:"${projectManage?.projRemark}"
                            '>
                            </textarea>
 					    </td>
