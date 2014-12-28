@@ -11,7 +11,7 @@ import com.rosten.app.system.Attachment
 import com.rosten.app.base.ContactCorp
 
 import com.rosten.app.share.ShareService
-import com.rosten.app.start.StartService
+import com.rosten.app.gtask.GtaskService
 import com.rosten.app.gtask.Gtask
 import com.rosten.app.workflow.FlowBusiness
 
@@ -20,7 +20,7 @@ class BargainController {
 	def springSecurityService
 	def bargainService
 	def shareService
-	def startService
+	def gtaskService
 	
 	private def bargainStatus = ["新增","已结束"]
 	private def bargainType=["totalpackageBargain":"总包合同"]
@@ -208,7 +208,7 @@ class BargainController {
 			args["contentId"] = entity.id
 			args["user"] = nextInfor.nextUser[0]
 			args["company"] = company
-			startService.addGtask(args)
+			gtaskService.addGtask(args)
 			
 			nextUserName << nextInfor.nextUser[0].getFormattedName()
 		}
@@ -285,7 +285,7 @@ class BargainController {
 				args["contentId"] = entity.id
 				args["user"] = nextUser
 				args["company"] = company
-				startService.addGtask(args)
+				gtaskService.addGtask(args)
 			}
 			
 			//修改代办事项状态

@@ -67,10 +67,10 @@ grails.project.dependency.resolution = {
 		
 		compile ":activiti:5.12.1"
 
-        compile ":rosten-core-system:1.16"
+        compile ":rosten-core-system:2.0"
 
         compile ":rosten-core-flow:1.10"
 
-        compile ":rosten-system-share:0.6"
+        compile ":rosten-system-share:0.8"
     }
 }
