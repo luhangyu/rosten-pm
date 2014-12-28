@@ -126,11 +126,17 @@ define(["dojo/_base/kernel"
         			show_naviEntity(oRight);
             	});
         		break;
+    		case "staffManage":
         	case "employe":
-        		require(["rosten/app/EmployeManage"],function(){
+        		require(["rosten/app/SystemManage","rosten/app/StaffManage","rosten/app/EmployeManage"],function(){
         			show_naviEntity(oRight);
             	});
         		break;	
+        	case "bbs":
+                require(["rosten/app/BbsManage"],function(){
+                    show_naviEntity(oRight);
+                });
+                break;
         	case "bargainManage":
         		require(["rosten/app/BargainManage"],function(){
         			show_naviEntity(oRight);
@@ -293,7 +299,7 @@ define(["dojo/_base/kernel"
     	showStartDownloadFile(userId,companyId);
     };
     showStartGtask = function(userId,companyId){
-    	rosten.readNoTime(rosten.webPath + "/start/getGtask", {userId:userId,companyId:companyId}, function(_data) {
+    	rosten.readNoTime(rosten.webPath + "/gtask/getGtask", {userId:userId,companyId:companyId}, function(_data) {
     		var titlePaneNode = registry.byId("home_gtask");
     		if(_data.dataCount){
     			titlePaneNode.changeTitleCount("(" + _data.dataCount + "条)");
@@ -373,7 +379,7 @@ define(["dojo/_base/kernel"
     	
     	if(gtaskId){
     		//关闭task任务
-    		rosten.readNoTime(rosten.webPath + "/start/closeGtask/" + gtaskId,{},function(data){
+    		rosten.readNoTime(rosten.webPath + "/gtask/closeGtask/" + gtaskId,{},function(data){
     			if(data.result=="true" || data.result == true){
     				showStartGtask(userid,companyId);
     			}

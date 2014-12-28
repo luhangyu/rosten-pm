@@ -72,5 +72,9 @@ grails.project.dependency.resolution = {
         compile ":rosten-core-flow:1.10"
 
         compile ":rosten-system-share:0.8"
+		
+		compile ":rosten-app-bbs:0.1"
+		
+		compile ":rosten-app-staff:0.1"
     }
 }

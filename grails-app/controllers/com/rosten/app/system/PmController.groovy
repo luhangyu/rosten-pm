@@ -93,6 +93,18 @@ class PmController {
 			model.serialNo = 8
 					
 			resource = new Resource()
+			resource.resourceName = "账号管理"
+			resource.url = "staffManage"
+			resource.imgUrl = "images/rosten/navigation/rosten.png"
+			model.addToResources(resource)
+			
+			resource = new Resource()
+			resource.resourceName = "员工管理"
+			resource.url = "staffRegi"
+			resource.imgUrl = "images/rosten/navigation/rosten.png"
+			model.addToResources(resource)
+			
+			resource = new Resource()
 			resource.resourceName = "员工考勤"
 			resource.url = "officeWorkerAttendance"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"
@@ -119,11 +131,44 @@ class PmController {
 			model.save()
 			
 			model = new Model(company:company)
+			model.modelName = "通知公告"
+			model.modelCode = "bbs"
+			model.modelUrl = path + "/system/navigation"
+			model.serialNo = 9
+			model.description ="公告栏模块"
+	
+			resource = new Resource()
+			resource.resourceName = "配置文档"
+			resource.url = "bbsConfigManage"
+			resource.imgUrl = "images/rosten/navigation/config.png"
+			model.addToResources(resource)
+			
+			resource = new Resource()
+			resource.resourceName = "各人待办"
+			resource.url = "mybbsManage"
+			resource.imgUrl = "images/rosten/navigation/bbs_my.gif"
+			model.addToResources(resource)
+			
+			resource = new Resource()
+			resource.resourceName = "最新公告"
+			resource.url = "newbbsManage"
+			resource.imgUrl = "images/rosten/navigation/bbs_new.gif"
+			model.addToResources(resource)
+			
+			resource = new Resource()
+			resource.resourceName = "所有公告"
+			resource.url = "allbbsManage"
+			resource.imgUrl = "images/rosten/navigation/bbs_all.gif"
+			model.addToResources(resource)
+			
+			model.save()
+			
+			
+			model = new Model(company:company)
 			model.modelName = "合同管理"
 			model.modelUrl = path + "/system/navigation"
 			model.modelCode = "bargainManage"
-			model.serialNo = 9
-			
+			model.serialNo = 10
 			
 			resource = new Resource()
 			resource.resourceName = "总包合同"
@@ -155,7 +200,7 @@ class PmController {
 			model.modelName = "项目管理"
 			model.modelUrl = path + "/system/navigation"
 			model.modelCode = "project"
-			model.serialNo = 10
+			model.serialNo = 11
 			
 			resource = new Resource()
 			resource.resourceName = "项目管理"
@@ -187,7 +232,7 @@ class PmController {
 			model.modelName = "财务管理"
 			model.modelUrl = path + "/system/navigation"
 			model.modelCode = "finance"
-			model.serialNo = 11
+			model.serialNo = 12
 			
 			resource = new Resource()
 			resource.resourceName = "报销管理"
@@ -243,7 +288,7 @@ class PmController {
 			model.modelName = "物资管理"
 			model.modelUrl = path + "/system/navigation"
 			model.modelCode = "material"
-			model.serialNo = 12
+			model.serialNo = 13
 			
 			resource = new Resource()
 			resource.resourceName = "采购计划"
@@ -306,7 +351,7 @@ class PmController {
 			model.modelUrl = path + "/system/navigation"
 			model.modelCode = "static"
 			model.description ="统计分析"
-			model.serialNo = 13
+			model.serialNo = 14
 			
 			resource = new Resource()
 			resource.resourceName = "统计分析"
