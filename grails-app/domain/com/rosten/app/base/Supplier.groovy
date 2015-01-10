@@ -9,9 +9,12 @@ class Supplier {
 	String id
 	
 	//单位名称
-	@GridColumn(name="客户名称",colIdx=1,formatter="supplier_formatTopic")
+	@GridColumn(name="供应商名称",colIdx=1,formatter="supplier_formatTopic")
 	String suppName
 	
+	//单位名称
+	@GridColumn(name="类型",colIdx=2,width="100px")
+	String suppType
 	
 	//账号
 	String suppBankAccNo
@@ -22,7 +25,7 @@ class Supplier {
 	
 
 	//地址
-	@GridColumn(name="地址",colIdx=2,width="280px")
+	@GridColumn(name="地址",colIdx=5)
 	String suppAddress
 	
 	//邮编
@@ -30,14 +33,14 @@ class Supplier {
 	
 	
 	//联系电话
-	@GridColumn(name="联系电话",colIdx=7,width="80px")
+	@GridColumn(name="联系电话",colIdx=3,width="130px")
 	String suppPhone
 	
 	//传真
 	String suppFax
 	
 	//法人
-	@GridColumn(name="法人",colIdx=4,width="80px")
+	@GridColumn(name="法人",colIdx=4,width="100px")
 	String suppLeader
 	
 	//法人职务

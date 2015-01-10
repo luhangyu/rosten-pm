@@ -1,6 +1,7 @@
 package com.rosten.app.base
 
 import java.util.Date;
+
 import com.rosten.app.annotation.GridColumn
 import com.rosten.app.system.Company
 
@@ -13,6 +14,10 @@ class CompanyInfor {
 	//公司名称
 	@GridColumn(name="公司名称",colIdx=1,formatter="companyInfor_formatTopic")
 	String companyName
+	
+	//
+	//@GridColumn(name="默认公司",colIdx=4)
+	boolean companyIsDef = false
 	
 	//简称
 	@GridColumn(name="公司简称",colIdx=2,width="60px")

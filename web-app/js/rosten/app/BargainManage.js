@@ -106,6 +106,7 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general", "rosten/k
 			var naviJson = {
 				identifier : oString,
 				actionBarSrc : rosten.webPath + "/bargainAction/bargainView?userId=" + userid,
+				searchSrc:rosten.webPath + "/bargain/bargainSearchView",
 				gridSrc : rosten.webPath + "/bargain/bargainGrid?companyId=" + companyId + "&userId=" + userid
 			};
 			rosten.kernel.addRightContent(naviJson);

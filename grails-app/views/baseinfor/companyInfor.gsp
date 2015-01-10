@@ -43,7 +43,17 @@
 						rosten.alert("请正确填写相关信息！");
 						return;
 					}
+
+					//是否默认公司单选框取值
+					var companyIsDefVal
+					if (registry.byId("is1").get("value")){
+						companyIsDefVal=registry.byId("is1").get("value");
+				 	}else{
+				 		companyIsDefVal=registry.byId("is2").get("value");
+					}
+					
 					var content = {};
+					content.companyIsDef=companyIsDefVal;
 					//增加对多次单击的次数----2014-9-4
 					var buttonWidget = object.target;
 					rosten.toggleAction(buttonWidget,true);
@@ -78,7 +88,7 @@
 	</div>
 </div>
 
-<div data-dojo-type="dijit/layout/TabContainer" data-dojo-props='persist:false, tabStrip:true,style:{width:"800px",margin:"0 auto"}' >
+<div data-dojo-type="dijit/layout/TabContainer" data-dojo-props='persist:false,tabStrip:true,style:{width:"800px",margin:"0 auto"}' >
 	<div data-dojo-type="dijit/layout/ContentPane" title="基本信息" data-dojo-props=''>
 		<form id="rosten_form" data-dojo-type="dijit/form/Form" name="rosten_form" onsubmit="return false;" class="rosten_form" style="padding:0px">
 			<input  data-dojo-type="dijit/form/ValidationTextBox" id="id"  data-dojo-props='name:"id",style:{display:"none"},value:"${companyInfor?.id }"' />
@@ -89,12 +99,14 @@
 
 					<tr>
 					    <td><div align="right"><span style="color:red">*&nbsp;</span>公司名称：</div></td>
-					    <td >
+					    <td colspan="3">
 					    	<input id="companyName" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"companyName",
+			                 	data-dojo-props='trim:true,required:true,name:"companyName",style:"width:560px",
 									value:"${companyInfor?.companyName}"
 			                '/>
 					    </td>
+					</tr>
+					<tr>
 					    <td><div align="right">公司简称：</div></td>
 					    <td >
 					    	<input id="companyAbbr" data-dojo-type="dijit/form/ValidationTextBox" 
@@ -102,6 +114,26 @@
 									value:"${companyInfor?.companyAbbr}"
 			                '/>
 					    </td>
+					    <td><div align="right">默认公司：</div></td>
+						<td>
+		                        	<input id="is1" data-dojo-type="dijit/form/RadioButton"
+	                             		data-dojo-props='name:"companyIsDef",
+	                             			type:"radio",
+	                             			${fieldAcl.isReadOnly("companyIsDef")},
+	                             			<g:if test="${companyInfor?.companyIsDef || companyInfor?.companyIsDef==true }">checked:true,</g:if>
+	              							value:"true"
+	                                '/>
+									<label for="is1">是</label>
+									
+	                                <input id="is2" data-dojo-type="dijit/form/RadioButton"
+	                             		data-dojo-props='name:"companyIsDef",
+	                             			type:"radio",
+	                             			${fieldAcl.isReadOnly("companyIsDef")},
+	                             			<g:if test="${!companyInfor?.companyIsDef &&companyInfor?.companyIsDef==false }">checked:true,</g:if>
+	              							value:"false"
+	                                '/>
+									<label for="is2">否</label>									
+		                 </td>
 					</tr>
 
 					<tr>
@@ -152,7 +184,7 @@
 					    <td  colspan=3>
 					    	<textarea id="description" data-dojo-type="dijit/form/SimpleTextarea" 
     							data-dojo-props='name:"description","class":"input",
-                               		style:{width:"560px"},rows:"5",
+                               		style:{width:"560px"},rows:"3",
                                		trim:true,value:"${companyInfor?.description}"
                            '>
     						</textarea>

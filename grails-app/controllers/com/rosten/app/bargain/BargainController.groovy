@@ -57,6 +57,27 @@ class BargainController {
 		model["bargain"] = entity
 		model["user"] = currentUser
 		
+		println params.type
+		
+		switch(params.type){
+			case "totalpackageBargain":
+			entity.bargainType = "总包合同"
+			break;
+			case "subpackageBargain":
+			entity.bargainType = "分包合同"
+			break;
+			case "purchaseBargain":
+			entity.bargainType = "采购合同"
+			break;
+			case "salesBargain":
+			entity.bargainType = "销售合同"
+			break;
+		}
+		
+//		if(params.type.equals("total")){
+//			entity.bargainType = "总包合同"
+//		}
+		
 		FieldAcl fa = new FieldAcl()
 		model["fieldAcl"] = fa
 		

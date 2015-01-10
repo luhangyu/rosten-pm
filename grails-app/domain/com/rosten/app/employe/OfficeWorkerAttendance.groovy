@@ -8,7 +8,7 @@ import com.rosten.app.system.Company
 class OfficeWorkerAttendance {
 
 	/*
-	 员工考勤信息
+	 行政员工考勤信息
 	 */
 	String id
 	

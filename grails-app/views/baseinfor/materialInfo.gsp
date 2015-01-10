@@ -95,49 +95,14 @@
 									value:"${materialInfo?.matInfoName}"
 			                '/>
 					    </td>
-					    <td><div align="right">材料类型：</div></td>
+					    <td><div align="right"><span style="color:red">*&nbsp;</span>材料类型：</div></td>
 					    <td >
 					    	<input id="matInfoType" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='name:"matInfoType",trim:true,
+			                 	data-dojo-props='name:"matInfoType",trim:true,required:true,
 									value:"${materialInfo?.matInfoType}"
 			                '/>
 					    </td>
 					</tr>
-
-					<tr>
-					    <td><div align="right">材料小类：</div></td>
-					    <td>
-					    	<input id="matInfoSonType" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='name:"matInfoSonType",trim:true,
-									value:"${materialInfo?.matInfoSonType}"
-			                '/>
-					    </td>
-					     <td><div align="right">换算数量：</div></td>
-					    <td>
-					    	<input id="matInfoQuantity" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='name:"matInfoQuantity",trim:true,
-									value:"${materialInfo?.matInfoQuantity}"
-			                '/>
-					    </td>
-					</tr>
-
-					<tr>
-					    <td><div align="right">采购材料单位：</div></td>
-					    <td >
-					    	<input id="matInfoPurUnit" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='name:"matInfoPurUnit",trim:true,
-									value:"${materialInfo?.matInfoPurUnit}"
-			                '/>
-					    </td>
-					    <td><div align="right">领用材料单位：</div></td>
-					    <td >
-					    	<input id="matInfoGetUnit" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='name:"matInfoGetUnit",trim:true,
-									value:"${materialInfo?.matInfoGetUnit}"
-			                '/>
-					    </td>
-					</tr>
-
 					<tr>
 					    <td><div align="right">材料品牌：</div></td>
 					    <td >
@@ -155,14 +120,54 @@
 					    </td>
 					</tr>
 						<tr>
-					    <td><div align="right">进价：</div></td>
+					    <td><div align="right">大单位：</div></td>
+					    <td >
+					    	<input id="matInfoPurUnit" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='name:"matInfoPurUnit",trim:true,
+									value:"${materialInfo?.matInfoPurUnit}"
+			                '/>
+					    </td>
+					    <td><div align="right">小单位：</div></td>
+					    <td >
+					    	<input id="matInfoGetUnit" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='name:"matInfoGetUnit",trim:true,
+									value:"${materialInfo?.matInfoGetUnit}"
+			                '/>
+					    </td>
+					</tr>
+					<tr>
+					    <td><div align="right"><span style="color:red">*&nbsp;</span>材料小类：</div></td>
+					    <td>
+			                <select id="matInfoSonType" data-dojo-type="dijit/form/FilteringSelect" 
+					                data-dojo-props='name:"matInfoSonType",required:true,
+					                trim:true,required:true,missingMessage:"请选择类别！",invalidMessage:"请选择类别！",
+					      			value:"${materialInfo?.matInfoSonType}"
+					            '>
+								<option value="大材料">大材料</option>
+								<option value="零星材料">零星材料</option>
+					    	</select>
+					    </td>
+					     <td><div align="right">换算数量：</div></td>
+					    <td>
+					    	<input id="matInfoQuantity" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='name:"matInfoQuantity",trim:true,
+									value:"${materialInfo?.matInfoQuantity}"
+			                '/>
+					    </td>
+					</tr>
+
+				
+
+				
+						<tr>
+					    <td><div align="right">进价(元)：</div></td>
 					    <td >
 					    	<input id="mInfoRefPrice" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='name:"mInfoRefPrice",trim:true,
 									value:"${materialInfo?.mInfoRefPrice}"
 			                '/>
 					    </td>
-					    <td><div align="right">批发价：</div></td>
+					    <td><div align="right">批发价(元)：</div></td>
 					    <td >
 					    	<input id="mInfoWPrice" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='name:"mInfoWPrice",trim:true,
@@ -171,14 +176,14 @@
 					    </td>
 					</tr>
 						<tr>
-					    <td><div align="right">零售价：</div></td>
+					    <td><div align="right">零售价(元)：</div></td>
 					    <td >
 					    	<input id="mInfoRPrice" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='name:"mInfoRPrice",trim:true,
 									value:"${materialInfo?.mInfoRPrice}"
 			                '/>
 					    </td>
-					    <td><div align="right">底线价：</div></td>
+					    <td><div align="right">底线价(元)：</div></td>
 					    <td >
 					    	<input id="mInfoLowPrice" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='name:"mInfoLowPrice",trim:true,

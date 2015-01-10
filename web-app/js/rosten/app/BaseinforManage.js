@@ -5,7 +5,40 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general", "rosten/k
 		connect, registry,General) {
 	
 	var general = new General();
-    
+	//供应商搜索
+	supplier_search = function(){
+		var content = {};
+		
+		var s_bargainNo = registry.byId("s_bargainNo");
+		if(s_bargainNo.get("value")!=""){
+			content.bargainNo = s_bargainNo.get("value");
+		}
+		
+		var s_bargainName = registry.byId("s_bargainName");
+		if(s_bargainName.get("value")!=""){
+			content.bargainName = s_bargainName.get("value");
+		}
+		
+		var s_departName = registry.byId("s_departName");
+		if(s_departName.get("value")!=""){
+			content.departName = s_departName.get("value");
+		}
+		switch(rosten.kernel.navigationEntity) {
+		default:
+			rosten.kernel.refreshGrid(rosten.kernel.getGrid().defaultUrl, content);
+			break;
+		}
+	};
+	supplier_resetSearch = function(){
+		switch(rosten.kernel.navigationEntity) {
+		default:
+			registry.byId("s_bargainNo").set("value","");
+			registry.byId("s_bargainName").set("value","");
+			registry.byId("s_departName").set("value","");
+			rosten.kernel.refreshGrid();
+			break;
+		}	
+	};
 	
 	//公司信息子块
 	companyInfor_formatTopic = function(value,rowIndex){
@@ -372,8 +405,9 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general", "rosten/k
 			break;
 		case "supplier":
 			var naviJson = {
-				identifier : oString,
+				identifier : oString,				
 				actionBarSrc : rosten.webPath + "/baseinforAction/supplierView?userId=" + userid,
+				searchSrc:rosten.webPath + "/baseinfor/supplierSearchView",
 				gridSrc : rosten.webPath + "/baseinfor/supplierGrid?companyId=" + companyId + "&userId=" + userid
 			};
 			rosten.kernel.addRightContent(naviJson);

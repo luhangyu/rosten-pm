@@ -99,13 +99,6 @@
 					   
 					</tr>
 					<tr>
-					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>法人：</div></td>
-					    <td width="250">
-					    	<input id="contCorpLeader" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"contCorpLeader",
-									value:"${ContactCorp?.contCorpLeader}"
-			                '/>
-					    </td>
 					 	  <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>类型：</div></td>
 						 <td width="250">
 						    	<select id="contactCorpType" data-dojo-type="dijit/form/FilteringSelect" 
@@ -113,70 +106,76 @@
 					                trim:true,required:true,missingMessage:"请选择类别！",invalidMessage:"请选择类别！",
 					      			value:"${ContactCorp?.contactCorpType}"
 					            '>
-								<option value="甲方">甲方</option>
-								<option value="分包商">分包商</option>
-								<option value="材料商">材料商</option>
-								<option value="监理单位">监理单位</option>
+								<g:each in="${contactCropTypeList}" var="item">
+				                	<option value="${item.code }">${item.name }</option>
+				                </g:each>
 					    	</select>
 				           </td>
+				        <td width="120"><div align="right">法人：</div></td>
+					    <td width="250">
+					    	<input id="contCorpLeader" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,name:"contCorpLeader",
+									value:"${ContactCorp?.contCorpLeader}"
+			                '/>
+					    </td>
 					</tr>
 					<tr>
-					    <td><div align="right"><span style="color:red">*&nbsp;</span>营业执照：</div></td>
+					    <td><div align="right">营业执照：</div></td>
 					    <td >
 					    	<input id="contCorpLicense" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"contCorpLicense",
+			                 	data-dojo-props='trim:true,name:"contCorpLicense",
 									value:"${ContactCorp?.contCorpLicense}"
 			                '/>
 					    </td>
-					 	<td ><div align="right"><span style="color:red">*&nbsp;</span>税务登记号：</div></td>
+					 	<td ><div align="right">税务登记号：</div></td>
 					    <td >
 					    	<input id="contactCorpTax" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"contactCorpTax",
+			                 	data-dojo-props='trim:true,name:"contactCorpTax",
 									value:"${ContactCorp?.contactCorpTax}"
 			                '/>
 					    </td>
 					</tr>
 					<tr>
-						<td><div align="right"><span style="color:red">*&nbsp;</span>区域：</div></td>
+						<td><div align="right">区域：</div></td>
 					    <td >
 					    	<input id="contactCorpProv" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"contactCorpProv",
+			                 	data-dojo-props='trim:true,name:"contactCorpProv",
 									value:"${ContactCorp?.contactCorpProv}"
 			                '/>
 					    </td>
 					 	
 					</tr>
 					<tr>
-					<td><div align="right"><span style="color:red">*&nbsp;</span>地址：</div></td>
+					<td><div align="right">地址：</div></td>
 					    <td colspan=3>
 					    	<input id="contactCorpAddr" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"contactCorpAddr",style:{width:"550px"},
+			                 	data-dojo-props='trim:true,name:"contactCorpAddr",style:{width:"550px"},
 									value:"${ContactCorp?.contactCorpAddr}"
 			                '/>
 					    </td>
 					</tr>
 					<tr>
-					    <td><div align="right"><span style="color:red">*&nbsp;</span>联系人：</div></td>
+					    <td><div align="right">联系人：</div></td>
 					    <td >
 					    	<input id="contCorpLinkMan" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"contCorpLinkMan",
+			                 	data-dojo-props='trim:true,name:"contCorpLinkMan",
 									value:"${ContactCorp?.contCorpLinkMan}"
 			                '/>
 					    </td>
 					 	
 					</tr>
 					<tr>
-						<td><div align="right"><span style="color:red">*&nbsp;</span>联系电话：</div></td>
+						<td><div align="right">联系电话：</div></td>
 					    <td >
 					    	<input id="contactCorpPhone" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"contactCorpPhone",
+			                 	data-dojo-props='trim:true,name:"contactCorpPhone",
 									value:"${ContactCorp?.contactCorpPhone}"
 			                '/>
 					    </td>
-					    <td><div align="right"><span style="color:red">*&nbsp;</span>传真：</div></td>
+					    <td><div align="right">传真：</div></td>
 					    <td >
 					    	<input id="contactCorpFax" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"contactCorpFax",
+			                 	data-dojo-props='trim:true,name:"contactCorpFax",
 									value:"${ContactCorp?.contactCorpFax}"
 			                '/>
 					    </td>
@@ -184,17 +183,17 @@
 					</tr>
 					<tr>
 
-					    <td><div align="right"><span style="color:red">*&nbsp;</span>网址：</div></td>
+					    <td><div align="right">网址：</div></td>
 					    <td >
 					    	<input id="contCorpWebSite" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"contCorpWebSite",
+			                 	data-dojo-props='trim:true,name:"contCorpWebSite",
 									value:"${ContactCorp?.contCorpWebSite}"
 			                '/>
 					    </td>
-					 	<td><div align="right"><span style="color:red">*&nbsp;</span>电子邮箱：</div></td>
+					 	<td><div align="right">电子邮箱：</div></td>
 					    <td >
 					    	<input id="contCorpEMail" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"contCorpEMail",
+			                 	data-dojo-props='trim:true,name:"contCorpEMail",
 									value:"${ContactCorp?.contCorpEMail}"
 			                '/>
 					    </td>

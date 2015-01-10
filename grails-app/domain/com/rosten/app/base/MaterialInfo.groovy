@@ -17,19 +17,19 @@ class MaterialInfo {
 	String matInfoType
 	
 	//物料类型
-	@GridColumn(name="材料小类",colIdx=2)
+	@GridColumn(name="材料小类",colIdx=3)
 	String matInfoSonType
 	
 	//采购材料单位
-	@GridColumn(name="材料采购单位",colIdx=3)
+	@GridColumn(name="大单位",colIdx=5)
 	String matInfoPurUnit
 	
 	//换算数量
-	@GridColumn(name="换算数量",colIdx=3)
+	@GridColumn(name="换算数量",colIdx=4)
 	double matInfoQuantity
 	
 	//材料领用单位
-	@GridColumn(name="材料领用单位",colIdx=3)
+	@GridColumn(name="小单位",colIdx=6)
 	String matInfoGetUnit
 	
 	//材料规格

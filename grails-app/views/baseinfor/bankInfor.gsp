@@ -43,7 +43,18 @@
 						rosten.alert("请正确填写相关信息！");
 						return;
 					}
+
+					//是否默认银行账户字段
+					var accountIsDefVal
+					if (registry.byId("is1").get("value")){
+						accountIsDefVal=registry.byId("is1").get("value");
+				 	}else{
+				 		accountIsDefVal=registry.byId("is2").get("value");
+					}
+
+					
 					var content = {};
+					content.accountIsDef=accountIsDefVal;
 					//增加对多次单击的次数----2014-9-4
 					var buttonWidget = object.target;
 					rosten.toggleAction(buttonWidget,true);
@@ -112,20 +123,35 @@
 									value:"${bankInfor?.accountMaster}"
 			                '/>
 					    </td>
-					    <td><div align="right">主账户：</div></td>
-					    <td >
-					    	<input id="accountDefault" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='name:"accountDefault",trim:true,
-									value:"${bankInfor?.accountDefault}"
-			                '/>
-					    </td>
+					   			 
+			                <td><div align="right">默认账户：</div></td>
+							<td>
+		                        	<input id="is1" data-dojo-type="dijit/form/RadioButton"
+	                             		data-dojo-props='name:"accountIsDef",
+	                             			type:"radio",
+	                             			${fieldAcl.isReadOnly("accountIsDef")},
+	                             			<g:if test="${bankInfor?.accountIsDef || bankInfor?.accountIsDef==true }">checked:true,</g:if>
+	              							value:"true"
+	                                '/>
+									<label for="is1">是</label>
+									
+	                                <input id="is2" data-dojo-type="dijit/form/RadioButton"
+	                             		data-dojo-props='name:"accountIsDef",
+	                             			type:"radio",
+	                             			${fieldAcl.isReadOnly("accountIsDef")},
+	                             			<g:if test="${!bankInfor?.accountIsDef && bankInfor?.accountIsDef==false }">checked:true,</g:if>
+	              							value:"false"
+	                                '/>
+									<label for="is2">否</label>									
+		                 	</td>
+					   
 					</tr>
 
 					    <td><div align="right">备注：</div></td>
 					    <td  colspan=3>
 					    	<textarea id="accountRemark" data-dojo-type="dijit/form/SimpleTextarea" 
     							data-dojo-props='name:"accountRemark","class":"input",
-                               		style:{width:"560px"},rows:"5",
+                               		style:{width:"560px"},rows:"3",
                                		trim:true,value:"${bankInfor?.accountRemark}"
                            '>
     						</textarea>

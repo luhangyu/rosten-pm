@@ -1,6 +1,7 @@
 package com.rosten.app.base
 
 import java.util.Date;
+
 import com.rosten.app.annotation.GridColumn
 import com.rosten.app.system.Company
 
@@ -14,6 +15,8 @@ class BankInfor {
 	@GridColumn(name="账号名称",colIdx=1,formatter="bankInfor_formatTopic")
 	String accountName
 	
+	boolean accountIsDef = false
+	
 	//开户行
 	@GridColumn(name="开户行",colIdx=2,width="60px")
 	String accountBank
@@ -23,8 +26,8 @@ class BankInfor {
 	String accountMaster
 
 	//主账户
-	@GridColumn(name="主账户",colIdx=4,width="80px")
-	String accountDefault
+//	@GridColumn(name="主账户",colIdx=4,width="80px")
+//	String accountDefault
 
 	//备注
 	String accountRemark

@@ -11,6 +11,7 @@ import com.rosten.app.base.ContactCorp
 import com.rosten.app.system.Attachment
 import com.rosten.app.gtask.Gtask
 import com.rosten.app.share.*
+import com.rosten.app.project.ProjectManage
 
 class Bargain {
 
@@ -39,6 +40,10 @@ class Bargain {
 	//甲方
 	@GridColumn(name="合同甲方",colIdx=4,width="220px")
 	String bargainVendor
+	
+	//合同对应的项目
+	ProjectManage bargainProName
+	
 	
 	//合同甲方单位
 	ContactCorp barVendorCorp

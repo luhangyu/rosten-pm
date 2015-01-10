@@ -11,18 +11,18 @@ class ContactCorp {
 	String id
 	
 	//单位名称
-	@GridColumn(name="单位名称",colIdx=1,formatter="contactCorp_formatTopic")
+	@GridColumn(name="往来单位名称",colIdx=1,formatter="contactCorp_formatTopic")
 	String contactCorpName
 	
 	//类型甲方、分包商、材料商、监理单位
-	@GridColumn(name="类型",colIdx=3,width="60px")
+	@GridColumn(name="类型",colIdx=2,width="60px")
 	String contactCorpType
 	
 	//省份
 	String contactCorpProv
 
 	//地址
-	@GridColumn(name="地址",colIdx=2,width="280px")
+	@GridColumn(name="地址",colIdx=3,width="280px")
 	String contactCorpAddr
 	
 	//邮编

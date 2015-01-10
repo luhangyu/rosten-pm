@@ -339,87 +339,7 @@
 			<input  data-dojo-type="dijit/form/ValidationTextBox" id="id"  data-dojo-props='name:"id",style:{display:"none"},value:"${bargain?.id}"' />
         	<input  data-dojo-type="dijit/form/ValidationTextBox" id="companyId" data-dojo-props='name:"companyId",style:{display:"none"},value:"${company?.id}"' />
         	
-			<div data-dojo-type="rosten/widget/TitlePane" data-dojo-props='title:"合同信息",toggleable:false,moreText:"",marginBottom:"2px"'>
-				<table border="0"align="left">
-					<tr>
-					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>合同名称：</div></td>
-					    <td colspan=3>
-					    	<input id="bargainName" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"bargainName",style:{width:"550px"},${fieldAcl.isReadOnly("bargainName")},
-									value:"${bargain?.bargainName}"
-			                '/>
-					    </td>
-					</tr>
-					<tr>
-					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>合同类型：</div></td>
-					    <td  width="250">
-					    	<select id="bargainType"  onChange='bargainType_onChange()'   data-dojo-type="dijit/form/FilteringSelect" 
-					                data-dojo-props='name:"bargainType",${fieldAcl.isReadOnly("bargainType")},
-					                trim:true,required:true,missingMessage:"请选择类别！",invalidMessage:"请选择类别！",
-					      			value:"${bargain?.bargainType}",
-					            '>
-								<option value="总包合同">总包合同</option>
-								<option value="分包合同">分包合同</option>
-								<option value="采购合同">采购合同</option>
-								<option value="销售合同">销售合同</option>
-					    	</select>
-					    </td>
-					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>合同状态：</div></td>
-					    <td width="250">
-					    	<input id="status" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='disabled:true,trim:true,required:true,name:"status",
-									value:"${bargain?.status}"
-			                '/>
-			           </td>
-					</tr>
-					<tr>
-						<td><div align="right"><span style="color:red">*&nbsp;</span>合同号：</div></td>
-					    <td >
-					    	<input id="bargainNo" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"bargainNo",${fieldAcl.isReadOnly("bargainNo")},
-									value:"${bargain?.bargainNo}"
-			                '/>
-					    </td>
-					    <td><div align="right"><span style="color:red">*&nbsp;</span>合同金额：</div></td>
-					    <td >
-					    	<input id="bargainMoney" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"bargainMoney",${fieldAcl.isReadOnly("bargainMoney")},
-									value:"${bargain?.bargainMoney}"
-			                '/>&nbsp;元
-					    </td>
-					</tr>
-					<tr>
-						<td><div align="right"><span style="color:red">*&nbsp;</span>制表人：</div></td>
-					    <td >
-					    	<input id="bargainMaker" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"bargainMaker",${fieldAcl.isReadOnly("bargainMaker")},
-									value:"${bargain?.bargainMaker}"
-			                '/>
-					    </td>
-					    <td><div align="right"><span style="color:red">*&nbsp;</span>签订日期：</div></td>
-					    <td>
-						    <input id="bargainSignDate" data-dojo-type="dijit/form/DateTextBox" 
-		               		data-dojo-props='name:"bargainSignDate",${fieldAcl.isReadOnly("bargainSignDate")},
-		               		trim:true,required:true,
-							value:"${bargain?.getFormatteBargainSignDate()}"
-		          			'/>
-			            </td>
-					</tr>
-					<tr>
-					    <td width="120"><div align="right">付款情况：</div></td>
-					    <td colspan=3>
-					    	<textarea id="bargainPayMemo" data-dojo-type="dijit/form/SimpleTextarea" 
-    							data-dojo-props='name:"bargainPayMemo","class":"input",
-                               		style:{width:"550px"},rows:"2",${fieldAcl.isReadOnly("bargainPayMemo")},
-                               		trim:true,value:"${bargain?.bargainPayMemo}"
-                           '>
-                           </textarea>
-					    </td>
-					</tr>
-					</table>
-					<div style="clear:both;"></div>
-			</div>
-			<div data-dojo-type="rosten/widget/TitlePane" data-dojo-props='title:"合同甲方信息",toggleable:false,moreText:"",marginBottom:"2px"'>
+        				<div data-dojo-type="rosten/widget/TitlePane" data-dojo-props='title:"合同甲方信息",toggleable:false,moreText:"",marginBottom:"2px"'>
 				<table border="0" width="740" align="left">
 					<tr>
 					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>甲方：</div></td>
@@ -565,6 +485,96 @@
 				</table>
 				<div style="clear:both;"></div>
 			</div>
+			<div data-dojo-type="rosten/widget/TitlePane" data-dojo-props='title:"合同信息",toggleable:false,moreText:"",marginBottom:"2px"'>
+				<table border="0"align="left">
+					<tr>
+					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>合同名称：</div></td>
+					    <td colspan=3>
+					    	<input id="bargainName" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,required:true,name:"bargainName",style:{width:"550px"},${fieldAcl.isReadOnly("bargainName")},
+									value:"${bargain?.bargainName}"
+			                '/>
+					    </td>
+					</tr>
+					<tr>
+					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>项目名称：</div></td>
+					    <td colspan=3>
+					    	<input id="bargainProName" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,required:true,name:"bargainProName",style:{width:"550px"},
+									value:"${bargain?.bargainProName?.projName}"
+			                '/>
+					    </td>
+					</tr>
+					<tr>
+					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>合同类型：</div></td>
+					    <td  width="250">
+					    	<select id="bargainType"  onChange='bargainType_onChange()'   data-dojo-type="dijit/form/FilteringSelect" 
+					                data-dojo-props='name:"bargainType",readOnly:true,
+					                trim:true,required:true,missingMessage:"请选择类别！",invalidMessage:"请选择类别！",
+					      			value:"${bargain?.bargainType}",
+					            '>
+								<option value="总包合同">总包合同</option>
+								<option value="分包合同">分包合同</option>
+								<option value="采购合同">采购合同</option>
+								<option value="销售合同">销售合同</option>
+					    	</select>
+					    </td>
+					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>合同状态：</div></td>
+					    <td width="250">
+					    	<input id="status" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='disabled:true,trim:true,required:true,name:"status",
+									value:"${bargain?.status}"
+			                '/>
+			           </td>
+					</tr>
+					<tr>
+						<td><div align="right"><span style="color:red">*&nbsp;</span>合同号：</div></td>
+					    <td >
+					    	<input id="bargainNo" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,required:true,name:"bargainNo",${fieldAcl.isReadOnly("bargainNo")},
+									value:"${bargain?.bargainNo}"
+			                '/>
+					    </td>
+					    <td><div align="right"><span style="color:red">*&nbsp;</span>合同金额：</div></td>
+					    <td >
+					    	<input id="bargainMoney" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,required:true,name:"bargainMoney",${fieldAcl.isReadOnly("bargainMoney")},
+									value:"${bargain?.bargainMoney}"
+			                '/>&nbsp;元
+					    </td>
+					</tr>
+					<tr>
+						<td><div align="right"><span style="color:red">*&nbsp;</span>制表人：</div></td>
+					    <td >
+					    	<input id="bargainMaker" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,required:true,name:"bargainMaker",${fieldAcl.isReadOnly("bargainMaker")},
+									value:"${bargain?.bargainMaker}"
+			                '/>
+					    </td>
+					    <td><div align="right"><span style="color:red">*&nbsp;</span>签订日期：</div></td>
+					    <td>
+						    <input id="bargainSignDate" data-dojo-type="dijit/form/DateTextBox" 
+		               		data-dojo-props='name:"bargainSignDate",${fieldAcl.isReadOnly("bargainSignDate")},
+		               		trim:true,required:true,
+							value:"${bargain?.getFormatteBargainSignDate()}"
+		          			'/>
+			            </td>
+					</tr>
+					<tr>
+					    <td width="120"><div align="right">付款情况：</div></td>
+					    <td colspan=3>
+					    	<textarea id="bargainPayMemo" data-dojo-type="dijit/form/SimpleTextarea" 
+    							data-dojo-props='name:"bargainPayMemo","class":"input",
+                               		style:{width:"550px"},rows:"2",${fieldAcl.isReadOnly("bargainPayMemo")},
+                               		trim:true,value:"${bargain?.bargainPayMemo}"
+                           '>
+                           </textarea>
+					    </td>
+					</tr>
+					</table>
+					<div style="clear:both;"></div>
+			</div>
+
 		
 		
 			<div data-dojo-type="rosten/widget/TitlePane" data-dojo-id="bargainGoodsTitlePane" 

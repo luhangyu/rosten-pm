@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="layout" content="rosten" />
-    <title>供应商</title>
+    <title>供应商信息</title>
     <style type="text/css">
     	.rosten .dsj_form table tr{
     		height:30px;
@@ -95,13 +95,19 @@
 									value:"${supplier?.suppName}"
 			                '/>
 					    </td>
-					    <td width="120px"><div align="right">税务登记号：</div></td>
-					    <td width="250px">
-					    	<input id="suppTax" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='name:"suppTax",trim:true,
-									value:"${supplier?.suppTax}"
-			                '/>
-					    </td>
+					      <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>类型：</div></td>
+						 <td width="250">
+						    	<select id="suppType" data-dojo-type="dijit/form/FilteringSelect" 
+					                data-dojo-props='name:"suppType",${fieldAcl.isReadOnly("suppType")},
+					                trim:true,required:true,missingMessage:"请选择类别！",invalidMessage:"请选择类别！",
+					      			value:"${supplier?.suppType}"
+					            '>
+								<g:each in="${supplierList}" var="item">
+				                	<option value="${item.code }">${item.name }</option>
+				                </g:each>
+					    	</select>
+				           </td>
+
 					</tr>
 
 					<tr>
@@ -148,6 +154,13 @@
 					    </td>
 					</tr>
 						<tr>
+						<td width="120px"><div align="right">税务登记号：</div></td>
+					    <td width="250px">
+					    	<input id="suppTax" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='name:"suppTax",trim:true,
+									value:"${supplier?.suppTax}"
+			                '/>
+					    </td>
 					     <td><div align="right">邮编：</div></td>
 					    <td >
 					    	<input id="suppPost" data-dojo-type="dijit/form/ValidationTextBox" 
@@ -208,10 +221,10 @@
 				<table border="0" width="740" align="left">
 
 					<tr>
-					    <td width="120px"><div align="right"><span style="color:red">*&nbsp;</span>户主：</div></td>
+					    <td width="120px"><div align="right">户主：</div></td>
 					   <td width="250px">
 					    	<input id="suppBankAccMaster" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"suppBankAccMaster",
+			                 	data-dojo-props='trim:true,name:"suppBankAccMaster",
 									value:"${supplier?.suppBankAccMaster}"
 			                '/>
 					    </td>
@@ -224,10 +237,10 @@
 					    </td>
 					</tr>
 					<tr>
-					    <td width="120px"><div align="right"><span style="color:red">*&nbsp;</span>账号：</div></td>
+					    <td width="120px"><div align="right">账号：</div></td>
 					   <td width="250px">
 					    	<input id="suppBankAccNo" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"suppBankAccNo",
+			                 	data-dojo-props='trim:true,name:"suppBankAccNo",
 									value:"${supplier?.suppBankAccNo}"
 			                '/>
 					    </td>

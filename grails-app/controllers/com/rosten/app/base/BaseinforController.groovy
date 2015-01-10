@@ -7,9 +7,12 @@ import com.rosten.app.util.Util
 import com.rosten.app.system.Company
 import com.rosten.app.system.User
 
+import com.rosten.app.share.ShareService
+
 class BaseinforController {
 	def springSecurityService
 	def baseinforService
+	def shareService
 	
 	//获取往来单位信息列表数据
 	def getContactCorpSelect ={
@@ -259,7 +262,8 @@ class BaseinforController {
 	def contactCorpShow ={
 		def model =[:]
 		def currentUser = springSecurityService.getCurrentUser()
-		model["company"] = Company.get(params.companyId)
+		def company = Company.get(params.companyId)
+		model["company"] = company
 		
 		def entity
 		if(params.id){
@@ -269,6 +273,9 @@ class BaseinforController {
 		}
 		model["ContactCorp"] = entity
 		model["user"] = currentUser
+		
+		//往来单位类型
+		model["contactCropTypeList"] = shareService.getSystemCodeItems(company,"rs_contactCropType")
 		
 		FieldAcl fa = new FieldAcl()
 		model["fieldAcl"] = fa
@@ -352,7 +359,8 @@ class BaseinforController {
 	def supplierShow ={
 		def model =[:]
 		def currentUser = springSecurityService.getCurrentUser()
-		model["company"] = Company.get(params.companyId)
+		def company= Company.get(params.companyId)
+		model["company"] = company
 		
 		def entity
 		if(params.id){
@@ -363,9 +371,22 @@ class BaseinforController {
 		model["supplier"] = entity
 		model["user"] = currentUser
 		
+		//供应商类型
+		model["supplierList"] = shareService.getSystemCodeItems(company,"rs_supplierType")
+		
 		FieldAcl fa = new FieldAcl()
 		model["fieldAcl"] = fa
 		render(view:'/baseinfor/Supplier',model:model)
+	}
+	def supplierSearchView ={
+		def model =[:]
+		def currentUser = springSecurityService.getCurrentUser()
+		
+		def dataList = Depart.findAllByCompany(currentUser.company,[sort: "serialNo", order: "desc"])
+		model["departList"] = dataList
+		model["statusList"] = this.bargainStatus
+		
+		render(view:'/baseinfor/supplierSearch',model:model)
 	}
 	def supplierSave ={
 		def model=[:]

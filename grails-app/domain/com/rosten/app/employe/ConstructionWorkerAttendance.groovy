@@ -6,7 +6,7 @@ import com.rosten.app.system.Company
 
 class ConstructionWorkerAttendance {
 	/*
-	 往来单位信息
+	工地班组人员考勤
 	 */
 	String id
 	
