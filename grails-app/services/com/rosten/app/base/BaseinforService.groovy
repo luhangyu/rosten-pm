@@ -22,7 +22,8 @@ class BaseinforService {
 		def pa=[max:max,offset:offset]
 		def query = {
 			eq("company",company)
-			order("createdDate", "desc")
+			//默认公司排序在最前面
+			order("companyIsDef", "desc")
 			
 			searchArgs.each{k,v->
 				like(k,"%" + v + "%")
@@ -61,7 +62,9 @@ class BaseinforService {
 		def pa=[max:max,offset:offset]
 		def query = {
 			eq("company",company)
-			order("createdDate", "desc")
+//			order("createdDate", "desc")
+			//默认银行账号排序在最前面
+			order("accountIsDef", "desc")
 			
 			searchArgs.each{k,v->
 				like(k,"%" + v + "%")

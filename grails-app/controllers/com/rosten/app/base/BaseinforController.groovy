@@ -271,7 +271,7 @@ class BaseinforController {
 		}else{
 			entity = new ContactCorp()
 		}
-		model["ContactCorp"] = entity
+		model["contactCorp"] = entity
 		model["user"] = currentUser
 		
 		//往来单位类型
@@ -279,7 +279,7 @@ class BaseinforController {
 		
 		FieldAcl fa = new FieldAcl()
 		model["fieldAcl"] = fa
-		render(view:'/baseinfor/ContactCorp',model:model)
+		render(view:'/baseinfor/contactCorp',model:model)
 	}
 	
 	def contactCorpSave ={
@@ -378,14 +378,15 @@ class BaseinforController {
 		model["fieldAcl"] = fa
 		render(view:'/baseinfor/Supplier',model:model)
 	}
+	
 	def supplierSearchView ={
 		def model =[:]
 		def currentUser = springSecurityService.getCurrentUser()
-		
-		def dataList = Depart.findAllByCompany(currentUser.company,[sort: "serialNo", order: "desc"])
-		model["departList"] = dataList
-		model["statusList"] = this.bargainStatus
-		
+		def company= currentUser.company		
+		model["company"] = company
+		//供应商类型
+		model["suppliers"] = shareService.getSystemCodeItems(company,"rs_supplierType")
+
 		render(view:'/baseinfor/supplierSearch',model:model)
 	}
 	def supplierSave ={

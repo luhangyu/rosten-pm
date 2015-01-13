@@ -14,6 +14,8 @@ import com.rosten.app.share.ShareService
 import com.rosten.app.gtask.GtaskService
 import com.rosten.app.gtask.Gtask
 import com.rosten.app.workflow.FlowBusiness
+import com.rosten.app.project.ProjectManage
+
 
 class BargainController {
 
@@ -73,10 +75,6 @@ class BargainController {
 			entity.bargainType = "销售合同"
 			break;
 		}
-		
-//		if(params.type.equals("total")){
-//			entity.bargainType = "总包合同"
-//		}
 		
 		FieldAcl fa = new FieldAcl()
 		model["fieldAcl"] = fa
@@ -145,7 +143,7 @@ class BargainController {
 			}
 		}
 		
-		//两个类字段保存
+		//三个类字段保存（150113增加个项目名称类字段）
 		if(params.barVendorCorpId){
 			def bargainVendorCorpOBJ = ContactCorp.get(params.barVendorCorpId)
 			if(bargainVendorCorpOBJ){
@@ -159,6 +157,15 @@ class BargainController {
 				entity.barPurchaserCorp = bargainPurchaserCorpOBJ
 			}
 		}
+		//项目名称
+		if(params.bargainProjectId){
+			def bargainProjectOBJ = ProjectManage.get(params.bargainProjectId)
+			if(bargainProjectOBJ){
+				entity.bargainProject = bargainProjectOBJ
+			}
+		}
+		
+		
 		
 		//判断是否需要走流程
 		def _status

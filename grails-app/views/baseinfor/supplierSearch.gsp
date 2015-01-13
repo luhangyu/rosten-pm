@@ -17,32 +17,24 @@
           <tr>
             <th width="8%">供应商名称</th>
             <td width="18%">
-            	<input id="s_bargainNo" data-dojo-type="dijit/form/ValidationTextBox" 
+            	<input id="s_suppName" data-dojo-type="dijit/form/ValidationTextBox" 
                 	data-dojo-props='trim:true
                '/>
             </td>
             <th width="8%">供应商类型</th>
             <td width="18%">
-            	<input id="s_bargainName"  data-dojo-type="dijit/form/ValidationTextBox" 
-                	data-dojo-props='trim:true
-               '/>
-            </td>
-            <!--
-            <th width="8%">部门</th>
-            <td width="18%">
-            	<div id="s_departName" data-dojo-type="dijit/form/ComboBox"
+               <div id="s_suppType" data-dojo-type="dijit/form/ComboBox"
 	                data-dojo-props='trim:true,value:""
 	            '>
-	            	 <g:each in="${departList}" var="item">
-	                	<option value="${item.departName }">${item.departName }</option>
-	                </g:each>
+					<g:each in="${suppliers}" var="item">
+						<option value="${item.code}">${item.name}</option>
+					</g:each>
 	            </div>
             </td>
-            -->
             <td>
             	<div class="btn">
-                	<button data-dojo-type="dijit/form/Button" data-dojo-props='onClick:function(){bargain_search()}'>查询</button>
-                	<button data-dojo-type="dijit/form/Button" data-dojo-props='onClick:function(){bargain_resetSearch()}'>重置条件</button>
+                	<button data-dojo-type="dijit/form/Button" data-dojo-props='onClick:function(){supplier_search()}'>查询</button>
+                	<button data-dojo-type="dijit/form/Button" data-dojo-props='onClick:function(){supplier_resetSearch()}'>重置条件</button>
               	</div>
            </td>
           </tr>

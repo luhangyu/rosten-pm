@@ -9,32 +9,29 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general", "rosten/k
 	supplier_search = function(){
 		var content = {};
 		
-		var s_bargainNo = registry.byId("s_bargainNo");
-		if(s_bargainNo.get("value")!=""){
-			content.bargainNo = s_bargainNo.get("value");
+		var s_suppName = registry.byId("s_suppName");
+		if(s_suppName.get("value")!=""){
+			content.suppName = s_suppName.get("value");
 		}
 		
-		var s_bargainName = registry.byId("s_bargainName");
-		if(s_bargainName.get("value")!=""){
-			content.bargainName = s_bargainName.get("value");
+		var s_suppType = registry.byId("s_suppType");
+		if(s_suppType.get("value")!=""){
+			content.suppType = s_suppType.get("value");
 		}
 		
-		var s_departName = registry.byId("s_departName");
-		if(s_departName.get("value")!=""){
-			content.departName = s_departName.get("value");
-		}
+		
 		switch(rosten.kernel.navigationEntity) {
 		default:
 			rosten.kernel.refreshGrid(rosten.kernel.getGrid().defaultUrl, content);
 			break;
 		}
 	};
+	//供应商-搜索重置
 	supplier_resetSearch = function(){
 		switch(rosten.kernel.navigationEntity) {
 		default:
-			registry.byId("s_bargainNo").set("value","");
-			registry.byId("s_bargainName").set("value","");
-			registry.byId("s_departName").set("value","");
+			registry.byId("s_suppName").set("value","");
+			registry.byId("s_suppType").set("value","");
 			rosten.kernel.refreshGrid();
 			break;
 		}	
@@ -403,7 +400,8 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general", "rosten/k
 			};
 			rosten.kernel.addRightContent(naviJson);
 			break;
-		case "supplier":
+			
+		case "supplier": //供应商
 			var naviJson = {
 				identifier : oString,				
 				actionBarSrc : rosten.webPath + "/baseinforAction/supplierView?userId=" + userid,

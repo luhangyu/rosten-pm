@@ -92,7 +92,7 @@
 					    <td colspan=3>
 					    	<input id="contactCorpName" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,required:true,name:"contactCorpName",style:{width:"550px"},
-									value:"${ContactCorp?.contactCorpName}"
+									value:"${contactCorp?.contactCorpName}"
 			                '/>
 					    </td>
 
@@ -104,10 +104,10 @@
 						    	<select id="contactCorpType" data-dojo-type="dijit/form/FilteringSelect" 
 					                data-dojo-props='name:"contactCorpType",${fieldAcl.isReadOnly("contactCorpType")},
 					                trim:true,required:true,missingMessage:"请选择类别！",invalidMessage:"请选择类别！",
-					      			value:"${ContactCorp?.contactCorpType}"
+					      			value:"${contactCorp?.contactCorpType}"
 					            '>
 								<g:each in="${contactCropTypeList}" var="item">
-				                	<option value="${item.code }">${item.name }</option>
+				                	<option value="${item.name}">${item.name}</option>
 				                </g:each>
 					    	</select>
 				           </td>
@@ -115,7 +115,7 @@
 					    <td width="250">
 					    	<input id="contCorpLeader" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,name:"contCorpLeader",
-									value:"${ContactCorp?.contCorpLeader}"
+									value:"${contactCorp?.contCorpLeader}"
 			                '/>
 					    </td>
 					</tr>
@@ -124,14 +124,14 @@
 					    <td >
 					    	<input id="contCorpLicense" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,name:"contCorpLicense",
-									value:"${ContactCorp?.contCorpLicense}"
+									value:"${contactCorp?.contCorpLicense}"
 			                '/>
 					    </td>
 					 	<td ><div align="right">税务登记号：</div></td>
 					    <td >
 					    	<input id="contactCorpTax" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,name:"contactCorpTax",
-									value:"${ContactCorp?.contactCorpTax}"
+									value:"${contactCorp?.contactCorpTax}"
 			                '/>
 					    </td>
 					</tr>
@@ -140,7 +140,7 @@
 					    <td >
 					    	<input id="contactCorpProv" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,name:"contactCorpProv",
-									value:"${ContactCorp?.contactCorpProv}"
+									value:"${contactCorp?.contactCorpProv}"
 			                '/>
 					    </td>
 					 	
@@ -150,7 +150,7 @@
 					    <td colspan=3>
 					    	<input id="contactCorpAddr" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,name:"contactCorpAddr",style:{width:"550px"},
-									value:"${ContactCorp?.contactCorpAddr}"
+									value:"${contactCorp?.contactCorpAddr}"
 			                '/>
 					    </td>
 					</tr>
@@ -159,7 +159,7 @@
 					    <td >
 					    	<input id="contCorpLinkMan" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,name:"contCorpLinkMan",
-									value:"${ContactCorp?.contCorpLinkMan}"
+									value:"${contactCorp?.contCorpLinkMan}"
 			                '/>
 					    </td>
 					 	
@@ -169,14 +169,14 @@
 					    <td >
 					    	<input id="contactCorpPhone" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,name:"contactCorpPhone",
-									value:"${ContactCorp?.contactCorpPhone}"
+									value:"${contactCorp?.contactCorpPhone}"
 			                '/>
 					    </td>
 					    <td><div align="right">传真：</div></td>
 					    <td >
 					    	<input id="contactCorpFax" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,name:"contactCorpFax",
-									value:"${ContactCorp?.contactCorpFax}"
+									value:"${contactCorp?.contactCorpFax}"
 			                '/>
 					    </td>
 					 	
@@ -187,14 +187,14 @@
 					    <td >
 					    	<input id="contCorpWebSite" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,name:"contCorpWebSite",
-									value:"${ContactCorp?.contCorpWebSite}"
+									value:"${contactCorp?.contCorpWebSite}"
 			                '/>
 					    </td>
 					 	<td><div align="right">电子邮箱：</div></td>
 					    <td >
 					    	<input id="contCorpEMail" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,name:"contCorpEMail",
-									value:"${ContactCorp?.contCorpEMail}"
+									value:"${contactCorp?.contCorpEMail}"
 			                '/>
 					    </td>
 					</tr>
@@ -204,7 +204,7 @@
 					    	<textarea id="contCorpRemark" data-dojo-type="dijit/form/SimpleTextarea" 
     							data-dojo-props='name:"contCorpRemark","class":"input",
                                		style:{width:"550px"},rows:"2",
-                               		trim:true,value:"${ContactCorp?.contCorpRemark}"
+                               		trim:true,value:"${contactCorp?.contCorpRemark}"
                            '>
     						</textarea>
 					    </td>

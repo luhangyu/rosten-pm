@@ -42,7 +42,7 @@ class Bargain {
 	String bargainVendor
 	
 	//合同对应的项目
-	ProjectManage bargainProName
+	ProjectManage bargainProject
 	
 	
 	//合同甲方单位

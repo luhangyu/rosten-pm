@@ -320,6 +320,41 @@
 						};
 
 						break;	
+
+
+					//合同所属项目选择
+					case "BargainProject":
+						var projName = registry.byId("bargainProject").get("value");
+						var dialog = rosten.selectBaseDialog("项目选择","${createLink(controller:'project',action:'getProjectSelect',params:[companyId:company?.id])}",false,"bargainProject","bargainProjectId",projName);
+						dialog.callback = function(data){
+							if(data.length>0){
+								var dealId = data[0].id
+								/*
+								 * 特殊字段赋值
+								 */
+								dialog.getStoreDate(dealId,function(item){
+									registry.byId("barPurchaserCorpId").attr("value", dialog.chkboxStore.getValue(item, "id"));
+									registry.byId("barPurchaserCorp").attr("value", dialog.chkboxStore.getValue(item, "name"));
+									registry.byId("y_contCorpLeader").attr("value",dialog.chkboxStore.getValue(item, "contCorpLeader"));
+									registry.byId("y_cCorpLeaderDuty").attr("value", dialog.chkboxStore.getValue(item, "cCorpLeaderDuty"));
+									registry.byId("y_contactCorpPhone").attr("value", dialog.chkboxStore.getValue(item, "contactCorpPhone"));
+									registry.byId("y_contactCorpPost").attr("value", dialog.chkboxStore.getValue(item, "contactCorpPost"));
+									registry.byId("y_contactCorpAddr").attr("value", dialog.chkboxStore.getValue(item, "contactCorpAddr"));
+									
+								});
+								
+							}else{
+								registry.byId("barPurchaserCorp").attr("value","");
+								registry.byId("barPurchaserCorpId").attr("value", "");
+								registry.byId("y_contCorpLeader").attr("value", "");
+								registry.byId("y_cCorpLeaderDuty").attr("value", "");
+								registry.byId("y_contactCorpPhone").attr("value", "");
+								registry.byId("y_contactCorpPost").attr("value", "");
+								registry.byId("y_contactCorpAddr").attr("value", "");
+							}
+						};
+
+						break;	
 					}
 					
 				}
@@ -497,12 +532,19 @@
 					    </td>
 					</tr>
 					<tr>
-					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>项目名称：</div></td>
+					    <td width="120"><div align="right">项目名称：</div></td>
 					    <td colspan=3>
-					    	<input id="bargainProName" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"bargainProName",style:{width:"550px"},
-									value:"${bargain?.bargainProName?.projName}"
+					    	<input id="bargainProject" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,name:"bargainProject",readOnly:true,style:{width:"550px"},
+									value:"${bargain?.bargainProject?.projName}"
 			                '/>
+			                <g:if test="${isShowFile }">
+					         	<g:hiddenField id="bargainProjectId" data-dojo-type="dijit/form/ValidationTextBox" name="bargainProjectId" value="${Bargain?.bargainProject?.id}" />
+								<button data-dojo-type="dijit.form.Button" 
+									data-dojo-props='onClick:function(){
+										showSelectDialog("BargainProject");	
+									}'>选择</button>
+			           		</g:if>
 					    </td>
 					</tr>
 					<tr>

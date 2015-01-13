@@ -103,7 +103,7 @@
 					      			value:"${supplier?.suppType}"
 					            '>
 								<g:each in="${supplierList}" var="item">
-				                	<option value="${item.code }">${item.name }</option>
+				                	<option value="${item.name }">${item.name }</option>
 				                </g:each>
 					    	</select>
 				           </td>

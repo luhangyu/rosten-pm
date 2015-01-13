@@ -11,6 +11,25 @@ class ProjectController {
     def springSecurityService
 	def projectService
 	
+	
+	//获取项目列表（合同表单“项目名称”字段选择数据）
+	def getProjectSelect ={
+		def _List =[]
+		def company = Company.get(params.companyId)
+		ProjectManage.findAllByCompany(company).each{
+			def json=[:]
+			json["id"] = it.id
+			json["name"] = it.projName
+			json["projNo"] = it.projNo
+//			json["cCorpLeaderDuty"] = it.cCorpLeaderDuty
+//			json["contactCorpPhone"] = it.contactCorpPhone
+//			json["contactCorpPost"] = it.contactCorpPost
+//			json["contactCorpAddr"] = it.contactCorpAddr
+			_List << json
+		}
+		render _List as JSON
+	}
+	
 	//项目管理
 	def projectManageAdd ={
 		redirect(action:"projectManageShow",params:params)
