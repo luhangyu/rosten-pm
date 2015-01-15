@@ -25,7 +25,7 @@ class BargainController {
 	def gtaskService
 	
 	private def bargainStatus = ["新增","已结束"]
-	private def bargainType=["totalpackageBargain":"总包合同"]
+	private def bargainType=["totalpackageBargain":"总包合同","subpackageBargain":"分包合同","purchaseBargain":"采购合同","salesBargain":"销售合同"]
 	
 	//合同<--start
 	def bargainAdd ={
@@ -371,22 +371,34 @@ class BargainController {
 		if(params.refreshHeader){
 			model["gridHeader"] = bargainService.getBargainListLayout()
 		}
-		
 		//增加查询条件
-		def searchArgs =[:]
-		
+		def searchArgs =[:]		
 		if(params.bargainNo && !"".equals(params.bargainNo)) searchArgs["bargainNo"] = params.bargainNo
 		if(params.bargainName && !"".equals(params.bargainName)) searchArgs["bargainName"] = params.bargainName
 		if(params.departName && !"".equals(params.departName)) searchArgs["currentDepart"] = params.departName
 		if(params.type && !"".equals(params.type)){
+			//searchArgs["bargainType"] = this.bargainType[params.type]
 			switch (params.type){
 				case "totalpackageBargain":
 					searchArgs["bargainType"] = this.bargainType[params.type]
 					break;
+				case "subpackageBargain":
+					searchArgs["bargainType"] = this.bargainType[params.type]
+					break;
+				case "purchaseBargain":
+					searchArgs["bargainType"] = this.bargainType[params.type]
+					break;
+				case "salesBargain":
+					searchArgs["bargainType"] = this.bargainType[params.type]
+					break;	
+				default:
+				searchArgs["bargainType"] = params.type
 			}
 		}else{
 			searchArgs["bargainType"] = params.type
 		}
+		
+		
 		if(params.refreshData){
 			def args =[:]
 			int perPageNum = Util.str2int(params.perPageNum)

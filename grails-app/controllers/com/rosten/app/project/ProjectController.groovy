@@ -5,6 +5,7 @@ import com.rosten.app.util.SystemUtil
 import com.rosten.app.util.Util
 import com.rosten.app.system.Company
 import com.rosten.app.system.User
+import com.rosten.app.base.ContactCorp
 
 class ProjectController {
 
@@ -66,7 +67,26 @@ class ProjectController {
 		entity.properties = params
 		entity.clearErrors()
 		
+		//日期字段值处理，convertToTimestamp
+		entity.projEndDate = Util.convertToTimestamp(params.projEndDate)
+		entity.projectStartDate = Util.convertToTimestamp(params.projectStartDate)
+		
+		if(params.supCorpId){
+			def suppCorpOBJ = ContactCorp.get(params.supCorpId)
+			if(suppCorpOBJ){
+				entity.supCorp = suppCorpOBJ
+			}
+		}
+		if(params.constCorpId){
+			def constCorpOBJ = ContactCorp.get(params.constCorpId)
+			if(constCorpOBJ){
+				entity.constCorp = constCorpOBJ
+			}
+		}
+		
+		
 		if(entity.save(flush:true)){
+			model["id"] = entity.id
 			model["result"] = "true"
 		}else{
 			entity.errors.each{

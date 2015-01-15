@@ -16,11 +16,19 @@ class ProjectManage {
 	String projName
 	
 	//项目编号
-	@GridColumn(name="项目编号",width="160px",colIdx=2)
+	@GridColumn(name="项目编号",width="110px",colIdx=2)
 	String projNo
 	
 	//建设单位
-	//@GridColumn(name="建设单位",width="200px",colIdx=3)
+	@GridColumn(name="建设单位",width="150px",colIdx=3)
+	def getconstCorpName(){
+		if(constCorp!=null){
+			return constCorp.contactCorpName
+		}else{
+			return ""
+		}
+	}
+	
 	ContactCorp constCorp
 	
 	//建设方代表
@@ -29,17 +37,26 @@ class ProjectManage {
 	//String constCorpPhone
 	
 	//监理单位
-	//@GridColumn(name="监理单位",width="200px",colIdx=4)
+	@GridColumn(name="监理单位",width="150px",colIdx=4)
+	def getsupCorpName(){
+		if(supCorp!=null){
+			return supCorp.contactCorpName
+		}else{
+			return ""
+		}
+	}
 	ContactCorp supCorp
 	//监理方代表
 	//String supCorpDele
 	//监理方电话
 	//String supCorpPhone
 	//项目经理
+	@GridColumn(name="项目经理",width="60px",colIdx=5)
 	String projectManager
 	//项目副经理
 	String projAssManager
 	//工地名称
+	@GridColumn(name="工地名称",width="150px",colIdx=6)
 	String projWorkPlace
 	//工地地址
 	String projWrkPlaceAdd
@@ -50,6 +67,8 @@ class ProjectManage {
 	String projWrkload
 	//开工日期
 	Date projStartDate=new Date()
+	
+	@GridColumn(name="开工日期",width="100px",colIdx=7)
 	def getFormatteprojectStartDate(){
 		if(projStartDate!=null){
 			SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd")
@@ -59,6 +78,7 @@ class ProjectManage {
 		}
 	}
 	//计划竣工日期
+	@GridColumn(name="计划竣工日期",width="100px")
 	Date projEndDate=new Date()
 	def getFormatteprojectEndDate(){
 		if(projEndDate!=null){
@@ -77,6 +97,9 @@ class ProjectManage {
 	Date createdDate = new Date()
 	
     static constraints = {
+		constCorp nullable:true,blank:true
+		supCorp nullable:true,blank:true
+		
     }
 	
 	static belongsTo = [company:Company]

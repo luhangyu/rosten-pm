@@ -30,15 +30,15 @@ class Bargain {
 	String bargainType
 	
 	//合同号
-	@GridColumn(name="合同号",colIdx=3,width="60px")
+	@GridColumn(name="合同号",colIdx=3,width="100px")
 	String bargainNo
 	
 	//合同金额
-	@GridColumn(name="合同金额（元）",colIdx=6)
+	@GridColumn(name="合同金额（元）",colIdx=6,width="100px")
 	Long bargainMoney
 	
 	//甲方
-	@GridColumn(name="合同甲方",colIdx=4,width="220px")
+	@GridColumn(name="合同甲方",colIdx=4,width="150px")
 	String bargainVendor
 	
 	//合同对应的项目
@@ -49,7 +49,7 @@ class Bargain {
 	ContactCorp barVendorCorp
 	
 	//乙方
-	@GridColumn(name="合同乙方",colIdx=5,width="220px")
+	@GridColumn(name="合同乙方",colIdx=5,width="150px")
 	String bargainPurchaser
 	
 	//合同乙方单位
@@ -60,7 +60,7 @@ class Bargain {
 	
 	Date bargainSignDate = new Date()
 	
-	@GridColumn(name="签订日期",colIdx=7)
+	@GridColumn(name="签订日期",colIdx=7,width="80px")
 	def getFormatteBargainSignDate(){
 		if(bargainSignDate!=null){
 			SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd")
@@ -145,6 +145,7 @@ class Bargain {
 		barVendorCorp nullable:true,blank:true
 		barPurchaserCorp nullable:true,blank:true
 		bargainPayMemo nullable:true,blank:true
+		bargainProject nullable:true,blank:true
 		
 		//流程相关-------------------------------------------------------------
 		defaultReaders nullable:true,blank:true

@@ -68,6 +68,60 @@
 					rosten.pagequit();
 				};
 
+
+				showSelectDialog = function(type){
+					switch(type){
+					case "supCorp":
+						var corpName = registry.byId("supCorp").get("value");
+						var dialog = rosten.selectBaseDialog("单位选择","${createLink(controller:'baseinfor',action:'getContactCorpSelect',params:[companyId:company?.id])}",false,"supCorp","supCorpId",corpName);
+						dialog.callback = function(data){
+							if(data.length>0){
+								var dealId = data[0].id
+								/*
+								 * 特殊字段赋值
+								 */
+								dialog.getStoreDate(dealId,function(item){
+									registry.byId("supCorpId").attr("value", dialog.chkboxStore.getValue(item, "id"));
+									registry.byId("supCorp").attr("value", dialog.chkboxStore.getValue(item, "name"));
+									registry.byId("j_suppCorpRer").attr("value",dialog.chkboxStore.getValue(item, "contCorpLeader"));
+									registry.byId("j_suppCorpPhone").attr("value", dialog.chkboxStore.getValue(item, "contactCorpPhone"));
+								});
+							}else{
+								registry.byId("supCorp").attr("value","");
+								registry.byId("supCorpId").attr("value", "");
+								registry.byId("j_suppCorpRer").attr("value", "");
+								registry.byId("j_suppCorpPhone").attr("value", "");
+							}
+						};
+						break;
+						
+					case "constCorp":
+						var corpName = registry.byId("constCorp").get("value");
+						var dialog = rosten.selectBaseDialog("单位选择","${createLink(controller:'baseinfor',action:'getContactCorpSelect',params:[companyId:company?.id])}",false,"supCorp","supCorpId",corpName);
+						dialog.callback = function(data){
+							if(data.length>0){
+								var dealId = data[0].id
+								/*
+								 * 特殊字段赋值
+								 */
+								dialog.getStoreDate(dealId,function(item){
+									registry.byId("constCorpId").attr("value", dialog.chkboxStore.getValue(item, "id"));
+									registry.byId("constCorp").attr("value", dialog.chkboxStore.getValue(item, "name"));
+									registry.byId("j_constCorpRer").attr("value",dialog.chkboxStore.getValue(item, "contCorpLeader"));
+									registry.byId("j_constCorpPhone").attr("value", dialog.chkboxStore.getValue(item, "contactCorpPhone"));
+								});
+							}else{
+								registry.byId("constCorp").attr("value","");
+								registry.byId("constCorpId").attr("value", "");
+								registry.byId("j_constCorpRer").attr("value", "");
+								registry.byId("j_constCorpPhone").attr("value", "");
+							}
+						};
+						break;
+							
+						}
+					}	
+			
 			
 		});
     </script>
@@ -89,16 +143,18 @@
 				<table border="0" width="740" align="left">
 					<tr>
 					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>项目名称：</div></td>
-					    <td width="250">
+					    <td colspan=3>
 					    	<input id="projName" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"projName",
+			                 	data-dojo-props='trim:true,required:true,name:"projName",style:{width:"550px"},
 									value:"${projectManage?.projName}"
 			                '/>
 					    </td>
-						<td width="120"><div align="right"><span style="color:red">*&nbsp;</span>项目编号：</div></td>
+					</tr>
+					<tr>
+						<td width="120"><div align="right">项目编号：</div></td>
 					    <td width="250">
 					    	<input id="projNo" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"projNo",
+			                 	data-dojo-props='trim:true,name:"projNo",
 									value:"${projectManage?.projNo}"
 			                '/>
 					    </td>
@@ -112,9 +168,12 @@
 				               		trim:true,required:true,
 									value:"${projectManage?.constCorp?.contactCorpName}"
 				          	'/>
-				          	<g:if test="${!onlyShow }">
-					         	<g:hiddenField name="allowdepartsId" value="${departId}" />
-								<button data-dojo-type="dijit.form.Button" data-dojo-props='onClick:function(){selectDepart("${createLink(controller:'system',action:'departTreeDataStore',params:[companyId:company?.id])}")}'>选择</button>
+ 							<g:if test="${!onlyShow }">
+					         	<g:hiddenField id="constCorpId" data-dojo-type="dijit/form/ValidationTextBox" name="constCorpId" value="${projectManage?.constCorp?.id}" />
+								<button data-dojo-type="dijit.form.Button" 
+									data-dojo-props='onClick:function(){
+										showSelectDialog("constCorp");	
+									}'>选择</button>
 			           		</g:if>
 			           	</td>
 						<td width="120"><div align="right"><span style="color:red">*&nbsp;</span>监理单位：</div></td>
@@ -124,41 +183,45 @@
 				               		trim:true,required:true,
 				               		value:"${projectManage?.supCorp?.contactCorpName}"
 				          	'/>
-				          	<g:if test="${!onlyShow }">
-					         	<g:hiddenField name="allowdepartsId" value="${departId}" />
-								<button data-dojo-type="dijit.form.Button" data-dojo-props='onClick:function(){selectDepart("${createLink(controller:'system',action:'departTreeDataStore',params:[companyId:company?.id])}")}'>选择</button>
+			           		 <g:if test="${!onlyShow }">
+					         	<g:hiddenField id="supCorpId" data-dojo-type="dijit/form/ValidationTextBox" name="supCorpId" value="${projectManage?.supCorp?.id}" />
+								<button data-dojo-type="dijit.form.Button" 
+									data-dojo-props='onClick:function(){
+										showSelectDialog("supCorp");	
+									}'>选择</button>
 			           		</g:if>
+			           		
 			           	</td>
 					</tr>
 					<tr>
-						<td ><div align="right"><span style="color:red">*&nbsp;</span>建设方代表：</div></td>
+						<td ><div align="right">建设方代表：</div></td>
 					    <td >
-					    	<input id="constructionCorpRepresentative" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"constructionCorpRepresentative",
-									value:"${projectManage?.constCorp?.contactCorpName}"
+					    	<input id="j_constCorpRer" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,placeHolder:"系统自动赋值",
+									value:"${projectManage?.constCorp?.contCorpLeader}"
 			                '/>
 					    </td>
-					    <td ><div align="right"><span style="color:red">*&nbsp;</span>监理方代表：</div></td>
+					    <td ><div align="right">监理方代表：</div></td>
 					    <td >
-					    	<input id="supervisorCorpRepresentative" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"supervisorCorpRepresentative",
-									value:"${projectManage?.supCorp?.contactCorpName}"
+					    	<input id="j_suppCorpRer" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,placeHolder:"系统自动赋值",
+									value:"${projectManage?.supCorp?.contCorpLeader}"
 			                '/>
 					    </td>
 					</tr>
 					<tr>
-						<td ><div align="right"><span style="color:red">*&nbsp;</span>建设方联系电话：</div></td>
+						<td ><div align="right">建设方联系电话：</div></td>
 					    <td >
-					    	<input id="constructionCorpPhone" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"constructionCorpPhone",
-									value:"${projectManage?.supCorp?.contactCorpName}"
+					    	<input id="j_constCorpPhone" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,placeHolder:"系统自动赋值",
+									value:"${projectManage?.constCorp?.contactCorpPhone}"
 			                '/>
 					    </td>
-					    <td ><div align="right"><span style="color:red">*&nbsp;</span>监理方联系电话：</div></td>
+					    <td ><div align="right">监理方联系电话：</div></td>
 					    <td >
-					    	<input id="supervisorCorpPhone" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"supervisorCorpPhone",
-									value:"${projectManage?.supCorp?.contactCorpName}"
+					    	<input id="j_suppCorpPhone" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,placeHolder:"系统自动赋值",
+									value:"${projectManage?.supCorp?.contactCorpPhone}"
 			                '/>
 					    </td>
 					</tr>
@@ -216,7 +279,7 @@
 					    <td>
 					    	<input id="projectStartDate" data-dojo-type="dijit/form/DateTextBox" 
 			                	data-dojo-props='name:"projectStartDate",${fieldAcl.isReadOnly("projectStartDate")},
-			                	trim:true,required:true,missingMessage:"请正确填写考勤时间！",invalidMessage:"请正确填写考勤时间！",
+			                	trim:true,required:true,missingMessage:"请正确填写开工日期！",invalidMessage:"请正确填写开工日期！",
 			                	value:"${projectManage?.getFormatteprojectStartDate()}"
 			               '/>
 			            </td>
@@ -224,7 +287,7 @@
 					    <td>
 					    	<input id="projectEndDate" data-dojo-type="dijit/form/DateTextBox" 
 			                	data-dojo-props='name:"projectEndDate",${fieldAcl.isReadOnly("projectEndDate")},
-			                	trim:true,required:true,missingMessage:"请正确填写考勤时间！",invalidMessage:"请正确填写考勤时间！",
+			                	trim:true,required:true,missingMessage:"请正确填写计划竣工日期！",invalidMessage:"请正确填写计划竣工日期！",
 			                	value:"${projectManage?.getFormatteprojectEndDate()}"
 			               '/>
 			            </td>

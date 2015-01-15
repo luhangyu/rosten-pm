@@ -16,13 +16,19 @@
         <tbody>
           <tr>
             <th width="8%">供应商名称</th>
-            <td width="18%">
+            <td width="16%">
             	<input id="s_suppName" data-dojo-type="dijit/form/ValidationTextBox" 
                 	data-dojo-props='trim:true
                '/>
             </td>
+           	<th width="6%">助记码</th>
+            <td width="16%">
+            	<input id="s_suppCode" data-dojo-type="dijit/form/ValidationTextBox" 
+                	data-dojo-props='trim:true
+               '/>
+            </td>
             <th width="8%">供应商类型</th>
-            <td width="18%">
+            <td width="16%">
                <div id="s_suppType" data-dojo-type="dijit/form/ComboBox"
 	                data-dojo-props='trim:true,value:""
 	            '>
