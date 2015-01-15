@@ -67,7 +67,6 @@ class ProjectManage {
 	String projWrkload
 	//开工日期
 	Date projStartDate=new Date()
-	
 	@GridColumn(name="开工日期",width="100px",colIdx=7)
 	def getFormatteprojectStartDate(){
 		if(projStartDate!=null){
@@ -78,8 +77,8 @@ class ProjectManage {
 		}
 	}
 	//计划竣工日期
-	@GridColumn(name="计划竣工日期",width="100px")
 	Date projEndDate=new Date()
+	@GridColumn(name="计划竣工日期",width="100px")
 	def getFormatteprojectEndDate(){
 		if(projEndDate!=null){
 			SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd")
@@ -88,6 +87,7 @@ class ProjectManage {
 			return ""
 		}
 	}
+	
 	//材料预算全额
 	Long projMatMoney
 	

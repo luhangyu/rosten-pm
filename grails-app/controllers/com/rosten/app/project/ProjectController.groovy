@@ -68,8 +68,8 @@ class ProjectController {
 		entity.clearErrors()
 		
 		//日期字段值处理，convertToTimestamp
-		entity.projEndDate = Util.convertToTimestamp(params.projEndDate)
-		entity.projectStartDate = Util.convertToTimestamp(params.projectStartDate)
+		entity.projEndDate = Util.convertToTimestamp(params.projectEndDate)
+		entity.projStartDate = Util.convertToTimestamp(params.projectStartDate)
 		
 		if(params.supCorpId){
 			def suppCorpOBJ = ContactCorp.get(params.supCorpId)
