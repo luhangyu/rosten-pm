@@ -209,8 +209,14 @@ class PmController {
 			model.addToResources(resource)
 			
 			resource = new Resource()
-			resource.resourceName = "施工方案审批"
+			resource.resourceName = "施工方案"
 			resource.url = "constructApprove"
+			resource.imgUrl = "images/rosten/navigation/rosten.png"
+			model.addToResources(resource)
+			
+			resource = new Resource()
+			resource.resourceName = "项目计划"
+			resource.url = "projectPlan"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"
 			model.addToResources(resource)
 			
@@ -219,6 +225,7 @@ class PmController {
 			resource.url = "constructLog"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"
 			model.addToResources(resource)
+			
 			
 			resource = new Resource()
 			resource.resourceName = "视频监控"

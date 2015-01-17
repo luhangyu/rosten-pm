@@ -35,6 +35,60 @@ class ProjectActionController {
 	//项目管理end------
 	
 	
+	//项目计划start---------
+	def projectPlanForm ={
+		def webPath = request.getContextPath() + "/"
+		def actionList = []
+		def strname = "projectPlan"
+		actionList << createAction("返回",webPath + imgPath + "quit_1.gif","page_quit")
+		actionList << createAction("保存",webPath +imgPath + "Save.gif",strname + "_save")
+		render actionList as JSON
+	}
+	def projectPlanView ={
+		def actionList =[]
+		def user = User.get(params.userId)
+		
+		def strname = "projectPlan"
+		actionList << createAction("退出",imgPath + "quit_1.gif","returnToMain")
+		actionList << createAction("新建",imgPath + "add.png","add_"+ strname)
+		
+		if("admin".equals(user.getUserType()) || user.getAllRolesValue().contains("系统管理员")){
+			actionList << createAction("删除",imgPath + "delete.png","delete_" + strname)
+		}
+		
+		actionList << createAction("刷新",imgPath + "fresh.gif","freshGrid")
+		
+		render actionList as JSON
+	}
+	//项目计划end------
+	
+	
+	//施工方案start---------
+	def constructApproveForm ={
+		def webPath = request.getContextPath() + "/"
+		def actionList = []
+		def strname = "constructApprove"
+		actionList << createAction("返回",webPath + imgPath + "quit_1.gif","page_quit")
+		actionList << createAction("保存",webPath +imgPath + "Save.gif",strname + "_save")
+		render actionList as JSON
+	}
+	def constructApproveView ={
+		def actionList =[]
+		def user = User.get(params.userId)
+		
+		def strname = "constructApprove"
+		actionList << createAction("退出",imgPath + "quit_1.gif","returnToMain")
+		actionList << createAction("新建",imgPath + "add.png","add_"+ strname)
+		
+		if("admin".equals(user.getUserType()) || user.getAllRolesValue().contains("系统管理员")){
+			actionList << createAction("删除",imgPath + "delete.png","delete_" + strname)
+		}
+		
+		actionList << createAction("刷新",imgPath + "fresh.gif","freshGrid")
+		
+		render actionList as JSON
+	}
+	//施工方案end------
 	
 	
 	//默认必须要有

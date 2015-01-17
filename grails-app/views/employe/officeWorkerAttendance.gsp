@@ -94,17 +94,17 @@
 					<tr>
 					    <td><div align="right"><span style="color:red">*&nbsp;</span>员工姓名：</div></td>
 					    <td >
-					    	<input id="officeAttendanceName" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"officeAttendanceName",
-									value:"${officeWorkerAttendance?.officeAttendanceName}"
+					    	<input id="offAttenName" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,required:true,name:"offAttenName",
+									value:"${officeWorkerAttendance?.offAttenName}"
 			                '/>
 					    </td>
 					    <td><div align="right"><span style="color:red">*&nbsp;</span>考勤日期：</div></td>
 					    <td>
-						    <input id="officeAttendanceDate" data-dojo-type="dijit/form/DateTextBox" 
-		               		data-dojo-props='name:"officeAttendanceDate",${fieldAcl.isReadOnly("officeAttendanceDate")},
+						    <input id="offAttenDate" data-dojo-type="dijit/form/DateTextBox" 
+		               		data-dojo-props='name:"offAttenDate",${fieldAcl.isReadOnly("offAttenDate")},
 		               		trim:true,required:true,
-							value:"${officeWorkerAttendance?.getFormatteofficeAttendanceDate()}"
+							value:"${officeWorkerAttendance?.getFormatteoffAttenDate()}"
 		          			'/>
 			            </td>
 
@@ -112,21 +112,21 @@
 					<tr>
 						<td><div align="right"><span style="color:red">*&nbsp;</span>所属部门：</div></td>
 					    <td>
-					    	<input id="officeAttendanceDepart" data-dojo-type="dijit/form/ValidationTextBox" 
-				               	data-dojo-props='name:"officeAttendanceDepart",
+					    	<input id="offAttenDepart" data-dojo-type="dijit/form/ValidationTextBox" 
+				               	data-dojo-props='name:"offAttenDepart",
 				               		trim:true,required:true,
-									value:"${officeWorkerAttendance?.officeAttendanceDepart}"
+									value:"${officeWorkerAttendance?.offAttenDepart}"
 				          	'/>				          	
 			           	</td>
 					
 					</tr>
 					<tr>
-						<td width="120"><div align="right"><span style="color:red">*&nbsp;</span>备注：</div></td>
+						<td width="120"><div align="right">备注：</div></td>
 					    <td colspan=3>
-					    	<textarea id="officeWorkerAttendanceRemark" data-dojo-type="dijit/form/SimpleTextarea" 
-    							data-dojo-props='name:"officeWorkerAttendanceRemark","class":"input",
+					    	<textarea id="offAtteRemark" data-dojo-type="dijit/form/SimpleTextarea" 
+    							data-dojo-props='name:"offAtteRemark","class":"input",
                                		style:{width:"550px"},rows:"2",
-                               		trim:true,value:"${officeWorkerAttendance?.officeWorkerAttendanceRemark}"
+                               		trim:true,value:"${officeWorkerAttendance?.offAtteRemark}"
                            '>
                            </textarea>
 					    </td>
