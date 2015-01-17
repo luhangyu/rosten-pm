@@ -14,6 +14,33 @@ class BaseinforController {
 	def baseinforService
 	def shareService
 	
+	
+	//获取材料信息清单数据
+	def getMatInfoListSelect ={
+		def _List =[]
+		def company = Company.get(params.companyId)
+		MaterialInfo.findAllByCompany(company).each{
+			def json=[:]
+			json["id"] = it.id
+			json["name"] = it.matInfoName
+			_List << json
+		}
+		render _List as JSON
+	}
+	
+	//获取材料计量单位列表
+	def getMatUnitSelect ={
+		def _List =[]
+		def company = Company.get(params.companyId)
+		MaterialUnit.findAllByCompany(company).each{
+			def json=[:]
+			json["id"] = it.id
+			json["name"] = it.matUnitName
+			_List << json
+		}
+		render _List as JSON
+	}
+	
 	//获取往来单位信息列表数据
 	def getContactCorpSelect ={
 		def _List =[]
@@ -493,6 +520,22 @@ class BaseinforController {
 		
 		entity.properties = params
 		entity.clearErrors()
+		
+		//类字段保存
+		if(params.matInfoPurUnitId){
+			def POBJ = MaterialUnit.get(params.matInfoPurUnitId)
+			if(POBJ){
+				entity.matInfoPurUnit = POBJ
+			}
+		}
+		if(params.matInfoGetUnitId){
+			def GOBJ = MaterialUnit.get(params.matInfoGetUnitId)
+			if(GOBJ){
+				entity.matInfoPurUnit = GOBJ
+			}
+		}
+		//entity.matInfoType=null
+		
 		
 		if(entity.save(flush:true)){
 			model["result"] = "true"

@@ -46,7 +46,10 @@
 						return;
 					}
 					var content = {};
-					var bargainGoodsNames =["barGoodsName","barGoodsCorp","barGoodsUnit","barGoodsNum","barGoodsPrice","barGoodsDiscount","barGoodsRemark"]
+					//var bargainGoodsNames =["barGoodsName","barGoodsCorp","barGoodsUnit","barGoodsNum","barGoodsPrice","barGoodsDiscount","barGoodsRemark"]
+					var bargainGoodsNames =["barGoodsNameId","barGoodsNum","barGoodsDiscount","barGoodsRemark"]
+
+					
 					content.bargainGoodsValues = rosten.getGridDataCollect(bargainGoodsGrid,bargainGoodsNames);
 
 					//流程相关信息
@@ -333,28 +336,51 @@
 								 * 特殊字段赋值
 								 */
 								dialog.getStoreDate(dealId,function(item){
-									registry.byId("barPurchaserCorpId").attr("value", dialog.chkboxStore.getValue(item, "id"));
-									registry.byId("barPurchaserCorp").attr("value", dialog.chkboxStore.getValue(item, "name"));
-									registry.byId("y_contCorpLeader").attr("value",dialog.chkboxStore.getValue(item, "contCorpLeader"));
-									registry.byId("y_cCorpLeaderDuty").attr("value", dialog.chkboxStore.getValue(item, "cCorpLeaderDuty"));
-									registry.byId("y_contactCorpPhone").attr("value", dialog.chkboxStore.getValue(item, "contactCorpPhone"));
-									registry.byId("y_contactCorpPost").attr("value", dialog.chkboxStore.getValue(item, "contactCorpPost"));
-									registry.byId("y_contactCorpAddr").attr("value", dialog.chkboxStore.getValue(item, "contactCorpAddr"));
-									
+									registry.byId("bargainProjectId").attr("value", dialog.chkboxStore.getValue(item, "id"));
+									registry.byId("bargainProject").attr("value", dialog.chkboxStore.getValue(item, "name"));
 								});
 								
 							}else{
-								registry.byId("barPurchaserCorp").attr("value","");
-								registry.byId("barPurchaserCorpId").attr("value", "");
-								registry.byId("y_contCorpLeader").attr("value", "");
-								registry.byId("y_cCorpLeaderDuty").attr("value", "");
-								registry.byId("y_contactCorpPhone").attr("value", "");
-								registry.byId("y_contactCorpPost").attr("value", "");
-								registry.byId("y_contactCorpAddr").attr("value", "");
+								registry.byId("bargainProject").attr("value","");
+								registry.byId("bargainProjectId").attr("value", "");
+								
 							}
 						};
 
 						break;	
+
+
+					
+					case "BarGoodsName":
+						var goodsName = registry.byId("barGoodsName").get("value");						
+						var dialog = rosten.selectBaseDialog("货物选择","${createLink(controller:'baseinfor',action:'getMatInfoListSelect',params:[companyId:company?.id])}",false,"barGoodsName","barGoodsNameId",goodsName);
+						dialog.callback = function(data){
+							if(data.length>0){
+								var dealId = data[0].id
+								/*
+								 * 特殊字段赋值
+								 */
+								dialog.getStoreDate(dealId,function(item){
+									registry.byId("barGoodsNameId").attr("value", dialog.chkboxStore.getValue(item, "id"));
+									registry.byId("barGoodsName").attr("value", dialog.chkboxStore.getValue(item, "name"));
+									registry.byId("s_barGoodsCorp").attr("value",dialog.chkboxStore.getValue(item, "matInfoBrand"));
+									registry.byId("s_barGoodsUnit").attr("value",dialog.chkboxStore.getValue(item, "matInfoPurUnit"));
+									registry.byId("s_barGoodsPrice").attr("value",dialog.chkboxStore.getValue(item, "mInfoRPrice"));
+									
+								});
+								
+							}else{
+								registry.byId("barGoodsName").attr("value","");
+								registry.byId("barGoodsNameId").attr("value", "");
+								registry.byId("s_barGoodsCorp").attr("value", "");
+								registry.byId("s_barGoodsUnit").attr("value", "");
+								registry.byId("s_barGoodsPrice").attr("value", "");
+							}
+						};
+
+						break;	
+
+						
 					}
 					
 				}

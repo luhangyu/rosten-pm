@@ -14,7 +14,7 @@ class MaterialInfo {
 	
 	//物料类型
 	@GridColumn(name="材料类型",colIdx=2)
-	String matInfoType
+	MaterialType matInfoType
 	
 	//物料类型
 	@GridColumn(name="材料小类",colIdx=3)
@@ -22,15 +22,17 @@ class MaterialInfo {
 	
 	//采购材料单位
 	@GridColumn(name="大单位",colIdx=5)
-	String matInfoPurUnit
+	MaterialUnit matInfoPurUnit
+	
+	//材料领用单位
+	@GridColumn(name="小单位",colIdx=6)
+	MaterialUnit matInfoGetUnit
 	
 	//换算数量
 	@GridColumn(name="换算数量",colIdx=4)
 	double matInfoQuantity
 	
-	//材料领用单位
-	@GridColumn(name="小单位",colIdx=6)
-	String matInfoGetUnit
+	
 	
 	//材料规格
 	String matInfoNorms
@@ -54,6 +56,12 @@ class MaterialInfo {
 	Date createdDate = new Date()
 	
 	static belongsTo = [company:Company]
+	
+	static constraints = {
+		matInfoGetUnit nullable:true,blank:true
+		matInfoPurUnit nullable:true,blank:true
+		matInfoType nullable:true,blank:true
+	}
 	
 	static mapping = {
 		id generator:'uuid.hex',params:[separator:'-']

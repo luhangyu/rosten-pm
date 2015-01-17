@@ -41,7 +41,7 @@ class Bargain {
 	@GridColumn(name="合同甲方",colIdx=4,width="150px")
 	String bargainVendor
 	
-	//合同对应的项目
+	//合同对应的项目名称
 	ProjectManage bargainProject
 	
 	

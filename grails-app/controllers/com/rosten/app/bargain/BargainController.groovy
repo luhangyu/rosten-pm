@@ -139,6 +139,16 @@ class BargainController {
 			JSON.parse(params.bargainGoodsValues).eachWithIndex{elem, i ->
 				def bargainGoods = new BargainGoods(elem)
 				bargainGoods.clearErrors()
+				//类字段处理？？？？？？
+				if(elem[i].barGoodsNameId){
+					def mOBJ = MaterialInfo.get(elem[i].barGoodsNameId)
+					if(mOBJ){
+						bargainGoods.barGoodsName = mOBJ
+					}
+				}
+				
+				
+				
 				entity.addToBargainGoods(bargainGoods)
 			}
 		}

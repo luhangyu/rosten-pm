@@ -66,7 +66,52 @@
 				page_quit = function(){
 					rosten.pagequit();
 				};
+				showSelectDialog = function(type){
+					switch(type){
+					case "MatInfoPurUnit":
+						var matUnitName = registry.byId("matInfoPurUnit").get("value");
+						var dialog = rosten.selectBaseDialog("材料计量单位选择","${createLink(controller:'baseinfor',action:'getMatUnitSelect',params:[companyId:company?.id])}",false,"matInfoPurUnit","matInfoPurUnitId",matUnitName);
+						dialog.callback = function(data){
+							if(data.length>0){
+								var dealId = data[0].id
+								/*
+								 * 特殊字段赋值
+								 */
+								dialog.getStoreDate(dealId,function(item){
+									registry.byId("matInfoPurUnitId").attr("value", dialog.chkboxStore.getValue(item, "id"));
+									registry.byId("matInfoPurUnit").attr("value", dialog.chkboxStore.getValue(item, "name"));									
+								});
+							}else{
+								registry.byId("matInfoPurUnit").attr("value","");
+								registry.byId("matInfoPurUnitId").attr("value", "");
+							}
+						};
+						break;
+						
+					case "MatInfoGetUnit":
+						var matUnitName = registry.byId("matInfoGetUnit").get("value");
+						var dialog = rosten.selectBaseDialog("材料计量单位选择","${createLink(controller:'baseinfor',action:'getMatUnitSelect',params:[companyId:company?.id])}",false,"matInfoGetUnit","matInfoGetUnitId",matUnitName);
+						dialog.callback = function(data){
+							if(data.length>0){
+								var dealId = data[0].id
+								/*
+								 * 特殊字段赋值
+								 */
+								dialog.getStoreDate(dealId,function(item){
+									registry.byId("matInfoGetUnitId").attr("value", dialog.chkboxStore.getValue(item, "id"));
+									registry.byId("matInfoGetUnit").attr("value", dialog.chkboxStore.getValue(item, "name"));									
+								});
+							}else{
+								registry.byId("matInfoGetUnit").attr("value","");
+								registry.byId("matInfoGetUnitId").attr("value", "");
+							}
+						};
+						break;
 
+						
+					}		
+				}
+				
 			
 		});
     </script>
@@ -95,12 +140,29 @@
 									value:"${materialInfo?.matInfoName}"
 			                '/>
 					    </td>
-					    <td><div align="right"><span style="color:red">*&nbsp;</span>材料类型：</div></td>
-					    <td >
+						<td><div align="right"><span style="color:red">*&nbsp;</span>材料类型：</div></td>
+					    <td>
 					    	<input id="matInfoType" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='name:"matInfoType",trim:true,required:true,
-									value:"${materialInfo?.matInfoType}"
-			                '/>
+				               	data-dojo-props='name:"matInfoType",trim:true,
+									value:"${materialInfo?.matInfoType?.matTypeName}"
+				          	'/>
+				          	<g:if test="${!onlyShow }">
+					         	<g:hiddenField name="matInfoTypeId" value="${matInfoTypeId}" />
+								<button data-dojo-type="dijit.form.Button" data-dojo-props='onClick:function(){selectMatTree("${createLink(controller:'baseinfor',action:'matTypeTreeDataStore',params:[companyId:company?.id])}")}'>选择</button>
+			           		</g:if>
+			           	</td>
+					</tr>
+					<tr>
+					 <td><div align="right"><span style="color:red">*&nbsp;</span>材料小类：</div></td>
+					    <td>
+			                <select id="matInfoSonType" data-dojo-type="dijit/form/FilteringSelect" 
+					                data-dojo-props='name:"matInfoSonType",
+					                trim:true,required:true,missingMessage:"请选择类别！",invalidMessage:"请选择类别！",
+					      			value:"${materialInfo?.matInfoSonType}"
+					            '>
+								<option value="大材料">大材料</option>
+								<option value="零星材料">零星材料</option>
+					    	</select>
 					    </td>
 					</tr>
 					<tr>
@@ -120,33 +182,37 @@
 					    </td>
 					</tr>
 						<tr>
-					    <td><div align="right">大单位：</div></td>
+					    <td><div align="right"><span style="color:red">*&nbsp;</span>大单位：</div></td>
 					    <td >
 					    	<input id="matInfoPurUnit" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='name:"matInfoPurUnit",trim:true,
-									value:"${materialInfo?.matInfoPurUnit}"
-			                '/>
+				               	data-dojo-props='trim:true,readOnly:true,required:true,
+									value:"${materialInfo?.matInfoPurUnit?.matUnitName}"
+				          	'/>
+				          <g:if test="${!onlyShow}">
+					         	<g:hiddenField id="matInfoPurUnitId" data-dojo-type="dijit/form/ValidationTextBox" name="matInfoPurUnitId" value="${materialInfo?.matInfoPurUnit?.id}" />
+								<button data-dojo-type="dijit.form.Button" 
+									data-dojo-props='onClick:function(){
+										showSelectDialog("MatInfoPurUnit");	
+									}'>选择</button>
+			           		</g:if>			                
 					    </td>
 					    <td><div align="right">小单位：</div></td>
 					    <td >
-					    	<input id="matInfoGetUnit" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='name:"matInfoGetUnit",trim:true,
-									value:"${materialInfo?.matInfoGetUnit}"
-			                '/>
+			                <input id="matInfoGetUnit" data-dojo-type="dijit/form/ValidationTextBox" 
+				               	data-dojo-props='trim:true,readOnly:true,
+									value:"${materialInfo?.matInfoGetUnit?.matUnitName}"
+				          	'/>
+				          <g:if test="${!onlyShow}">
+					         	<g:hiddenField id="matInfoGetUnitId" data-dojo-type="dijit/form/ValidationTextBox" name="matInfoGetUnitId" value="${materialInfo?.matInfoGetUnit?.id}" />
+								<button data-dojo-type="dijit.form.Button" 
+									data-dojo-props='onClick:function(){
+										showSelectDialog("MatInfoGetUnit");	
+									}'>选择</button>
+			           		</g:if>			 
 					    </td>
 					</tr>
 					<tr>
-					    <td><div align="right"><span style="color:red">*&nbsp;</span>材料小类：</div></td>
-					    <td>
-			                <select id="matInfoSonType" data-dojo-type="dijit/form/FilteringSelect" 
-					                data-dojo-props='name:"matInfoSonType",required:true,
-					                trim:true,required:true,missingMessage:"请选择类别！",invalidMessage:"请选择类别！",
-					      			value:"${materialInfo?.matInfoSonType}"
-					            '>
-								<option value="大材料">大材料</option>
-								<option value="零星材料">零星材料</option>
-					    	</select>
-					    </td>
+					   
 					     <td><div align="right">换算数量：</div></td>
 					    <td>
 					    	<input id="matInfoQuantity" data-dojo-type="dijit/form/ValidationTextBox" 

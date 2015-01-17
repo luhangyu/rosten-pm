@@ -30,9 +30,10 @@
 		 		"dijit/form/Form",
 		     	"rosten/widget/ActionBar",
 		     	"rosten/widget/TitlePane",
+		     	"rosten/widget/PickTreeDialog",
 		     	"rosten/app/Application",
 		     	"rosten/kernel/behavior"],
-			function(parser,kernel,registry,dom,lang){
+			function(parser,kernel,registry,dom,lang,PickTreeDialog){
 				kernel.addOnLoad(function(){
 					rosten.init({webpath:"${request.getContextPath()}"});
 					rosten.cssinit();
@@ -67,6 +68,41 @@
 					rosten.pagequit();
 				};
 
+				selectMatTree = function(url) {
+			        var id = "sys_mattypeDialog";
+					
+			        if (rosten[id] && registry.byId(id)) {
+			            rosten[id].open();
+			            rosten[id].refresh();
+			        } else {
+			            var args = {
+			                url : url,
+			                rootLabel : "材料类型树",
+			                showCheckBox : false,
+			                folderClass : "departTree"
+			            };
+			            alert("cc");
+			            rosten[id] = new PickTreeDialog(args);
+			            rosten[id].open();
+			        }
+			        rosten[id].callback = function(data) {
+			            var _data = "";
+			            var _data_1 = "";
+			            for (var k = 0; k < data.length; k++) {
+			                var item = data[k];
+			                if (_data == "") {
+			                    _data += item.name;
+			                    _data_1 += item.id;
+			                } else {
+			                    _data += "," + item.name;
+			                    _data_1 += "," + item.id;
+			                }
+
+			            }
+			            registry.byId("matTypeName").attr("value", _data);
+			            dom.byId("matTypeId").value = _data_1;
+			        };
+			    };
 			
 		});
     </script>
@@ -78,44 +114,36 @@
 	</div>
 </div>
 
-<div data-dojo-type="dijit/layout/TabContainer" data-dojo-props='persist:false, tabStrip:true,style:{width:"800px",margin:"0 auto"}' >
+<div data-dojo-type="dijit/layout/TabContainer" data-dojo-props='doLayout:false,persist:false, tabStrip:true,style:{width:"800px",margin:"0 auto"}' >
 	<div data-dojo-type="dijit/layout/ContentPane" title="基本信息" data-dojo-props=''>
 		<form id="rosten_form" data-dojo-type="dijit/form/Form" name="rosten_form" onsubmit="return false;" class="rosten_form" style="padding:0px">
 			<input  data-dojo-type="dijit/form/ValidationTextBox" id="id"  data-dojo-props='name:"id",style:{display:"none"},value:"${materialUnit?.id }"' />
         	<input  data-dojo-type="dijit/form/ValidationTextBox" id="companyId" data-dojo-props='name:"companyId",style:{display:"none"},value:"${company?.id }"' />
         	
-			<div data-dojo-type="rosten/widget/TitlePane" data-dojo-props='title:"材料类别信息",toggleable:false,moreText:"",marginBottom:"2px"'>
+			<div data-dojo-type="rosten/widget/TitlePane" data-dojo-props='title:"材料单位配置",toggleable:false,moreText:"",marginBottom:"2px"'>
 				<table border="0" width="740" align="left">
 
 					<tr>
-					    <td width="120px"><div align="right"><span style="color:red">*&nbsp;</span>物料单位名称：</div></td>
+					    <td width="120px"><div align="right"><span style="color:red">*&nbsp;</span>材料单位：</div></td>
 					   <td width="250px">
 					    	<input id="matUnitName" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,required:true,name:"matUnitName",
 									value:"${materialUnit?.matUnitName}"
 			                '/>
 					    </td>
-					    <td width="120px"><div align="right">换算单位名称：</div></td>
-					    <td width="250px">
-					    	<input id="matToUnitName" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='name:"matToUnitName",trim:true,
-									value:"${materialUnit?.matToUnitName}"
-			                '/>
-					    </td>
-					</tr>
-
-					<tr>
-					    <td><div align="right">换算值：</div></td>
+						<td><div align="right"><span style="color:red">*&nbsp;</span>材料类型：</div></td>
 					    <td>
-					    	<input id="matUnitConv" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='name:"matUnitConv",trim:true,
-									value:"${materialUnit?.matUnitConv}"
-			                '/>
-					    </td>
-					  
+					    	<input id="matTypeName" data-dojo-type="dijit/form/ValidationTextBox" 
+				               	data-dojo-props='name:"matTypeName",readOnly:true,
+				               		trim:true,required:true,
+									value:"${matTypeName}"
+				          	'/>
+				          	<g:if test="${!onlyShow }">
+					         	<g:hiddenField name="matTypeId" value="${matTypeId}" />
+								<button data-dojo-type="dijit.form.Button" data-dojo-props='onClick:function(){selectMatTree("${createLink(controller:'baseinfor',action:'matTypeTreeDataStore',params:[companyId:company?.id])}")}'>选择</button>
+			           		</g:if>
+			           	</td>
 					</tr>
-
-					
 					<tr>
 					    <td><div align="right">备注：</div></td>
 					    <td  colspan=3>

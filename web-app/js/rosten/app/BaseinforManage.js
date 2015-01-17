@@ -1,7 +1,7 @@
 /**
  * @author rosten
  */
-define([ "dojo/_base/connect", "dijit/registry","rosten/util/general", "rosten/kernel/behavior" ], function(
+define([ "dojo/_base/connect", "dijit/registry","rosten/util/general", "rosten/kernel/behavior"], function(
 		connect, registry,General) {
 	
 	var general = new General();
@@ -36,6 +36,9 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general", "rosten/k
 			break;
 		}	
 	};
+	
+	
+	
 	
 	//公司信息子块
 	companyInfor_formatTopic = function(value,rowIndex){
@@ -363,6 +366,8 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general", "rosten/k
 			rosten.readNoTime(rosten.webPath + "/baseinfor/materialUnitDelete", content,rosten.deleteCallback);
 		};
 	};
+	
+	
 	//-------------------------------------------4
 	
 	/*

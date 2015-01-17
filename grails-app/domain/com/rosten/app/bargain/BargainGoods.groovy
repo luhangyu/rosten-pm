@@ -1,5 +1,5 @@
 package com.rosten.app.bargain
-
+import com.rosten.app.base.MaterialInfo
 import java.text.SimpleDateFormat
 import com.rosten.app.system.Company
 import com.rosten.app.annotation.GridColumn
@@ -11,9 +11,19 @@ class BargainGoods {
 
     String id
 	
+	MaterialInfo barGoodsName
+	
 	//材料名称
-	@GridColumn(name="材料名称",formatter="bargainGoods_formatTopic",colIdx=1,width="160px")
-	String barGoodsName
+	@GridColumn(name="货物名称",formatter="bargainGoods_formatTopic",colIdx=1,width="160px")
+	def getBarGoodsName(){
+		if(barGoodsName!=null){
+			return barGoodsName.matInfoName
+		}else{
+			return ""
+		}
+	}
+	
+	Double barGoodsTPrice
 	
 	//生产厂家
 	@GridColumn(name="生产厂家",width="160px",colIdx=2)

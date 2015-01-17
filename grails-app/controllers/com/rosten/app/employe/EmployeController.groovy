@@ -141,7 +141,7 @@ class EmployeController {
 		entity.properties = params
 		entity.clearErrors()
 		//日期字段值处理，convertToTimestamp
-		entity.officeAttendanceDate = Util.convertToTimestamp(params.officeAttendanceDate)
+		entity.offAttenDate = Util.convertToTimestamp(params.offAttenDate)
 		
 		if(entity.save(flush:true)){
 			model["result"] = "true"

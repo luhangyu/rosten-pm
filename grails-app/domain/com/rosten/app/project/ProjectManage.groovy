@@ -78,7 +78,7 @@ class ProjectManage {
 	}
 	//计划竣工日期
 	Date projEndDate=new Date()
-	@GridColumn(name="计划竣工日期",width="100px")
+	@GridColumn(name="计划竣工日期")
 	def getFormatteprojectEndDate(){
 		if(projEndDate!=null){
 			SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd")
