@@ -12,6 +12,9 @@ class EmployeController {
 	def springSecurityService
 	def employeService
 	
+	private def attendanceType=["constructionWorkerAttendance":"大点工考勤","officeWorkerAttendance":"员工考勤"]
+	
+	
 	//考勤父表<--start
 	def attendanceAdd ={
 		redirect(action:"attendanceShow",params:params)
@@ -113,6 +116,21 @@ class EmployeController {
 		
 		//增加查询条件
 		def searchArgs =[:]
+		if(params.type && !"".equals(params.type)){
+			switch (params.type){
+				case "officeWorkerAttendance":
+					searchArgs["attendType"] = this.attendanceType[params.type]
+					break;
+				case "constructionWorkerAttendance":
+					searchArgs["attendType"] = this.attendanceType[params.type]
+					break;
+				default:
+				searchArgs["attendType"] = params.type
+			}
+		}else{
+			searchArgs["attendType"] = params.type
+		}
+		
 		
 		if(params.refreshData){
 			def args =[:]

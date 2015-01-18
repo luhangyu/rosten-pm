@@ -287,6 +287,8 @@ class ProjectController {
 		model["constructApprove"] = entity
 		model["user"] = currentUser
 		
+		model["isShowFile"]=true
+		
 		FieldAcl fa = new FieldAcl()
 		model["fieldAcl"] = fa
 		render(view:'/project/constructApprove',model:model)

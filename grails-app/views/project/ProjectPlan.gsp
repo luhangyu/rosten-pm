@@ -49,7 +49,7 @@
 						return;
 					}
 					var content = {};
-					var constructLogs =["getConstructPart","getFormatteConstructDate","consDoneQutt","consDoneRate","logMaker"]
+					var constructLogs =["getConstructPart","getFormatteConstructDate","consDoneQutt","consDoneRate","logMaker","conslogRemark"]
 					content.constructLogsValues = rosten.getGridDataCollect(constructLogGrid,constructLogs);
 					
 					//增加对多次单击的次数----2014-9-4

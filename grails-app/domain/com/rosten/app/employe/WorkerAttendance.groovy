@@ -45,15 +45,22 @@ class WorkerAttendance {
 	Date createdDate = new Date()
 	
 	//备注
-	//@GridColumn(name="备注",colIdx=91)
+	@GridColumn(name="备注",colIdx=9)
 	String attendRemark
 	
-	@GridColumn(name="操作",colIdx=9,formatter="workerAttendance_action")
+	@GridColumn(name="操作",colIdx=91,formatter="workerAttendance_action")
 	def workerAttendanceId(){
 		return id
 	}
 	
 	static constraints = {
+//		affairsNumber range:0F..1F  
+//		illNumber nullable:true,blank:true
+//		awayNumber nullable:true,blank:true
+//		lateNumber nullable:true,blank:true
+//		earlyAwayNumber nullable:true,blank:true
+//		
+//		attendDepart nullable:true,blank:true
 		
 	}
 	static belongsTo = [attendance:Attendance]

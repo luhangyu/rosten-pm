@@ -5,7 +5,8 @@ define(["dojo/dom",
         "dojo/_base/kernel",
         "dijit/registry",
         "rosten/app/Application",
-        "rosten/kernel/behavior"], function(dom,kernel,registry) {
+        "rosten/kernel/behavior",
+        "dojox/validate/web"], function(dom,kernel,registry,validate) {
 	
 	//增加清单ITEM~~~~~~~~
 	workerAttendance_addItem = function(){
@@ -17,8 +18,14 @@ define(["dojo/dom",
         });
 	};
 	workerAttendance_Submit = function(){
-		var itemId = registry.byId("itemId").get("value");
+//		var formWidget = registry.byId("rosten_form1");
+//		if(!formWidget.validate()){
+//			rosten.alert("请正确填写相关信息！");
+//			return;
+//		}
+
 		
+		var itemId = registry.byId("itemId").get("value");
 		function gotAll(items,request){
 			var node;
 			for(var i=0;i < items.length;i++){
@@ -53,7 +60,7 @@ define(["dojo/dom",
 						attendUserName:registry.byId("attendUserName").get("value"),
 						attendDepart:registry.byId("attendDepart").get("value"),
 						attendRemark:registry.byId("attendRemark").get("value"),
-						workNumber:registry.byId("workNumber").get("value"),
+						workNumber:registry.byId("workNumber").get("value"),						
 						affairsNumber:registry.byId("affairsNumber").get("value"),
 						illNumber:registry.byId("illNumber").get("value"),
 						awayNumber:registry.byId("awayNumber").get("value"),

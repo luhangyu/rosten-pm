@@ -9,16 +9,16 @@ class ConstructLog {
 	String id
 	
 	
-	@GridColumn(name="所属项目计划",width="200px",colIdx=1,formatter="constructLog_formatTopic")
-	def getProjPlanName(){return projectPlan?projectPlan.getProName():""}
+	//@GridColumn(name="所属项目计划",width="200px",colIdx=1,formatter="constructLog_formatTopic")
+	//def getProjPlanName(){return projectPlan?projectPlan.getProName():""}
 	
 	//施工部位
-	@GridColumn(name="部位",colIdx=2,width="80px")
-	def getConstructPart(){return projectPlan?projectPlan.constructPart:""}
+	//@GridColumn(name="部位",colIdx=2,width="80px")
+	//def getConstructPart(){return projectPlan?projectPlan.constructPart:""}
 	
 	
 	Date constructDate=new Date()
-	@GridColumn(name="施工日期",colIdx=3,width="80px")
+	@GridColumn(name="施工日期",colIdx=1,width="80px",formatter="constructLog_formatTopic")
 	def getFormatteConstructDate(){
 		if(constructDate!=null){
 			SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd")
@@ -29,15 +29,15 @@ class ConstructLog {
 	}
 	
 	//完成工程量
-	@GridColumn(name="完成工程量",colIdx=4,width="80px")
+	@GridColumn(name="完成工程量",colIdx=3,width="80px")
 	String consDoneQutt
 	
 	//完成 百分比
-	@GridColumn(name="完成百分比",colIdx=5,width="80px")
+	@GridColumn(name="完成百分比",colIdx=4,width="80px")
 	String consDoneRate
 	
 	//填报人
-	@GridColumn(name="填报人",colIdx=6,width="100px")
+	@GridColumn(name="填报人",colIdx=5,width="100px")
 	String logMaker
 	
 	
@@ -53,7 +53,11 @@ class ConstructLog {
 		}
 	}
 	
-	@GridColumn(name="操作",colIdx=7,formatter="constructLog_action")
+	//备注
+	@GridColumn(name="备注",colIdx=6,width="180px")
+	String conslogRemark
+	
+	@GridColumn(name="操作",colIdx=7,width="50px",formatter="constructLog_action")
 	def constructLogId(){
 		return id
 	}
@@ -63,6 +67,7 @@ class ConstructLog {
 	static transients = ["projPlanName","constructPart"]
 	
     static constraints = {
+		conslogRemark nullable:true,blank:true
     }
 	static mapping = {
 		id generator:'uuid.hex',params:[separator:'-']

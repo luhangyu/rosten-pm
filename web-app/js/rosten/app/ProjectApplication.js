@@ -31,12 +31,13 @@ define(["dojo/dom",
 		
 			if(node){
 				store.setValue(items[i],"itemId",registry.byId("id").get("value"));
-				store.setValue(items[i],"projPlanName",registry.byId("projPlanName").get("value"));
-				store.setValue(items[i],"s_constructPart",registry.byId("s_constructPart").get("value"));
+//				store.setValue(items[i],"projPlanName",registry.byId("projPlanName").get("value"));
+//				store.setValue(items[i],"s_constructPart",registry.byId("s_constructPart").get("value"));
 				store.setValue(items[i],"getFormatteConstructDate",registry.byId("constructDate").get("displayedValue"));
 				store.setValue(items[i],"consDoneQutt",registry.byId("consDoneQutt").get("value"));
 				store.setValue(items[i],"consDoneRate",registry.byId("consDoneRate").get("value"));
 				store.setValue(items[i],"logMaker",registry.byId("logMaker").get("value"));
+				store.setValue(items[i],"conslogRemark",registry.byId("conslogRemark").get("value"));
 			}else{
 				var randId = Math.random();
 				var content ={
@@ -45,13 +46,13 @@ define(["dojo/dom",
 						rowIndex:items.length+1,
 						//BargainId:registry.byId("BargainId").get("value"),
 						itemId:registry.byId("id").get("value"),
-						getProjPlanName:registry.byId("projPlanName").get("value"),
-						getConstructPart:registry.byId("s_constructPart").get("value"),
+//						getProjPlanName:registry.byId("projPlanName").get("value"),
+//						getConstructPart:registry.byId("s_constructPart").get("value"),
 						getFormatteConstructDate:registry.byId("constructDate").get("displayedValue"),
 						consDoneQutt:registry.byId("consDoneQutt").get("value"),
 						consDoneRate:registry.byId("consDoneRate").get("value"),
 						logMaker:registry.byId("logMaker").get("value"),
-						
+						conslogRemark:registry.byId("conslogRemark").get("value"),
 				};
 				store.newItem(content);
 			}
@@ -72,22 +73,22 @@ define(["dojo/dom",
             onLoadFunction : function() {
 	            
             	var id = rosten.getGridItemValue(constructLogGrid,rowIndex,"id");			            
-            	var getProjPlanName = rosten.getGridItemValue(constructLogGrid,rowIndex,"getProjPlanName");
-            	var getConstructPart = rosten.getGridItemValue(constructLogGrid,rowIndex,"getConstructPart");
+//            	var getProjPlanName = rosten.getGridItemValue(constructLogGrid,rowIndex,"getProjPlanName");
+//            	var getConstructPart = rosten.getGridItemValue(constructLogGrid,rowIndex,"getConstructPart");
             	var constructDate = rosten.getGridItemValue(constructLogGrid,rowIndex,"getFormatteConstructDate");
             	var consDoneQutt = rosten.getGridItemValue(constructLogGrid,rowIndex,"consDoneQutt");
             	var consDoneRate = rosten.getGridItemValue(constructLogGrid,rowIndex,"consDoneRate");
             	var logMaker = rosten.getGridItemValue(constructLogGrid,rowIndex,"logMaker");
-            	
+            	var conslogRemark = rosten.getGridItemValue(constructLogGrid,rowIndex,"conslogRemark");
             	//alert(constructDate);
             	registry.byId("itemId").set("value",id);
-            	registry.byId("projPlanName").set("value",getProjPlanName);
-            	registry.byId("s_constructPart").set("value",getConstructPart);
+//            	registry.byId("projPlanName").set("value",getProjPlanName);
+//            	registry.byId("s_constructPart").set("value",getConstructPart);
             	registry.byId("constructDate").set("displayedValue",constructDate);
             	registry.byId("consDoneQutt").set("value",consDoneQutt);
             	registry.byId("consDoneRate").set("value",consDoneRate);
             	registry.byId("logMaker").set("value",logMaker);
-            	
+            	registry.byId("conslogRemark").set("value",conslogRemark);
             
 	        }
         });

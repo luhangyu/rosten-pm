@@ -38,6 +38,7 @@ class Attendance {
 	static hasMany=[workerAttends:WorkerAttendance]
 	
     static constraints = {
+	
     }
 	
 	static mapping = {

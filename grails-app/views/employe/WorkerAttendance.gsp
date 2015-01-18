@@ -7,7 +7,7 @@
 <body>
 	<div style="text-Align:center">
 		<input  data-dojo-type="dijit/form/ValidationTextBox" id="itemId"  data-dojo-props='name:"itemId",style:{display:"none"}' />
-        <div class="rosten_form" style="width:700px;text-align:left">
+        <div class="rosten_form1" style="width:700px;text-align:left">
         	<input id="ProjectPlanId" data-dojo-type="dijit/form/ValidationTextBox"  data-dojo-props='name:"ProjectPlanId",style:{display:"none"},value:""' />
           
             <fieldset class="fieldset-form">
@@ -38,7 +38,7 @@
 					    <td colspan=3>
 					    	<textarea id="attendRemark" data-dojo-type="dijit/form/SimpleTextarea" 
     							data-dojo-props='name:"attendRemark","class":"input",
-                               		style:{width:"500px"},rows:"2",
+                               		style:{width:"480px"},rows:"2",
                                		trim:true,value:"${workerAttendance?.attendRemark}"
                            '>
                            </textarea>

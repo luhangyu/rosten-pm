@@ -14,24 +14,8 @@
                 <legend class="tableHeader">日志记录</legend>
                 <table class="tableData">
                     <tbody>
-					<tr>
-					    <td width="140"><div align="right">所属项目计划：</div></td>
-					    <td colspan=3>
-					    	<input  id="projPlanName" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,readOnly:true,name:"projPlanName",style:{width:"550px"},
-									value:"${constructLog?.getProjPlanName()}"
-			                '/>					 
-					    </td>
-					</tr>
+
 				          <tr>
-                            <td width="120"><div align="right">部位：</div>
-                            <td width="250">
-						    	<input id="s_constructPart" data-dojo-type="dijit/form/ValidationTextBox" 
-				                 	data-dojo-props='trim:true,name:"s_constructPart",readOnly:true,
-										value:"${constructLog?.getConstructPart()}"
-				                '/>
-					    	</td>
-					    	
                             <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>施工日期：</div>
                             <td width="250">
 					    	<input id="constructDate" data-dojo-type="dijit/form/DateTextBox" 
@@ -40,6 +24,13 @@
 			                	value:"${constructLog?.getFormatteConstructDate()}"
 			               '/>
 					    	</td>
+					    	<td width="120"><div align="right"><span style="color:red">*&nbsp;</span>填报人：</div>
+                            <td width="250">
+					    	<input id="logMaker" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,name:"logMaker",
+									value:"${constructLog?.logMaker}"
+			                '/>
+					    </td>
 					    </tr>
 					     <tr>
 					    	<td width="120"><div align="right"><span style="color:red">*&nbsp;</span>完成工程量：</div>
@@ -58,17 +49,17 @@
 			                '/>
 					    	</td>
 					    </tr>
-					    
-					    <tr>
-					     <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>填报人：</div>
-                            <td width="250">
-					    	<input id="logMaker" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,name:"logMaker",
-									value:"${constructLog?.logMaker}"
-			                '/>
-					    </td>
+						<tr>
+						    <td width="120"><div align="right">日志备注：</div></td>
+						    <td colspan=3>
+						    	<textarea id="conslogRemark" data-dojo-type="dijit/form/SimpleTextarea" 
+	    							data-dojo-props='name:"conslogRemark","class":"input",
+	                               		style:{width:"550px"},rows:"2",
+	                               		trim:true,value:"${constructLog?.conslogRemark}"
+	                           '>
+	                           </textarea>
+						    </td>
 						</tr>
-						
 						<tr>
 							<td colspan=4>
 								<div style="text-align:center;margin-top:10px">
