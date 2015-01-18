@@ -33,7 +33,7 @@ class MaterialInfo {
 	//材料领用单位
 	@GridColumn(name="小单位",colIdx=6)
 	def getMatInfoGetUnit(){
-		return matInfoPurUnit?.matUnitName
+		return matInfoGetUnit?.matUnitName
 	}
 	MaterialUnit matInfoGetUnit
 	
