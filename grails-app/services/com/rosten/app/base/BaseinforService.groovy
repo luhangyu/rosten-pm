@@ -187,7 +187,11 @@ class BaseinforService {
 			order("createdDate", "desc")
 			
 			searchArgs.each{k,v->
-				like(k,"%" + v + "%")
+				if(k.equals("matInfoType")){
+					eq(k,v)
+				}else{
+					like(k,"%" + v + "%")
+				}
 			}
 		}
 		return c.list(pa,query)
@@ -197,7 +201,11 @@ class BaseinforService {
 		def query = {
 			eq("company",company)
 			searchArgs.each{k,v->
-				like(k,"%" + v + "%")
+				if(k.equals("matInfoType")){
+					eq(k,v)
+				}else{
+					like(k,"%" + v + "%")
+				}
 			}
 		}
 		return c.count(query)

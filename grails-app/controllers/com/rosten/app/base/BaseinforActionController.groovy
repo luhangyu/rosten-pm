@@ -2,8 +2,12 @@ package com.rosten.app.base
 
 import grails.converters.JSON
 import com.rosten.app.system.User
+import com.rosten.app.share.ShareService
 
 class BaseinforActionController {
+	def springSecurityService
+	def shareService
+	
 	def imgPath ="images/rosten/actionbar/"
 	
 	//公司信息
@@ -103,6 +107,24 @@ class BaseinforActionController {
 	}
 	
 	//材料信息141205
+	
+	//2015-1-18------修改完善-----------------------------------------------------------------
+	def materialInfoManageView ={
+		
+		def actionList =[]
+		def currentUser = springSecurityService.getCurrentUser()
+		
+		def strname = "materialInfo"
+		actionList << createAction("新增材料",imgPath + "add.png","add_"+ strname)
+		
+		if(shareService.checkAdmin(currentUser,"系统管理员")){
+			actionList << createAction("删除",imgPath + "delete.png","delete_" + strname)
+		}
+		actionList << createAction("刷新",imgPath + "fresh.gif","fresh_" + strname)
+		render actionList as JSON
+	}
+	//--------------------------------------------------------------------------------------
+	
 	def materialInfoForm ={
 		def webPath = request.getContextPath() + "/"
 		def actionList = []

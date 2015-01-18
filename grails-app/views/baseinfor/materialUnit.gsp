@@ -67,43 +67,6 @@
 				page_quit = function(){
 					rosten.pagequit();
 				};
-
-				selectMatTree = function(url) {
-			        var id = "sys_mattypeDialog";
-					
-			        if (rosten[id] && registry.byId(id)) {
-			            rosten[id].open();
-			            rosten[id].refresh();
-			        } else {
-			            var args = {
-			                url : url,
-			                rootLabel : "材料类型树",
-			                showCheckBox : false,
-			                folderClass : "departTree"
-			            };
-			            alert("cc");
-			            rosten[id] = new PickTreeDialog(args);
-			            rosten[id].open();
-			        }
-			        rosten[id].callback = function(data) {
-			            var _data = "";
-			            var _data_1 = "";
-			            for (var k = 0; k < data.length; k++) {
-			                var item = data[k];
-			                if (_data == "") {
-			                    _data += item.name;
-			                    _data_1 += item.id;
-			                } else {
-			                    _data += "," + item.name;
-			                    _data_1 += "," + item.id;
-			                }
-
-			            }
-			            registry.byId("matTypeName").attr("value", _data);
-			            dom.byId("matTypeId").value = _data_1;
-			        };
-			    };
-			
 		});
     </script>
 </head>
@@ -136,11 +99,16 @@
 					    	<input id="matTypeName" data-dojo-type="dijit/form/ValidationTextBox" 
 				               	data-dojo-props='name:"matTypeName",readOnly:true,
 				               		trim:true,required:true,
-									value:"${matTypeName}"
+									value:"${materialUnit?.matType?.matTypeName}"
 				          	'/>
 				          	<g:if test="${!onlyShow }">
-					         	<g:hiddenField name="matTypeId" value="${matTypeId}" />
-								<button data-dojo-type="dijit.form.Button" data-dojo-props='onClick:function(){selectMatTree("${createLink(controller:'baseinfor',action:'matTypeTreeDataStore',params:[companyId:company?.id])}")}'>选择</button>
+					         	<g:hiddenField name="matTypeId" value="${materialUnit?.matType?.id }" />
+					         	
+								<button data-dojo-type="dijit.form.Button" 
+									data-dojo-props='onClick:function(){
+										rosten.selectBaseTreeDialog(null,"${createLink(controller:'baseinfor',action:'matTypeTreeDataStore',params:[companyId:company?.id])}",false,"matTypeName","matTypeId");
+									}'>选择</button>
+								
 			           		</g:if>
 			           	</td>
 					</tr>

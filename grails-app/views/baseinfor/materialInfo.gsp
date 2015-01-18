@@ -147,8 +147,12 @@
 									value:"${materialInfo?.matInfoType?.matTypeName}"
 				          	'/>
 				          	<g:if test="${!onlyShow }">
-					         	<g:hiddenField name="matInfoTypeId" value="${matInfoTypeId}" />
-								<button data-dojo-type="dijit.form.Button" data-dojo-props='onClick:function(){selectMatTree("${createLink(controller:'baseinfor',action:'matTypeTreeDataStore',params:[companyId:company?.id])}")}'>选择</button>
+					         	<g:hiddenField name="matInfoTypeId" value="${materialInfo?.matInfoType?.id}" />
+								<button data-dojo-type="dijit.form.Button" 
+									data-dojo-props='onClick:function(){
+										rosten.selectBaseTreeDialog(null,"${createLink(controller:'baseinfor',action:'matTypeTreeDataStore',params:[companyId:company?.id])}",false,"matInfoType","matInfoTypeId");
+									}'>选择</button>
+								
 			           		</g:if>
 			           	</td>
 					</tr>

@@ -1,7 +1,7 @@
 /**
  * @author rosten
  */
-define([ "dojo/_base/connect", "dijit/registry","rosten/util/general", "rosten/kernel/behavior"], function(
+define([ "dojo/_base/connect", "dijit/registry","rosten/util/general","rosten/app/Application", "rosten/kernel/behavior"], function(
 		connect, registry,General) {
 	
 	var general = new General();
@@ -160,8 +160,6 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general", "rosten/k
 		};
 	};
 	
-	
-	
 	//------------------------------------------1
 	//供应商141205
 	supplier_formatTopic = function(value,rowIndex){
@@ -243,6 +241,9 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general", "rosten/k
 			rosten.readNoTime(rosten.webPath + "/baseinfor/materialInfoDelete", content,rosten.deleteCallback);
 		};
 	};
+	fresh_materialInfo = function(){
+		metInfor_rostenGrid.refresh();
+	};
 	//-------------------------------------------2
 	
 	
@@ -285,6 +286,30 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general", "rosten/k
 			content.id = unids;
 			rosten.readNoTime(rosten.webPath + "/baseinfor/materialTypeDelete", content,rosten.deleteCallback);
 		};
+	};
+	materialType_save = function(){
+		var formWidget = registry.byId("rosten_form");
+		if(!formWidget.validate()){
+			rosten.alert("请正确填写相关信息！");
+			return;
+		}
+		
+		var content = {};
+		rosten.readNoTime(rosten.webPath + "/baseinfor/matTypeSave", content,function(data){
+			if(data.result=="true" || data.result == true){
+				rosten.alert("保存成功！").queryDlgClose= function(){
+					rosten.kernel.hideRostenShowDialog();
+					refreshObjTree();
+				};
+			}else if(data.result=="exist"){
+				rosten.alert("当前类型已经存在，请更换名称！");
+			}else{
+				rosten.alert("保存失败!");
+			}
+		},function(error){
+			rosten.alert("系统错误，请通知管理员！");
+		},"rosten_form");
+		
 	};
 	//-------------------------------------------3
 	
@@ -415,18 +440,10 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general", "rosten/k
 			};
 			rosten.kernel.addRightContent(naviJson);
 			break;	
-		case "materialType":
+		case "materialInfo":
 			var companyId = rosten.kernel.getUserInforByKey("companyid");
             rosten.kernel.setHref(rosten.webPath + "/baseinfor/materialType?companyId=" + companyId, oString);
             break;
-		case "materialInfo":
-			var naviJson = {
-				identifier : oString,
-				actionBarSrc : rosten.webPath + "/baseinforAction/materialInfoView?userId=" + userid,
-				gridSrc : rosten.webPath + "/baseinfor/materialInfoGrid?companyId=" + companyId + "&userId=" + userid
-			};
-			rosten.kernel.addRightContent(naviJson);
-			break;	
 		case "materialUnit":
 			var naviJson = {
 				identifier : oString,

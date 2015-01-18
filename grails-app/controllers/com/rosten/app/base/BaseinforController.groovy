@@ -534,7 +534,7 @@ class BaseinforController {
 				entity.matInfoPurUnit = GOBJ
 			}
 		}
-		//entity.matInfoType=null
+		entity.matInfoType= MaterialType.get(params.matInfoTypeId)
 		
 		
 		if(entity.save(flush:true)){
@@ -565,13 +565,17 @@ class BaseinforController {
 	}
 	def materialInfoGrid ={
 		def model=[:]
-		def company = Company.get(params.companyId)
+		
+		def currentUser = springSecurityService.getCurrentUser()
+		def company = currentUser.company
+		
 		if(params.refreshHeader){
 			model["gridHeader"] = baseinforService.getMaterialInfoListLayout()
 		}
 		
 		//增加查询条件
 		def searchArgs =[:]
+		if(params.searchId && !"".equals(params.searchId)) searchArgs["matInfoType"] = MaterialType.get(params.searchId)
 		
 		if(params.refreshData){
 			def args =[:]
@@ -590,6 +594,18 @@ class BaseinforController {
 		}
 		render model as JSON
 	}
+	
+	//2015-1-18-------lhy---增加搜索功能
+	def materialInforSearchView ={
+		def model =[:]
+
+		render(view:'/baseinfor/materialInforSearch',model:model)
+	}
+	def materailManageShow ={
+		def model =[:]
+		model["searchId"] = params.id
+		render(view:'/baseinfor/materialInforManage',model:model)
+	}
 	//--------------------------------------------------------------------------------------------------
 	
 	//2014-12-19 lhy-----修改为树形展示
@@ -602,7 +618,11 @@ class BaseinforController {
 		def model =[:]
 		model["parentId"] = params.parentId
 		model["companyId"] = params.companyId
-		model["materialType"] = new MaterialType()
+		
+		def company = Company.get(params.companyId)
+		
+		model["materialType"] = new MaterialType(company:company)
+		
 		
 		//增加对是否二级单位进行控制
 		def parent = MaterialType.get(params.parentId)
@@ -615,10 +635,16 @@ class BaseinforController {
 	}
 	def matTypeShow ={
 		def model =[:]
-		model["materialType"] = MaterialType.get(params.id)
+		def entity = MaterialType.get(params.id)
+		model["materialType"] = entity
+		
+		model["parentId"] = entity.parent?.id
+		model["companyId"] = entity.company.id
 		render(view:'/baseinfor/materialType_edit',model:model)
 	}
 	def matTypeSave ={
+		def json = [:]
+		
 		def entity
 		if(params.id){
 			entity = MaterialType.get(params.id)
@@ -629,8 +655,7 @@ class BaseinforController {
 			def _entity = MaterialType.findByCompanyAndMatTypeName(entity.company,params.matTypeName)
 			if(_entity && !params.id.equals(_entity.id)){
 				//已经存在
-				flash.message = "<"+params.matTypeName+">已经存在，请重新输入！"
-				render(view:'/baseinfor/materialType_edit',model:[materialType:entity,parentId:params.parentId,companyId:params.companyId])
+				json["result"] = "exist"
 				return
 			}
 			
@@ -650,11 +675,9 @@ class BaseinforController {
 				}
 				//-------------------------------------------------------------
 				
-				flash.refreshTree = true;
-				flash.message = "'"+entity.matTypeName+"' 已成功保存！"
-				render(view:'/baseinfor/materialType_edit',model:[materialType:entity])
+				json["result"] = true
 			}else{
-				render(view:'/baseinfor/materialType_edit',model:[materialType:entity])
+				json["result"] = false
 			}
 		}else{
 			entity = new MaterialType()
@@ -667,9 +690,7 @@ class BaseinforController {
 			def _entity = MaterialType.findByCompanyAndMatTypeName(company,params.matTypeName)
 			if(_entity){
 				//已经存在
-				flash.message = "<"+params.matTypeName+">已经存在，请重新输入！"
-				render(view:'/baseinfor/materialType_edit',model:[materialType:entity,parentId:params.parentId,companyId:params.companyId])
-				return
+				json["result"] = "exist"
 			}
 			
 			entity.company = company
@@ -681,26 +702,26 @@ class BaseinforController {
 				parent.save(flush:true)
 			}
 			
-			flash.refreshTree = true;
-			flash.message = "'"+entity.matTypeName+"' 已成功保存！"
-			render(view:'/baseinfor/materialType_edit',model:[materialType:entity])
+			json["result"] = true
 		}
+		render json as JSON
 	}
 	def matTypeDelete ={
+		def json=[:]
 		def ids = params.id.split(",")
-		def name
 		try{
 			ids.each{
 				def materialType = MaterialType.get(it)
 				if(materialType){
-					name = materialType.matTypeName
 					baseinforService.deleteMatType(materialType)
 				}
 			}
+			json["result"] = true
 		}catch(Exception e){
 			println e
+			json["result"] = false
 		}
-		render "<script type='text/javascript'>refreshObjTree()</script><h3>&nbsp;&nbsp;材料类型<"+name+">及其下级节点信息已删除！</h3>"
+		render json as JSON
 	}
 	
 	def matTypeTreeDataStore ={
@@ -852,6 +873,8 @@ class BaseinforController {
 		
 		entity.properties = params
 		entity.clearErrors()
+		
+		entity.matType = MaterialType.get(params.matTypeId)
 		
 		if(entity.save(flush:true)){
 			model["result"] = "true"

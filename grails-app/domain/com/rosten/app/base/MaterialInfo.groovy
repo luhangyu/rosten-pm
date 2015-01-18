@@ -14,6 +14,9 @@ class MaterialInfo {
 	
 	//物料类型
 	@GridColumn(name="材料类型",colIdx=2)
+	def getMatInforType(){
+		return matInfoType?.matTypeName
+	}
 	MaterialType matInfoType
 	
 	//物料类型
@@ -22,17 +25,21 @@ class MaterialInfo {
 	
 	//采购材料单位
 	@GridColumn(name="大单位",colIdx=5)
+	def getMatInfoPurUnit(){
+		return matInfoPurUnit?.matUnitName
+	}
 	MaterialUnit matInfoPurUnit
 	
 	//材料领用单位
 	@GridColumn(name="小单位",colIdx=6)
+	def getMatInfoGetUnit(){
+		return matInfoPurUnit?.matUnitName
+	}
 	MaterialUnit matInfoGetUnit
 	
 	//换算数量
 	@GridColumn(name="换算数量",colIdx=4)
 	double matInfoQuantity
-	
-	
 	
 	//材料规格
 	String matInfoNorms

@@ -56,38 +56,42 @@
 				
 			});
 			createSubObj = function(selectedTreeNode){
-				var w = registry.byId("objEditPane");
 				var href = "${createLink(controller:'baseinfor',action:'matTypeCreate')}";
 				href = href + "?companyId=${company?.id}";
 				if(!obj_treenode.item.root){
 					href = href + "&parentId="+obj_treenode.item.id;
 				}
-				w.attr("href",href);
+				rosten.kernel.createRostenShowDialog(href, {});
 			}
 			editSubObj = function(selectedTreeNode){
 				if(!selectedTreeNode.item.root){
-					var w = registry.byId("objEditPane");
 					var tree = registry.byId("obj_tree");
-					
 					if(tree.model==null) var store = tree.store;
 					else store = tree.model.store;
+
+					var href = "${createLink(controller:'baseinfor',action:'matTypeShow')}" + "/" + selectedTreeNode.item.id;
+					rosten.kernel.createRostenShowDialog(href, {});
 					
-					var href = "${createLink(controller:'baseinfor',action:'matTypeShow')}";
-					var href = href+"/"+selectedTreeNode.item.id;
-					w.attr("href",href);
 				}
 			}
 			deleteSubObj = function(selectedTreeNode){
-				var w = registry.byId("objEditPane");
 				var tree = registry.byId("obj_tree");
 				if(tree.model==null) var store = tree.store;
 				else store = tree.model.store;
 							
 				rosten.confirm("您是否将删除所选中的节点？").callback = function(){
-					var href = "${createLink(controller:'baseinfor',action:'matTypeDelete')}";
 					if(!selectedTreeNode.item.root){
-						href = href + "/"+selectedTreeNode.item.id;
-						w.attr("href",href);
+						var content = {};
+						content.id = selectedTreeNode.item.id;
+						rosten.readSyncNoTime("${createLink(controller:'baseinfor',action:'matTypeDelete')}", content,function(data){
+							if(data.result=="true" || data.result==true){
+								rosten.alert("删除成功！").queryDlgClose= function(){
+									refreshObjTree();
+								}
+							}else{
+								rosten.alert("删除失败！");
+							}
+						});
 					}
 				}
 			}
@@ -108,10 +112,7 @@
 						model: treeModel,
 						onClick:function(item){
 							if(item && !item.root){
-								var w = registry.byId("objEditPane");
-								var href = "${createLink(controller:'baseinfor',action:'matTypeShow')}";
-								var href = href+"/"+item.id;
-								w.attr("href",href);
+								showTreeRightPane(item.id);
 							}
 						},
 						onLoad:treeOnLoad,
@@ -122,6 +123,12 @@
 					p.domNode.appendChild(tree.domNode);
 				}
 			}
+			showTreeRightPane = function(id){
+				var w = registry.byId("objEditPane");
+				var href = "${createLink(controller:'baseinfor',action:'materailManageShow')}";
+				var href = href+"/"+id;
+				w.attr("href",href);
+			};
 			getItem = function(){
 				var tree = registry.byId('obj_tree');
 				if(tree.selectedItem){
@@ -144,16 +151,13 @@
 
 	<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='style:"height:100%;padding:0"'>
 		
-		<div id="objTreePane" data-dojo-type="dojox/layout/ContentPane" data-dojo-props="region:'leading',splitter:true,style:'width:260px'">
-			<div id="obj_tree" data-dojo-type="dijit.Tree" data-dojo-props='store:treeDataStore, query:{parentId:null},
+		<div id="objTreePane" data-dojo-type="dojox/layout/ContentPane" data-dojo-props="region:'leading',splitter:true,style:'width:200px'">
+			<div id="obj_tree" data-dojo-type="dijit/Tree" data-dojo-props='store:treeDataStore, query:{parentId:null},
 				showRoot:true,label: "材料类型",
 				autoExpand:true, onLoad:function(){treeOnLoad()}'>
 				<script type="dojo/method" data-dojo-event="onClick" data-dojo-args="item">
 					if(item && !item.root){
-						var w = dijit.byId("objEditPane");
-						var href = "${createLink(controller:'baseinfor',action:'matTypeShow')}";
-						var href = href+"/"+item.id;
-						w.attr("href",href);
+						showTreeRightPane(item.id);
 					}
 				</script>
 			</div>
