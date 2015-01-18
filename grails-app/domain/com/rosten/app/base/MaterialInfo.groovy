@@ -14,7 +14,7 @@ class MaterialInfo {
 	
 	//物料类型
 	@GridColumn(name="材料类型",colIdx=2)
-	def getMatInforType(){
+	def getMatInforTypeValue(){
 		return matInfoType?.matTypeName
 	}
 	MaterialType matInfoType
@@ -25,14 +25,14 @@ class MaterialInfo {
 	
 	//采购材料单位
 	@GridColumn(name="大单位",colIdx=5)
-	def getMatInfoPurUnit(){
+	def getMatInfoPurUnitValue(){
 		return matInfoPurUnit?.matUnitName
 	}
 	MaterialUnit matInfoPurUnit
 	
 	//材料领用单位
 	@GridColumn(name="小单位",colIdx=6)
-	def getMatInfoGetUnit(){
+	def getMatInfoGetUnitValue(){
 		return matInfoGetUnit?.matUnitName
 	}
 	MaterialUnit matInfoGetUnit
@@ -66,8 +66,6 @@ class MaterialInfo {
 	
 	static constraints = {
 		matInfoGetUnit nullable:true,blank:true
-		matInfoPurUnit nullable:true,blank:true
-		matInfoType nullable:true,blank:true
 	}
 	
 	static mapping = {

@@ -77,10 +77,9 @@ define(["dojo/_base/lang",
         var parentNode = window.opener;
         window.close();
         
-    	if(parentNode.rosten.kernel){
+        if(parentNode.rosten.kernel){
     		parentNode.rosten.kernel.refreshGrid();
     	}
-    	
     };
     application.selectDialog = function(dialogTitle,id,url,flag,defaultValue,reload){
 		/*

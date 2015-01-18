@@ -64,13 +64,28 @@
 					
 				};
 				page_quit = function(){
-					rosten.pagequit();
+					var parentNode = window.opener;
+			        window.close();
+			        
+			        if(parentNode.metInfor_rostenGrid){
+			        	parentNode.metInfor_rostenGrid.refresh();
+			    	}
 				};
 				showSelectDialog = function(type){
+					
+					//材料类型
+					var matInfoTypeId = registry.byId("matInfoTypeId").get("value");
+					if(matInfoTypeId==""){
+						rosten.alert("请正确填写材料类型！");
+						return;
+					}
+					var url = "${createLink(controller:'baseinfor',action:'getMatUnitSelect',params:[companyId:company?.id])}";
+					url += "&matInfoTypeId="+matInfoTypeId;
+					
 					switch(type){
 					case "MatInfoPurUnit":
 						var matUnitName = registry.byId("matInfoPurUnit").get("value");
-						var dialog = rosten.selectBaseDialog("材料计量单位选择","${createLink(controller:'baseinfor',action:'getMatUnitSelect',params:[companyId:company?.id])}",false,"matInfoPurUnit","matInfoPurUnitId",matUnitName);
+						var dialog = rosten.selectBaseDialog("材料计量单位选择",url,false,"matInfoPurUnit","matInfoPurUnitId",matUnitName);
 						dialog.callback = function(data){
 							if(data.length>0){
 								var dealId = data[0].id
@@ -90,7 +105,7 @@
 						
 					case "MatInfoGetUnit":
 						var matUnitName = registry.byId("matInfoGetUnit").get("value");
-						var dialog = rosten.selectBaseDialog("材料计量单位选择","${createLink(controller:'baseinfor',action:'getMatUnitSelect',params:[companyId:company?.id])}",false,"matInfoGetUnit","matInfoGetUnitId",matUnitName);
+						var dialog = rosten.selectBaseDialog("材料计量单位选择",url,false,"matInfoGetUnit","matInfoGetUnitId",matUnitName);
 						dialog.callback = function(data){
 							if(data.length>0){
 								var dealId = data[0].id
@@ -147,7 +162,7 @@
 									value:"${materialInfo?.matInfoType?.matTypeName}"
 				          	'/>
 				          	<g:if test="${!onlyShow }">
-					         	<g:hiddenField name="matInfoTypeId" value="${materialInfo?.matInfoType?.id}" />
+					         	<g:hiddenField id="matInfoTypeId" name="matInfoTypeId" data-dojo-type="dijit/form/ValidationTextBox"  value="${materialInfo?.matInfoType?.id}" />
 								<button data-dojo-type="dijit.form.Button" 
 									data-dojo-props='onClick:function(){
 										rosten.selectBaseTreeDialog(null,"${createLink(controller:'baseinfor',action:'matTypeTreeDataStore',params:[companyId:company?.id])}",false,"matInfoType","matInfoTypeId");

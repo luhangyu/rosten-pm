@@ -15,27 +15,25 @@
         
         <tbody>
           <tr>
-            <th width="8%">供应商名称</th>
+            <th width="8%">材料名称</th>
             <td width="12%">
-            	<input id="s_suppName" data-dojo-type="dijit/form/ValidationTextBox" 
+            	<input id="s_materialInforName" data-dojo-type="dijit/form/ValidationTextBox" 
                 	data-dojo-props='trim:true
                '/>
             </td>
-           	<th width="8%">助记码</th>
+            <th width="8%">材料类型</th>
             <td width="12%">
-            	<input id="s_suppCode" data-dojo-type="dijit/form/ValidationTextBox" 
-                	data-dojo-props='trim:true
-               '/>
-            </td>
-            <th width="8%">供应商类型</th>
-            <td width="12%">
-               <div id="s_suppType" data-dojo-type="dijit/form/ComboBox"
-	                data-dojo-props='trim:true,value:""
+               <div id="s_materialType" data-dojo-type="dijit/form/ComboBox"
+	                data-dojo-props='trim:true,value:"${mateTypeName }" <g:if test="${mateTypeName }">,readOnly:true</g:if>
 	            '>
-					<g:each in="${suppliers}" var="item">
-						<option value="${item.code}">${item.name}</option>
+					<g:each in="${mateTypeList}" var="item">
+						<option value="${item.matTypeName}">${item.matTypeName}</option>
 					</g:each>
 	            </div>
+            </td>
+           	<th width="8%">&nbsp;</th>
+            <td width="12%">&nbsp;
+            	
             </td>
             <td width="40%">
             	<div class="btn">

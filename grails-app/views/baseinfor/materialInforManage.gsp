@@ -11,7 +11,7 @@
 		data-dojo-props='actionBarSrc:"${createLink(controller:'baseinforAction',action:'materialInfoManageView')}"'></div>
 	
 	<div data-dojo-type="rosten/widget/RostenContentPane"
-		data-dojo-props='src:"${createLink(controller:'baseinfor',action:'materialInforSearchView')}",style:{padding:"1px"}'></div>
+		data-dojo-props='src:"${createLink(controller:'baseinfor',action:'materialInforSearchView',params:[searchId:searchId])}",style:{padding:"1px"}'></div>
 	
 	<div data-dojo-type="rosten/widget/RostenGrid" id="metInfor_rostenGrid" data-dojo-id="metInfor_rostenGrid"
 		data-dojo-props='url:"${createLink(controller:'baseinfor',action:'materialInfoGrid',params:[searchId:searchId])}",showRowSelector:"new"'></div>

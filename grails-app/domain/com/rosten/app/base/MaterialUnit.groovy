@@ -9,17 +9,23 @@ class MaterialUnit {
 	String id
 	
 	//物料单位名称
-	@GridColumn(name="单位名称",colIdx=1,formatter="materialUnit_formatTopic")
+	@GridColumn(name="物料单位名称",colIdx=1,formatter="materialUnit_formatTopic")
 	String matUnitName
 	
-	MaterialType matType
+	@GridColumn(name="类型",colIdx=2)
+	def getMatTypeValue(){
+		return matType?matType.matTypeName:""
+	}
 	
+	MaterialType matType
 	
 	//状态：废弃？正常？
 //	@GridColumn(name="换算值",colIdx=3)
 //	Long matUnitConv
 	
+	@GridColumn(name="备注",colIdx=3)
 	String  matUnitRemark
+	
 	//创建日期
 	Date createdDate = new Date()
 	

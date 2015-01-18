@@ -11,28 +11,27 @@ class CompanyInfor {
 	 */
 	String id
 	
-	//公司名称
-	@GridColumn(name="公司名称",colIdx=1,formatter="companyInfor_formatTopic")
-	String companyName
-	
-	//
-	//@GridColumn(name="默认公司",colIdx=4)
+	@GridColumn(name="默认",colIdx=1,width="30px",formatter="formatIsDefault")
 	boolean companyIsDef = false
 	
+	//公司名称
+	@GridColumn(name="公司名称",colIdx=2,formatter="companyInfor_formatTopic")
+	String companyName
+	
 	//简称
-	@GridColumn(name="公司简称",colIdx=2,width="60px")
+	@GridColumn(name="公司简称",colIdx=3,width="60px")
 	String companyAbbr
 	
 	//电话号码
-	@GridColumn(name="电话号码",colIdx=3,width="80px")
+	@GridColumn(name="电话号码",colIdx=4,width="80px")
 	String companyPhone
 
 	//传真号码
-	@GridColumn(name="传真号码",colIdx=4,width="80px")
+	@GridColumn(name="传真号码",colIdx=5,width="80px")
 	String companyFax
 
 	//公司地址
-	@GridColumn(name="公司地址",colIdx=5)
+	@GridColumn(name="公司地址",colIdx=6)
 	String companyAddress
 	
 	//公司网址

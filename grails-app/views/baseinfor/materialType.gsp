@@ -28,6 +28,9 @@
 				connect.connect(menu,"_openMyself",tree,function(e){
 					obj_treenode = registry.getEnclosingWidget(e.target);
 				});
+
+				//定位跟节点并显示相关信息
+				showTreeRightPane("all");
 			}
 			kernel.addOnLoad(function(){
 				if(registry.byId("obj_tree_menu")) return;
@@ -116,7 +119,7 @@
 							}
 						},
 						onLoad:treeOnLoad,
-						autoExpand:true,
+						autoExpand:false,
 						showRoot:true,
 						openOnClick:false,openOnDblClick:true},div);
 					var p = registry.byId("objTreePane");
@@ -124,6 +127,8 @@
 				}
 			}
 			showTreeRightPane = function(id){
+				rosten.variable.currentTreeId = id;
+				
 				var w = registry.byId("objEditPane");
 				var href = "${createLink(controller:'baseinfor',action:'materailManageShow')}";
 				var href = href+"/"+id;
@@ -154,11 +159,13 @@
 		<div id="objTreePane" data-dojo-type="dojox/layout/ContentPane" data-dojo-props="region:'leading',splitter:true,style:'width:200px'">
 			<div id="obj_tree" data-dojo-type="dijit/Tree" data-dojo-props='store:treeDataStore, query:{parentId:null},
 				showRoot:true,label: "材料类型",
-				autoExpand:true, onLoad:function(){treeOnLoad()}'>
+				autoExpand:false, onLoad:function(){treeOnLoad()}'>
 				<script type="dojo/method" data-dojo-event="onClick" data-dojo-args="item">
+					var id = "all";
 					if(item && !item.root){
-						showTreeRightPane(item.id);
+						id=item.id;
 					}
+					showTreeRightPane(id);
 				</script>
 			</div>
 		</div>

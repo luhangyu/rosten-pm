@@ -702,7 +702,7 @@ define(["dojo/_base/connect", "dijit/registry","rosten/util/general", "rosten/ke
 			userId:userId.attr("value"),
 			userDepartId:userDepartId.attr("value"),
 			newDepartId:newDepartId.attr("value")	
-		}
+		};
 		rosten.readSync(rosten.webPath + "/staff/staffChangeDepart", content, function(data) {
 			if (data.result == "true" || data.result == true) {
 	            rosten.alert("变更成功!").queryDlgClose = function(){
@@ -713,7 +713,7 @@ define(["dojo/_base/connect", "dijit/registry","rosten/util/general", "rosten/ke
 	        }
     	
 		});
-	}
+	};
 	
 	/*
 	 * 此功能默认必须存在

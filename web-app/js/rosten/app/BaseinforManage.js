@@ -5,6 +5,32 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general","rosten/ap
 		connect, registry,General) {
 	
 	var general = new General();
+	
+	//材料信息搜索
+	materialInfor_search = function(){
+	    var content = {};
+        
+        var s_materialInforName = registry.byId("s_materialInforName");
+        if(s_materialInforName.get("value")!=""){
+            content.materialInforName = s_materialInforName.get("value");
+        }
+        
+        var s_materialType = registry.byId("s_materialType");
+        if(s_materialType.get("value")!=""){
+            content.materialType = s_materialType.get("value");
+        }
+        
+        metInfor_rostenGrid.refresh(null,content);
+	};
+	materialInfor_resetSearch = function(){
+        switch(rosten.kernel.navigationEntity) {
+        default:
+            registry.byId("s_materialInforName").set("value","");
+            registry.byId("s_materialType").set("value","");
+            metInfor_rostenGrid.refresh();
+            break;
+        }   
+    };
 	//供应商搜索
 	supplier_search = function(){
 		var content = {};
@@ -37,10 +63,15 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general","rosten/ap
 		}	
 	};
 	
-	
-	
-	
 	//公司信息子块
+	formatIsDefault = function(value,rowIndex){
+	    if(value){
+            var _values = "<img style=\"margin-left:4px\" src=\"" + rosten.webPath + "/images/rosten/actionbar/ok.png" + "\" />";
+            return _values;
+        }else{
+            return "";
+        }
+	};
 	companyInfor_formatTopic = function(value,rowIndex){
 		return "<a href=\"javascript:companyInfor_onMessageOpen(" + rowIndex + ");\">" + value + "</a>";
 	};
@@ -208,7 +239,7 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general","rosten/ap
 		return "<a href=\"javascript:materialInfo_onMessageOpen(" + rowIndex + ");\">" + value + "</a>";
 	};
 	materialInfo_onMessageOpen = function(rowIndex){
-        var unid = rosten.kernel.getGridItemValue(rowIndex,"id");
+        var unid = _getGridItemValue(metInfor_rostenGrid,rowIndex,"id");
         var userid = rosten.kernel.getUserInforByKey("idnumber");
 		var companyId = rosten.kernel.getUserInforByKey("companyid");
 		rosten.openNewWindow("materialInfo", rosten.webPath + "/baseinfor/materialInfoShow/" + unid + "?userid=" + userid + "&companyId=" + companyId);
@@ -217,10 +248,11 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general","rosten/ap
 	add_materialInfo = function() {
 		var userid = rosten.kernel.getUserInforByKey("idnumber");
         var companyId = rosten.kernel.getUserInforByKey("companyid");
-        rosten.openNewWindow("materialInfo", rosten.webPath + "/baseinfor/materialInfoAdd?companyId=" + companyId + "&userid=" + userid);
+        var type=rosten.variable.currentTreeId;
+        rosten.openNewWindow("materialInfo", rosten.webPath + "/baseinfor/materialInfoAdd?companyId=" + companyId + "&userid=" + userid + "&type=" + type);
     };
 	change_materialInfo = function() {
-		var unid = rosten.getGridUnid("single");
+		var unid = rosten._getGridUnid(metInfor_rostenGrid,"single");
 		if (unid == "")
 			return;
 		var userid = rosten.kernel.getUserInforByKey("idnumber");
@@ -233,12 +265,20 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general","rosten/ap
 	delete_materialInfo = function() {
 		var _1 = rosten.confirm("删除后将无法恢复，是否继续?");
 		_1.callback = function() {
-			var unids = rosten.getGridUnid("multi");
+			var unids = rosten._getGridUnid(metInfor_rostenGrid,"multi");
 			if (unids == "")
 				return;
 			var content = {};
 			content.id = unids;
-			rosten.readNoTime(rosten.webPath + "/baseinfor/materialInfoDelete", content,rosten.deleteCallback);
+			rosten.readNoTime(rosten.webPath + "/baseinfor/materialInfoDelete", content,function(data){
+			    if(data.result=="true" || data.result==true){
+			        rosten.alert("成功删除！").queryDlgClose = function(){
+			            metInfor_rostenGrid.refresh();
+			        };
+			    }else{
+			        rosten.alert("删除失败！");
+			    }
+			});
 		};
 	};
 	fresh_materialInfo = function(){
@@ -391,7 +431,12 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general","rosten/ap
 			rosten.readNoTime(rosten.webPath + "/baseinfor/materialUnitDelete", content,rosten.deleteCallback);
 		};
 	};
-	
+	_getGridItemValue=function(rostenGrid,index,name){
+        var grid = rostenGrid.getGrid();
+        var item = grid.getItem(index);
+        var store = rostenGrid.getStore();
+        return store.getValue(item, name);
+    };
 	
 	//-------------------------------------------4
 	
@@ -454,6 +499,6 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general","rosten/ap
 			break;		
 			
 		}
-	}
+	};
 	connect.connect("show_naviEntity", show_baseinforNaviEntity);
 });

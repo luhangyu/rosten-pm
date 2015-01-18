@@ -32,7 +32,8 @@ class BaseinforController {
 	def getMatUnitSelect ={
 		def _List =[]
 		def company = Company.get(params.companyId)
-		MaterialUnit.findAllByCompany(company).each{
+		def type = MaterialType.get(params.matInfoTypeId)
+		MaterialUnit.findAllByCompanyAndMatType(company,type).each{
 			def json=[:]
 			json["id"] = it.id
 			json["name"] = it.matUnitName
@@ -499,6 +500,8 @@ class BaseinforController {
 			entity = MaterialInfo.get(params.id)
 		}else{
 			entity = new MaterialInfo()
+			def mateType = MaterialType.get(params.type)
+			entity.matInfoType = mateType
 		}
 		model["materialInfo"] = entity
 		model["user"] = currentUser
@@ -531,11 +534,10 @@ class BaseinforController {
 		if(params.matInfoGetUnitId){
 			def GOBJ = MaterialUnit.get(params.matInfoGetUnitId)
 			if(GOBJ){
-				entity.matInfoPurUnit = GOBJ
+				entity.matInfoGetUnit = GOBJ
 			}
 		}
 		entity.matInfoType= MaterialType.get(params.matInfoTypeId)
-		
 		
 		if(entity.save(flush:true)){
 			model["result"] = "true"
@@ -575,9 +577,21 @@ class BaseinforController {
 		
 		//增加查询条件
 		def searchArgs =[:]
-		if(params.searchId && !"".equals(params.searchId)) searchArgs["matInfoType"] = MaterialType.get(params.searchId)
+		if(params.searchId && !"".equals(params.searchId)){
+			 if(!"all".equals(params.searchId)){
+				 searchArgs["matInfoType"] = MaterialType.get(params.searchId)
+			 }
+		}
 		
-		if(params.refreshData){
+		if(params.materialInforName && !"".equals(params.materialInforName)){
+			searchArgs["matInfoName"] = params.materialInforName
+		}
+		
+		if(params.materialType && !"".equals(params.materialType)){
+			searchArgs["matInfoType"] = MaterialType.findByMatTypeName(params.materialType)
+	   }
+		
+		if(params.refreshData){	
 			def args =[:]
 			int perPageNum = Util.str2int(params.perPageNum)
 			int nowPage =  Util.str2int(params.showPageNum)
@@ -598,7 +612,15 @@ class BaseinforController {
 	//2015-1-18-------lhy---增加搜索功能
 	def materialInforSearchView ={
 		def model =[:]
-
+		
+		def mateType = MaterialType.get(params.searchId)
+		if(mateType){
+			model["mateTypeName"] = mateType?.matTypeName
+		}else{
+			def mateTypeList = MaterialType.list()
+			model["mateTypeList"] = mateTypeList
+		}
+		
 		render(view:'/baseinfor/materialInforSearch',model:model)
 	}
 	def materailManageShow ={
