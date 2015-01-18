@@ -15,7 +15,7 @@
                 <table class="tableData">
                     <tbody>
 					<tr>
-					    <td width="140"><div align="right"><span style="color:red">*&nbsp;</span>所属项目计划：</div></td>
+					    <td width="140"><div align="right">所属项目计划：</div></td>
 					    <td colspan=3>
 					    	<input  id="projPlanName" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,readOnly:true,name:"projPlanName",style:{width:"550px"},
@@ -24,7 +24,7 @@
 					    </td>
 					</tr>
 				          <tr>
-                            <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>部位：</div>
+                            <td width="120"><div align="right">部位：</div>
                             <td width="250">
 						    	<input id="s_constructPart" data-dojo-type="dijit/form/ValidationTextBox" 
 				                 	data-dojo-props='trim:true,name:"s_constructPart",readOnly:true,
@@ -36,7 +36,7 @@
                             <td width="250">
 					    	<input id="constructDate" data-dojo-type="dijit/form/DateTextBox" 
 			                	data-dojo-props='name:"constructDate",
-			                	trim:true,required:true,missingMessage:"请正确填写施工日期！",invalidMessage:"请正确填写施工日期！",
+			                	trim:true,required:true,
 			                	value:"${constructLog?.getFormatteConstructDate()}"
 			               '/>
 					    	</td>

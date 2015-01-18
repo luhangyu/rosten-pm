@@ -12,35 +12,47 @@ class EmployeController {
 	def springSecurityService
 	def employeService
 	
-	//点工考勤<--start
-	def constructionWorkerAttendanceAdd ={
-		redirect(action:"constructionWorkerAttendanceShow",params:params)
+	//考勤父表<--start
+	def attendanceAdd ={
+		redirect(action:"attendanceShow",params:params)
 	}
-	def constructionWorkerAttendanceShow ={
+	def attendanceShow ={
 		def model =[:]
 		def currentUser = springSecurityService.getCurrentUser()
 		model["company"] = Company.get(params.companyId)
 		
 		def entity
 		if(params.id){
-			entity = ConstructionWorkerAttendance.get(params.id)
+			entity = Attendance.get(params.id)
 		}else{
-			entity = new ConstructionWorkerAttendance()
+			entity = new Attendance()
 		}
-		model["constructionWorkerAttendance"] = entity
+
+		model["attendance"] = entity
 		model["user"] = currentUser
+		
+		switch(params.type){
+			case "constructionWorkerAttendance":
+			entity.attendType = "大点工考勤"
+			break;
+			case "officeWorkerAttendance":
+			entity.attendType = "员工考勤"
+			break;
+		}
+
+		
 		
 		FieldAcl fa = new FieldAcl()
 		model["fieldAcl"] = fa
-		render(view:'/employe/constructionWorkerAttendance',model:model)
+		render(view:'/employe/attendance',model:model)
 	}
-	def constructionWorkerAttendanceSave ={
+	def attendanceSave ={
 		def model=[:]
 		
 		def company = Company.get(params.companyId)
-		def entity = new ConstructionWorkerAttendance()
+		def entity = new Attendance()
 		if(params.id && !"".equals(params.id)){
-			entity = ConstructionWorkerAttendance.get(params.id)
+			entity = Attendance.get(params.id)
 		}else{
 			entity.company = company
 		}
@@ -48,100 +60,23 @@ class EmployeController {
 		entity.properties = params
 		entity.clearErrors()
 		
-		if(entity.save(flush:true)){
-			model["result"] = "true"
-		}else{
-			entity.errors.each{
-				println it
-			}
-			model["result"] = "false"
-		}
-		render model as JSON
-	}
-	def constructionWorkerAttendanceDelete ={
-		def ids = params.id.split(",")
-		def json
-		try{
-			ids.each{
-				def entity = ConstructionWorkerAttendance.get(it)
-				if(entity){
-					entity.delete(flush: true)
-				}
-			}
-			json = [result:'true']
-		}catch(Exception e){
-			json = [result:'error']
-		}
-		render json as JSON
-	}
-	def constructionWorkerAttendanceGrid ={
-		def model=[:]
-		def company = Company.get(params.companyId)
-		if(params.refreshHeader){
-			model["gridHeader"] = employeService.getConstructionWorkerAttendanceListLayout()
-		}
-		
-		//增加查询条件
-		def searchArgs =[:]
-		
-		if(params.refreshData){
-			def args =[:]
-			int perPageNum = Util.str2int(params.perPageNum)
-			int nowPage =  Util.str2int(params.showPageNum)
-			
-			args["offset"] = (nowPage-1) * perPageNum
-			args["max"] = perPageNum
-			args["company"] = company
-			model["gridData"] = employeService.getConstructionWorkerAttendanceListDataStore(args,searchArgs)
-			
-		}
-		if(params.refreshPageControl){
-			def total = employeService.getConstructionWorkerAttendanceCount(company,searchArgs)
-			model["pageControl"] = ["total":total.toString()]
-		}
-		render model as JSON
-	}
-	
-	//点工考勤end-->
-	
-	
-	//员工（行政人员）考勤<--start
-	def officeWorkerAttendanceAdd ={
-		redirect(action:"officeWorkerAttendanceShow",params:params)
-	}
-	def officeWorkerAttendanceShow ={
-		def model =[:]
-		def currentUser = springSecurityService.getCurrentUser()
-		model["company"] = Company.get(params.companyId)
-		
-		def entity
-		if(params.id){
-			entity = OfficeWorkerAttendance.get(params.id)
-		}else{
-			entity = new OfficeWorkerAttendance()
-		}
-		model["officeWorkerAttendance"] = entity
-		model["user"] = currentUser
-		
-		FieldAcl fa = new FieldAcl()
-		model["fieldAcl"] = fa
-		render(view:'/employe/officeWorkerAttendance',model:model)
-	}
-	def officeWorkerAttendanceSave ={
-		def model=[:]
-		
-		def company = Company.get(params.companyId)
-		def entity = new OfficeWorkerAttendance()
-		if(params.id && !"".equals(params.id)){
-			entity = OfficeWorkerAttendance.get(params.id)
-		}else{
-			entity.company = company
-		}
-		
-		entity.properties = params
-		entity.clearErrors()
 		//日期字段值处理，convertToTimestamp
-		entity.offAttenDate = Util.convertToTimestamp(params.offAttenDate)
+		entity.attendDate = Util.convertToTimestamp(params.attendDate)
+		
+		if(entity.workerAttends){
+			def _list = []
+			_list += entity.workerAttends
+			entity.workerAttends.clear()
+			_list.each{
+				it.delete()
+			}
+		}
+		JSON.parse(params.workerAttendsValues).eachWithIndex{elem, i ->
+			def workerAttendance = new WorkerAttendance(elem)
+			workerAttendance.clearErrors()
+			entity.addToWorkerAttends(workerAttendance)
+		}
+		
 		
 		if(entity.save(flush:true)){
 			model["result"] = "true"
@@ -153,12 +88,12 @@ class EmployeController {
 		}
 		render model as JSON
 	}
-	def officeWorkerAttendanceDelete ={
+	def attendanceDelete ={
 		def ids = params.id.split(",")
 		def json
 		try{
 			ids.each{
-				def entity = OfficeWorkerAttendance.get(it)
+				def entity = Attendance.get(it)
 				if(entity){
 					entity.delete(flush: true)
 				}
@@ -169,11 +104,11 @@ class EmployeController {
 		}
 		render json as JSON
 	}
-	def officeWorkerAttendanceGrid ={
+	def attendanceGrid ={
 		def model=[:]
 		def company = Company.get(params.companyId)
 		if(params.refreshHeader){
-			model["gridHeader"] = employeService.getOfficeWorkerAttendanceListLayout()
+			model["gridHeader"] = employeService.getAttendanceListLayout()
 		}
 		
 		//增加查询条件
@@ -187,17 +122,70 @@ class EmployeController {
 			args["offset"] = (nowPage-1) * perPageNum
 			args["max"] = perPageNum
 			args["company"] = company
-			model["gridData"] = employeService.getOfficeWorkerAttendanceListDataStore(args,searchArgs)
+			model["gridData"] = employeService.getAttendanceListDataStore(args,searchArgs)
 			
 		}
 		if(params.refreshPageControl){
-			def total = employeService.getOfficeWorkerAttendanceCount(company,searchArgs)
+			def total = employeService.getAttendanceCount(company,searchArgs)
 			model["pageControl"] = ["total":total.toString()]
 		}
 		render model as JSON
 	}
 	
-	//员工（行政人员）end-->
+	//考勤父表end-->
+	
+	
+	//考勤子表<--start
+	def workerAttendanceAdd ={
+		redirect(action:"workerAttendanceShow",params:params)
+	}
+	def workerAttendanceShow ={
+
+		def model =[:]
+		if(params.id){
+			model = WorkerAttendance.get(params.id)
+		}else{
+			model = new WorkerAttendance()
+		}
+		render(view:'/employe/workerAttendance',model:model)
+	}
+	def workerAttendanceGrid ={
+		def json=[:]
+		def attendance = Attendance.get(params.id)
+			
+		if(params.refreshHeader){
+			json["gridHeader"] = employeService.getWorkerAttendanceListLayout()
+		}
+		def searchArgs =[:]
+		if(params.refreshData){
+			if(!attendance){
+				json["gridData"] = ["identifier":"id","label":"name","items":[]]
+			}else{
+				def args =[:]
+				int perPageNum = Util.str2int(params.perPageNum)
+				int nowPage =  Util.str2int(params.showPageNum)
+				
+				args["offset"] = (nowPage-1) * perPageNum
+				args["max"] = perPageNum
+				args["attendance"] = attendance
+				
+				def gridData = employeService.getWorkerAttendanceListDataStore(args,searchArgs)
+				json["gridData"] = gridData
+			}
+		}
+		if(params.refreshPageControl){
+			if(!attendance){
+				json["pageControl"] = ["total":"0"]
+			}else{
+				def total = employeService.getWorkerAttendanceCount(attendance,searchArgs)
+				json["pageControl"] = ["total":total.toString()]
+			}
+			
+		}
+		render json as JSON
+	}
+	
+	//考勤子类end-->
 	
 	
 

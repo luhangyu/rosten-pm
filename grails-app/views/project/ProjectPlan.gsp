@@ -49,6 +49,8 @@
 						return;
 					}
 					var content = {};
+					var constructLogs =["getConstructPart","getFormatteConstructDate","consDoneQutt","consDoneRate","logMaker"]
+					content.constructLogsValues = rosten.getGridDataCollect(constructLogGrid,constructLogs);
 					
 					//增加对多次单击的次数----2014-9-4
 					var buttonWidget = object.target;
@@ -57,7 +59,7 @@
 					rosten.readSync(rosten.webPath + "/project/projectPlanSave",content,function(data){
 						if(data.result=="true" || data.result == true){
 							rosten.alert("保存成功！").queryDlgClose= function(){
-								page_quit();
+								//page_quit();
 							};
 						}else{
 							rosten.alert("保存失败!");
@@ -138,8 +140,8 @@
 	</div>
 </div>
 
-<div data-dojo-type="dijit/layout/TabContainer" data-dojo-props='persist:false,tabStrip:true,style:{width:"800px",margin:"0 auto"}' >
-	<div data-dojo-type="dijit/layout/ContentPane" title="基本信息" data-dojo-props=''>
+<div data-dojo-type="dijit/layout/TabContainer" data-dojo-props='doLayout:false,persist:false,tabStrip:true,style:{width:"800px",margin:"0 auto"}' >
+	<div data-dojo-type="dijit/layout/ContentPane" title="基本信息" data-dojo-props='doLayout:false,'>
 		<form id="rosten_form" data-dojo-type="dijit/form/Form" name="rosten_form" onsubmit="return false;" class="rosten_form" style="padding:0px">
 			<input  data-dojo-type="dijit/form/ValidationTextBox" id="id"  data-dojo-props='name:"id",style:{display:"none"},value:"${projectPlan?.id }"' />
         	<input  data-dojo-type="dijit/form/ValidationTextBox" id="companyId" data-dojo-props='name:"companyId",style:{display:"none"},value:"${company?.id }"' />

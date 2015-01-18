@@ -5,21 +5,21 @@ import com.rosten.app.system.Company
 
 class EmployeService {
 
-   //点工考勤-start--------------------
-	def getConstructionWorkerAttendanceListLayout ={
+   //考勤父类-start--------------------
+	def getAttendanceListLayout ={
 		def gridUtil = new GridUtil()
-		return gridUtil.buildLayoutJSON(new ConstructionWorkerAttendance())
+		return gridUtil.buildLayoutJSON(new Attendance())
 	}
-	def getConstructionWorkerAttendanceListDataStore ={params,searchArgs->
+	def getAttendanceListDataStore ={params,searchArgs->
 		Integer offset = (params.offset)?params.offset.toInteger():0
 		Integer max = (params.max)?params.max.toInteger():15
-		def propertyList = getAllConstructionWorkerAttendance(offset,max,params.company,searchArgs)
+		def propertyList = getAllAttendance(offset,max,params.company,searchArgs)
 
 		def gridUtil = new GridUtil()
 		return gridUtil.buildDataList("id","title",propertyList,offset)
 	}
-	private def getAllConstructionWorkerAttendance={offset,max,company,searchArgs->
-		def c = ConstructionWorkerAttendance.createCriteria()
+	private def getAllAttendance={offset,max,company,searchArgs->
+		def c = Attendance.createCriteria()
 		def pa=[max:max,offset:offset]
 		def query = {
 			eq("company",company)
@@ -31,8 +31,8 @@ class EmployeService {
 		}
 		return c.list(pa,query)
 	}
-	def getConstructionWorkerAttendanceCount ={company,searchArgs->
-		def c = ConstructionWorkerAttendance.createCriteria()
+	def getAttendanceCount ={company,searchArgs->
+		def c = Attendance.createCriteria()
 		def query = {
 			eq("company",company)
 			searchArgs.each{k,v->
@@ -41,27 +41,27 @@ class EmployeService {
 		}
 		return c.count(query)
 	}
-	//点工考勤-end--------------------
+	//end--------------------
 	
 	
-	//员工行政人员考勤-start--------------------
-	def getOfficeWorkerAttendanceListLayout ={
+	//考勤子类-start--------------------
+	def getWorkerAttendanceListLayout ={
 		def gridUtil = new GridUtil()
-		return gridUtil.buildLayoutJSON(new OfficeWorkerAttendance())
+		return gridUtil.buildLayoutJSON(new WorkerAttendance())
 	}
-	def getOfficeWorkerAttendanceListDataStore ={params,searchArgs->
+	def getWorkerAttendanceListDataStore ={params,searchArgs->
 		Integer offset = (params.offset)?params.offset.toInteger():0
 		Integer max = (params.max)?params.max.toInteger():15
-		def propertyList = getAllOfficeWorkerAttendance(offset,max,params.company,searchArgs)
+		def propertyList = getAllWorkerAttendance(offset,max,params.attendance,searchArgs)
 
 		def gridUtil = new GridUtil()
 		return gridUtil.buildDataList("id","title",propertyList,offset)
 	}
-	private def getAllOfficeWorkerAttendance={offset,max,company,searchArgs->
-		def c = OfficeWorkerAttendance.createCriteria()
+	private def getAllWorkerAttendance={offset,max,attendance,searchArgs->
+		def c = WorkerAttendance.createCriteria()
 		def pa=[max:max,offset:offset]
 		def query = {
-			eq("company",company)
+			eq("attendance",attendance)
 			order("createdDate", "desc")
 			
 			searchArgs.each{k,v->
@@ -70,17 +70,17 @@ class EmployeService {
 		}
 		return c.list(pa,query)
 	}
-	def getOfficeWorkerAttendanceCount ={company,searchArgs->
-		def c = OfficeWorkerAttendance.createCriteria()
+	def getWorkerAttendanceCount ={attendance,searchArgs->
+		def c = WorkerAttendance.createCriteria()
 		def query = {
-			eq("company",company)
+			eq("attendance",attendance)
 			searchArgs.each{k,v->
 				like(k,"%" + v + "%")
 			}
 		}
 		return c.count(query)
 	}
-	//员工行政人员考勤-end--------------------
+	//考勤子类-end--------------------
 	
 	
 }

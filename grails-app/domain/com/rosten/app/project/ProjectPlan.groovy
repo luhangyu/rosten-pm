@@ -72,9 +72,9 @@ class ProjectPlan {
 	
 	static belongsTo = [company:Company]
 	
-	List constructLog
+	List constructLogs
 	
-	static hasMany=[constructLog:ConstructLog]
+	static hasMany=[constructLogs:ConstructLog]
 	
 	static constraints = {
 	}

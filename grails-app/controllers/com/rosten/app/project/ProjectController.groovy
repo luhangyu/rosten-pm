@@ -84,7 +84,6 @@ class ProjectController {
 			}
 		}
 		
-		
 		if(entity.save(flush:true)){
 			model["id"] = entity.id
 			model["result"] = "true"
@@ -188,6 +187,23 @@ class ProjectController {
 			if(OBJ){
 				entity.projectBelong = OBJ
 			}
+		}
+		
+		if(entity.constructLogs){
+			def _list = []
+			_list += entity.constructLogs
+			entity.constructLogs.clear()
+			_list.each{
+				it.delete()
+			}
+		}
+		
+		JSON.parse(params.constructLogsValues).eachWithIndex{elem, i ->
+			def constructLog = new ConstructLog(elem)
+			constructLog.clearErrors()
+			constructLog.constructDate = Util.convertToTimestamp(elem.getFormatteConstructDate)
+			
+			entity.addToConstructLogs(constructLog)
 		}
 		
 		

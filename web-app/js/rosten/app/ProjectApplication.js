@@ -28,12 +28,12 @@ define(["dojo/dom",
 					break;
 				}
 			}
-			
+		
 			if(node){
 				store.setValue(items[i],"itemId",registry.byId("id").get("value"));
 				store.setValue(items[i],"projPlanName",registry.byId("projPlanName").get("value"));
 				store.setValue(items[i],"s_constructPart",registry.byId("s_constructPart").get("value"));
-				store.setValue(items[i],"constructDate",registry.byId("constructDate").get("value"));
+				store.setValue(items[i],"getFormatteConstructDate",registry.byId("constructDate").get("displayedValue"));
 				store.setValue(items[i],"consDoneQutt",registry.byId("consDoneQutt").get("value"));
 				store.setValue(items[i],"consDoneRate",registry.byId("consDoneRate").get("value"));
 				store.setValue(items[i],"logMaker",registry.byId("logMaker").get("value"));
@@ -47,14 +47,13 @@ define(["dojo/dom",
 						itemId:registry.byId("id").get("value"),
 						getProjPlanName:registry.byId("projPlanName").get("value"),
 						getConstructPart:registry.byId("s_constructPart").get("value"),
-						constructDate:registry.byId("constructDate").get("value"),
+						getFormatteConstructDate:registry.byId("constructDate").get("displayedValue"),
 						consDoneQutt:registry.byId("consDoneQutt").get("value"),
 						consDoneRate:registry.byId("consDoneRate").get("value"),
 						logMaker:registry.byId("logMaker").get("value"),
 						
 				};
 				store.newItem(content);
-
 			}
 		}
 		
@@ -73,24 +72,22 @@ define(["dojo/dom",
             onLoadFunction : function() {
 	            
             	var id = rosten.getGridItemValue(constructLogGrid,rowIndex,"id");			            
-            	var barGoodsName = rosten.getGridItemValue(constructLogGrid,rowIndex,"barGoodsName");
-            	var barGoodsCorp = rosten.getGridItemValue(constructLogGrid,rowIndex,"barGoodsCorp");
-            	var barGoodsUnit = rosten.getGridItemValue(constructLogGrid,rowIndex,"barGoodsUnit");
-            	var barGoodsNum = rosten.getGridItemValue(constructLogGrid,rowIndex,"barGoodsNum");
-            	var barGoodsPrice = rosten.getGridItemValue(constructLogGrid,rowIndex,"barGoodsPrice");
-            	var barGoodsDiscount = rosten.getGridItemValue(constructLogGrid,rowIndex,"barGoodsDiscount");
-            	var barGoodsRemark = rosten.getGridItemValue(constructLogGrid,rowIndex,"barGoodsRemark");
-				
+            	var getProjPlanName = rosten.getGridItemValue(constructLogGrid,rowIndex,"getProjPlanName");
+            	var getConstructPart = rosten.getGridItemValue(constructLogGrid,rowIndex,"getConstructPart");
+            	var constructDate = rosten.getGridItemValue(constructLogGrid,rowIndex,"getFormatteConstructDate");
+            	var consDoneQutt = rosten.getGridItemValue(constructLogGrid,rowIndex,"consDoneQutt");
+            	var consDoneRate = rosten.getGridItemValue(constructLogGrid,rowIndex,"consDoneRate");
+            	var logMaker = rosten.getGridItemValue(constructLogGrid,rowIndex,"logMaker");
             	
+            	//alert(constructDate);
             	registry.byId("itemId").set("value",id);
-            	registry.byId("barGoodsName").set("value",barGoodsName);
-            	registry.byId("barGoodsCorp").set("value",barGoodsCorp);
-            	registry.byId("barGoodsUnit").set("value",barGoodsUnit);
-            	registry.byId("constructLogNum").set("value",barGoodsNum);
-            	registry.byId("barGoodsPrice").set("value",barGoodsPrice);
-            	registry.byId("barGoodsDiscount").set("value",barGoodsDiscount);
-            	registry.byId("barGoodsRemark").set("value",barGoodsRemark);
-
+            	registry.byId("projPlanName").set("value",getProjPlanName);
+            	registry.byId("s_constructPart").set("value",getConstructPart);
+            	registry.byId("constructDate").set("displayedValue",constructDate);
+            	registry.byId("consDoneQutt").set("value",consDoneQutt);
+            	registry.byId("consDoneRate").set("value",consDoneRate);
+            	registry.byId("logMaker").set("value",logMaker);
+            	
             
 	        }
         });
@@ -114,6 +111,8 @@ define(["dojo/dom",
 			},queryOptions:{deep:true}
 		});
 	};
+	
+	
 	bargainType_onChange=function(){
 			constructLogTitlePane.resize();
 
