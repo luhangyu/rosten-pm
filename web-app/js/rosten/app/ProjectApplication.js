@@ -9,7 +9,8 @@ define(["dojo/dom",
 	
 	//增加清单ITEM~~~~~~~~
 	constructLog_addItem = function(){
-		rosten.createRostenShowDialog(rosten.webPath + "/project/constructLogAdd", {
+		var planId = registry.byId("id").get("value");
+		rosten.createRostenShowDialog(rosten.webPath + "/project/constructLogAdd?planId="+planId, {
             onLoadFunction : function() {
 
 	            }
@@ -29,18 +30,14 @@ define(["dojo/dom",
 			}
 			
 			if(node){
-				
 				store.setValue(items[i],"itemId",registry.byId("id").get("value"));
-				store.setValue(items[i],"barGoodsName",registry.byId("barGoodsName").get("value"));
-				store.setValue(items[i],"barGoodsCorp",registry.byId("barGoodsCorp").get("value"));
-				store.setValue(items[i],"barGoodsUnit",registry.byId("barGoodsUnit").get("value"));
-				store.setValue(items[i],"barGoodsNum",registry.byId("barGoodsNum").get("value"));
-				store.setValue(items[i],"barGoodsPrice",registry.byId("barGoodsPrice").get("value"));
-				store.setValue(items[i],"barGoodsDiscount",registry.byId("barGoodsDiscount").get("value"));
-				store.setValue(items[i],"barGoodsRemark",registry.byId("barGoodsRemark").get("value"));
-				
+				store.setValue(items[i],"projPlanName",registry.byId("projPlanName").get("value"));
+				store.setValue(items[i],"s_constructPart",registry.byId("s_constructPart").get("value"));
+				store.setValue(items[i],"constructDate",registry.byId("constructDate").get("value"));
+				store.setValue(items[i],"consDoneQutt",registry.byId("consDoneQutt").get("value"));
+				store.setValue(items[i],"consDoneRate",registry.byId("consDoneRate").get("value"));
+				store.setValue(items[i],"logMaker",registry.byId("logMaker").get("value"));
 			}else{
-				
 				var randId = Math.random();
 				var content ={
 						id:randId,
@@ -48,14 +45,12 @@ define(["dojo/dom",
 						rowIndex:items.length+1,
 						//BargainId:registry.byId("BargainId").get("value"),
 						itemId:registry.byId("id").get("value"),
-						barGoodsName:registry.byId("barGoodsName").get("value"),
-						barGoodsCorp:registry.byId("barGoodsCorp").get("value"),
-						barGoodsUnit:registry.byId("barGoodsUnit").get("value"),
-						barGoodsNum:registry.byId("barGoodsNum").get("value"),
-						barGoodsPrice:registry.byId("barGoodsPrice").get("value"),
-						barGoodsDiscount:registry.byId("barGoodsDiscount").get("value"),
-						barGoodsRemark:registry.byId("barGoodsRemark").get("value"),
-
+						getProjPlanName:registry.byId("projPlanName").get("value"),
+						getConstructPart:registry.byId("s_constructPart").get("value"),
+						constructDate:registry.byId("constructDate").get("value"),
+						consDoneQutt:registry.byId("consDoneQutt").get("value"),
+						consDoneRate:registry.byId("consDoneRate").get("value"),
+						logMaker:registry.byId("logMaker").get("value"),
 						
 				};
 				store.newItem(content);

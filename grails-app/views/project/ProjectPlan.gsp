@@ -39,7 +39,7 @@
 		     	"rosten/app/ProjectApplication"],
 			function(parser,kernel,registry,dom,lang){
 				kernel.addOnLoad(function(){
-					rosten.init({webpath:"${request.getContextPath()}"});
+					rosten.init({webpath:"${request.getContextPath()}",dojogridcss : true});
 					rosten.cssinit();
 				});
 				projectPlan_save = function(object){

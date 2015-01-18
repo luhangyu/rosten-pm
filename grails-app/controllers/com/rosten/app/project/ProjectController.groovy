@@ -362,100 +362,57 @@ class ProjectController {
 	def constructLogAdd ={
 		redirect(action:"constructLogShow",params:params)
 	}
+	
 	def constructLogShow ={
 		def model =[:]
-		def currentUser = springSecurityService.getCurrentUser()
-		model["company"] = Company.get(params.companyId)
-		
-		def entity
 		if(params.id){
-			entity = ConstructLog.get(params.id)
+			model["constructLog"] = ConstructLog.get(params.id)
 		}else{
-			entity = new ConstructLog()
+			def constructLog = new ConstructLog()
+			constructLog.projectPlan = ProjectPlan.get(params.planId)
+			
+			model["constructLog"] = constructLog
 		}
-		model["constructLog"] = entity
-		model["user"] = currentUser
-		
-		FieldAcl fa = new FieldAcl()
-		model["fieldAcl"] = fa
 		render(view:'/project/constructLog',model:model)
 	}
-	def constructLogSave ={
-		def model=[:]
-		
-		def company = Company.get(params.companyId)
-		def entity = new ConstructLog()
-		if(params.id && !"".equals(params.id)){
-			entity = ConstructLog.get(params.id)
-		}else{
-			entity.company = company
+	
+	
+	def constructLogGrid ={
+		def json=[:]
+		def projectPlan = ProjectPlan.get(params.id)
+		if(params.refreshHeader){
+			json["gridHeader"] = projectService.getConstructLogListLayout()
 		}
 		
-		entity.properties = params
-		entity.clearErrors()
+		//2014-9-1 增加搜索功能
+		def searchArgs =[:]
+		if(params.refreshData){
+			if(!projectPlan){
+				json["gridData"] = ["identifier":"id","label":"name","items":[]]
+			}else{
+				def args =[:]
+				int perPageNum = Util.str2int(params.perPageNum)
+				int nowPage =  Util.str2int(params.showPageNum)
+				
+				args["offset"] = (nowPage-1) * perPageNum
+				args["max"] = perPageNum
+				args["projectPlan"] = projectPlan
+				
+				def gridData = projectService.getConstructLogListDataStore(args,searchArgs)
+				json["gridData"] = gridData
+			}
+		}
 		
-		//日期字段值处理，convertToTimestamp
-//		entity.projStartDate = Util.convertToTimestamp(params.projectStartDate)
-		if(params.projectBelongId){
-			def OBJ = ProjectManage.get(params.projectBelongId)
-			if(OBJ){
-				entity.projectBelong = OBJ
+		
+		if(params.refreshPageControl){
+			if(!projectPlan){
+				json["pageControl"] = ["total":"0"]
+			}else{
+				def total = projectService.getConstructLogCount(projectPlan,searchArgs)
+				json["pageControl"] = ["total":total.toString()]
 			}
-		}
-
-		if(entity.save(flush:true)){
-			model["id"] = entity.id
-			model["result"] = "true"
-		}else{
-			entity.errors.each{
-				println it
-			}
-			model["result"] = "false"
-		}
-		render model as JSON
-	}
-	def constructLogDelete ={
-		def ids = params.id.split(",")
-		def json
-		try{
-			ids.each{
-				def entity = ConstructLog.get(it)
-				if(entity){
-					entity.delete(flush: true)
-				}
-			}
-			json = [result:'true']
-		}catch(Exception e){
-			json = [result:'error']
 		}
 		render json as JSON
-	}
-	def constructLogGrid ={
-		def model=[:]
-		def company = Company.get(params.companyId)
-		if(params.refreshHeader){
-			model["gridHeader"] = projectService.getConstructLogListLayout()
-		}
-		
-		//增加查询条件
-		def searchArgs =[:]
-		
-		if(params.refreshData){
-			def args =[:]
-			int perPageNum = Util.str2int(params.perPageNum)
-			int nowPage =  Util.str2int(params.showPageNum)
-			
-			args["offset"] = (nowPage-1) * perPageNum
-			args["max"] = perPageNum
-			args["company"] = company
-			model["gridData"] = projectService.getConstructLogListDataStore(args,searchArgs)
-			
-		}
-		if(params.refreshPageControl){
-			def total = projectService.getConstructLogCount(company,searchArgs)
-			model["pageControl"] = ["total":total.toString()]
-		}
-		render model as JSON
 	}
 	
 	//施工日志end-->

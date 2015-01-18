@@ -1,5 +1,6 @@
 package com.rosten.app.project
 import java.util.Date;
+import java.util.List;
 import java.text.SimpleDateFormat
 
 import com.rosten.app.annotation.GridColumn
@@ -70,6 +71,11 @@ class ProjectPlan {
 	}
 	
 	static belongsTo = [company:Company]
+	
+	List constructLog
+	
+	static hasMany=[constructLog:ConstructLog]
+	
 	static constraints = {
 	}
 	static mapping = {

@@ -8,21 +8,13 @@ import com.rosten.app.system.Company
 class ConstructLog {
 	String id
 	
-	//项目
-	ProjectPlan projPlanBelong
 	
 	@GridColumn(name="所属项目计划",width="200px",colIdx=1,formatter="constructLog_formatTopic")
-	def getProName(){
-		if(projPlanBelong!=null){
-			return projPlanBelong.getProName()
-		}else{
-			return ""
-		}
-	}
+	def getProjPlanName(){return projectPlan?projectPlan.getProName():""}
 	
 	//施工部位
 	@GridColumn(name="部位",colIdx=2,width="100px")
-	String constructPart
+	def getConstructPart(){return projectPlan?projectPlan.constructPart:""}
 	
 	
 	Date constructDate = new Date()
@@ -37,18 +29,21 @@ class ConstructLog {
 	}
 	
 	//完成工程量
+	@GridColumn(name="完成工程量",colIdx=4,width="60px")
 	String consDoneQutt
 	
 	//完成 百分比
+	@GridColumn(name="完成百分比",colIdx=5,width="60px")
 	String consDoneRate
 	
 	//填报人
+	@GridColumn(name="填报人",colIdx=6)
 	String logMaker
 	
 	
 	//创建日期
 	Date createdDate = new Date()
-	@GridColumn(name="起草时间",width="150px",colIdx=3)
+	//@GridColumn(name="起草时间",width="150px",colIdx=3)
 	def getFormatteCreatedDate(){
 		if(createdDate!=null){
 			SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd")
@@ -59,7 +54,10 @@ class ConstructLog {
 	}
 	
 	
-	static belongsTo = [company:Company]
+	static belongsTo = [projectPlan:ProjectPlan]
+	
+	static transients = ["projPlanName","constructPart"]
+	
     static constraints = {
     }
 	static mapping = {

@@ -15,27 +15,20 @@
                 <table class="tableData">
                     <tbody>
 					<tr>
-					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>所属项目计划：</div></td>
+					    <td width="140"><div align="right"><span style="color:red">*&nbsp;</span>所属项目计划：</div></td>
 					    <td colspan=3>
-					    	<input id="projPlanBelong" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"projPlanBelong",style:{width:"550px"},
-									value:"${constructLog?.projPlanBelong?.getProName()}"
-			                '/>
-			                <g:if test="${!onlyShow }">
-					         	<g:hiddenField id="projPlanBelongId" data-dojo-type="dijit/form/ValidationTextBox" name="projPlanBelongId" value="${constructLog?.projPlanBelong?.id}" />
-								<button data-dojo-type="dijit.form.Button" 
-									data-dojo-props='onClick:function(){
-										showSelectDialog("ProjPlanBelong");	
-									}'>选择</button>
-			           		</g:if>
+					    	<input  id="projPlanName" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,readOnly:true,name:"projPlanName",style:{width:"550px"},
+									value:"${constructLog?.getProjPlanName()}"
+			                '/>					 
 					    </td>
 					</tr>
 				          <tr>
                             <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>部位：</div>
                             <td width="250">
-						    	<input id="constructPart" data-dojo-type="dijit/form/ValidationTextBox" 
-				                 	data-dojo-props='trim:true,name:"constructPart",
-										value:"${constructLog?.constructPart}"
+						    	<input id="s_constructPart" data-dojo-type="dijit/form/ValidationTextBox" 
+				                 	data-dojo-props='trim:true,name:"s_constructPart",readOnly:true,
+										value:"${constructLog?.getConstructPart()}"
 				                '/>
 					    	</td>
 					    	
@@ -70,7 +63,7 @@
 					     <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>填报人：</div>
                             <td width="250">
 					    	<input id="logMaker" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,readOnly:true,name:"logMaker",
+			                 	data-dojo-props='trim:true,name:"logMaker",
 									value:"${constructLog?.logMaker}"
 			                '/>
 					    </td>
