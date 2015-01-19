@@ -15,6 +15,7 @@ import com.rosten.app.gtask.GtaskService
 import com.rosten.app.gtask.Gtask
 import com.rosten.app.workflow.FlowBusiness
 import com.rosten.app.project.ProjectManage
+import com.rosten.app.base.MaterialInfo
 
 
 class BargainController {
@@ -139,16 +140,7 @@ class BargainController {
 			JSON.parse(params.bargainGoodsValues).eachWithIndex{elem, i ->
 				def bargainGoods = new BargainGoods(elem)
 				bargainGoods.clearErrors()
-				//类字段处理？？？？？？
-				if(elem[i].barGoodsNameId){
-					def mOBJ = MaterialInfo.get(elem[i].barGoodsNameId)
-					if(mOBJ){
-						bargainGoods.barGoodsName = mOBJ
-					}
-				}
-				
-				
-				
+
 				entity.addToBargainGoods(bargainGoods)
 			}
 		}
@@ -436,7 +428,12 @@ class BargainController {
 		if(params.id){
 			model["bargainGoods"] = BargainGoods.get(params.id)
 		}else{
-			model["bargainGoods"] = new BargainGoods()
+			
+			def bargainGoods = new BargainGoods()
+//			print "barID:::::::"
+//			println params.barGoodsNameId
+//			bargainGoods.barGoodsName = MaterialInfo.get(params.barGoodsNameId)			
+			model["bargainGoods"] = bargainGoods
 		}
 		render(view:'/bargain/bargainGoods',model:model)
 	}

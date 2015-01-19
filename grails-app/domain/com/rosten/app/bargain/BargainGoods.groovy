@@ -10,23 +10,12 @@ import com.rosten.app.util.SystemUtil
 class BargainGoods {
 
     String id
-	
-	MaterialInfo barGoodsName
-	
-	//材料名称
+	//货物名称
 	@GridColumn(name="货物名称",formatter="bargainGoods_formatTopic",colIdx=1,width="160px")
-	def getBarGoodsName(){
-		if(barGoodsName!=null){
-			return barGoodsName.matInfoName
-		}else{
-			return ""
-		}
-	}
-	
-	Double barGoodsTPrice
-	
+	String barGoodsName
+
 	//生产厂家
-	@GridColumn(name="生产厂家",width="160px",colIdx=2)
+	@GridColumn(name="生产厂家",width="100px",colIdx=2)
 	String barGoodsCorp
 	
 	//单位（如吨）
@@ -42,20 +31,27 @@ class BargainGoods {
 	Long barGoodsPrice
 	
 	//折扣
-	@GridColumn(name="折扣",width="60px",colIdx=6)
-	Long barGoodsDiscount
+	@GridColumn(name="折扣",width="40px",colIdx=6)
+	Long barGoodsDiscount = 1
+	
+	@GridColumn(name="总价",width="60px",colIdx=7)
+	Double barGoodsTPrice
 	
 	//备注
-	@GridColumn(name="备注",colIdx=7)
+	@GridColumn(name="备注",colIdx=8)
 	String barGoodsRemark
 	
-	@GridColumn(name="操作",colIdx=8,width="80px",formatter="bargainGoods_action")
+
+	
+	@GridColumn(name="操作",colIdx=9,width="40px",formatter="bargainGoods_action")
 	def bargainGoodsId(){
 		return id
 	}
 	
 	static belongsTo = [bargain:Bargain]
-	
+	static constraints = {
+		barGoodsRemark nullable:true,blank:true
+	}
 	
 	static mapping = {
 		id generator:'uuid.hex',params:[separator:'-']

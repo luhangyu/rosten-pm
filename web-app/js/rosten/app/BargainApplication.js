@@ -38,6 +38,7 @@ define(["dojo/dom",
 				store.setValue(items[i],"barGoodsPrice",registry.byId("barGoodsPrice").get("value"));
 				store.setValue(items[i],"barGoodsDiscount",registry.byId("barGoodsDiscount").get("value"));
 				store.setValue(items[i],"barGoodsRemark",registry.byId("barGoodsRemark").get("value"));
+				store.setValue(items[i],"barGoodsTPrice",registry.byId("barGoodsTPrice").get("value"));
 				
 			}else{
 				
@@ -55,8 +56,8 @@ define(["dojo/dom",
 						barGoodsPrice:registry.byId("barGoodsPrice").get("value"),
 						barGoodsDiscount:registry.byId("barGoodsDiscount").get("value"),
 						barGoodsRemark:registry.byId("barGoodsRemark").get("value"),
-
 						
+						barGoodsTPrice:registry.byId("barGoodsTPrice").get("value"),
 				};
 				store.newItem(content);
 
@@ -85,7 +86,8 @@ define(["dojo/dom",
             	var barGoodsPrice = rosten.getGridItemValue(bargainGoodsGrid,rowIndex,"barGoodsPrice");
             	var barGoodsDiscount = rosten.getGridItemValue(bargainGoodsGrid,rowIndex,"barGoodsDiscount");
             	var barGoodsRemark = rosten.getGridItemValue(bargainGoodsGrid,rowIndex,"barGoodsRemark");
-				
+				alert(barGoodsRemark);
+            	var barGoodsTPrice = rosten.getGridItemValue(bargainGoodsGrid,rowIndex,"barGoodsTPrice");
             	
             	registry.byId("itemId").set("value",id);
             	registry.byId("barGoodsName").set("value",barGoodsName);
@@ -95,7 +97,8 @@ define(["dojo/dom",
             	registry.byId("barGoodsPrice").set("value",barGoodsPrice);
             	registry.byId("barGoodsDiscount").set("value",barGoodsDiscount);
             	registry.byId("barGoodsRemark").set("value",barGoodsRemark);
-
+            	
+            	registry.byId("barGoodsTPrice").set("value",barGoodsTPrice);
             
 	        }
         });
@@ -129,4 +132,15 @@ define(["dojo/dom",
 		}
 	
 	};
+	
+	barGoods_onChange=function(){
+		
+		var price = registry.byId("barGoodsPrice").get("value");
+		var nums = registry.byId("barGoodsNum").get("value");
+	
+    	var tPrice=price*nums;
+    	
+    	registry.byId("barGoodsTPrice").set("value",tPrice);
+	}
+	
 });

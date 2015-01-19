@@ -46,8 +46,8 @@
 						return;
 					}
 					var content = {};
-					//var bargainGoodsNames =["barGoodsName","barGoodsCorp","barGoodsUnit","barGoodsNum","barGoodsPrice","barGoodsDiscount","barGoodsRemark"]
-					var bargainGoodsNames =["barGoodsNameId","barGoodsNum","barGoodsDiscount","barGoodsRemark"]
+					var bargainGoodsNames =["barGoodsName","barGoodsCorp","barGoodsUnit","barGoodsNum","barGoodsPrice","barGoodsTPrice","barGoodsDiscount","barGoodsRemark"]
+					//var bargainGoodsNames =["barGoodsName","barGoodsNum","barGoodsDiscount","barGoodsRemark"]
 
 					
 					content.bargainGoodsValues = rosten.getGridDataCollect(bargainGoodsGrid,bargainGoodsNames);
@@ -363,18 +363,18 @@
 								dialog.getStoreDate(dealId,function(item){
 									registry.byId("barGoodsNameId").attr("value", dialog.chkboxStore.getValue(item, "id"));
 									registry.byId("barGoodsName").attr("value", dialog.chkboxStore.getValue(item, "name"));
-									registry.byId("s_barGoodsCorp").attr("value",dialog.chkboxStore.getValue(item, "matInfoBrand"));
-									registry.byId("s_barGoodsUnit").attr("value",dialog.chkboxStore.getValue(item, "matInfoPurUnit"));
-									registry.byId("s_barGoodsPrice").attr("value",dialog.chkboxStore.getValue(item, "mInfoRPrice"));
+									registry.byId("barGoodsCorp").attr("value",dialog.chkboxStore.getValue(item, "matInfoBrand"));
+									registry.byId("barGoodsUnit").attr("value",dialog.chkboxStore.getValue(item, "matInfoPurUnit"));
+									registry.byId("barGoodsPrice").attr("value",dialog.chkboxStore.getValue(item, "mInfoRPrice"));
 									
 								});
 								
 							}else{
 								registry.byId("barGoodsName").attr("value","");
 								registry.byId("barGoodsNameId").attr("value", "");
-								registry.byId("s_barGoodsCorp").attr("value", "");
-								registry.byId("s_barGoodsUnit").attr("value", "");
-								registry.byId("s_barGoodsPrice").attr("value", "");
+								registry.byId("barGoodsCorp").attr("value", "");
+								registry.byId("barGoodsUnit").attr("value", "");
+								registry.byId("barGoodsPrice").attr("value", "");
 							}
 						};
 

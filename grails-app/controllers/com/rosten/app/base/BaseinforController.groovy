@@ -18,11 +18,23 @@ class BaseinforController {
 	//获取材料信息清单数据
 	def getMatInfoListSelect ={
 		def _List =[]
+		def Unit =null
 		def company = Company.get(params.companyId)
 		MaterialInfo.findAllByCompany(company).each{
 			def json=[:]
 			json["id"] = it.id
 			json["name"] = it.matInfoName
+			json["matInfoBrand"] = it.matInfoBrand			
+			json["mInfoRPrice"] = it.mInfoRPrice
+			
+						
+			Unit = MaterialUnit.get(it.matInfoPurUnitId)
+			json["matInfoPurUnit"] = ""
+			if (Unit!=null){
+				json["matInfoPurUnit"] = Unit.matUnitName
+			}
+			
+			
 			_List << json
 		}
 		render _List as JSON
