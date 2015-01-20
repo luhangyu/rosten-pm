@@ -1,6 +1,9 @@
 package com.rosten.app.employe
 
+import org.apache.jasper.compiler.Node.ParamsAction;
+
 import grails.converters.JSON
+
 import com.rosten.app.util.FieldAcl
 import com.rosten.app.util.SystemUtil
 import com.rosten.app.util.Util
@@ -37,9 +40,11 @@ class EmployeController {
 		switch(params.type){
 			case "constructionWorkerAttendance":
 			entity.attendType = "大点工考勤"
+			
 			break;
 			case "officeWorkerAttendance":
 			entity.attendType = "员工考勤"
+			
 			break;
 		}
 
@@ -158,12 +163,16 @@ class EmployeController {
 		redirect(action:"workerAttendanceShow",params:params)
 	}
 	def workerAttendanceShow ={
-
 		def model =[:]
+		model["isShowField"] = true
 		if(params.id){
-			model = WorkerAttendance.get(params.id)
+			model["workerAttendance"] = WorkerAttendance.get(params.id)			
 		}else{
-			model = new WorkerAttendance()
+			def workerAttendance = new WorkerAttendance()
+			if("大点工考勤".equals(params.attendtype)){
+				model["isShowField"] = false
+			}			
+			model["workerAttendance"] = workerAttendance
 		}
 		render(view:'/employe/workerAttendance',model:model)
 	}

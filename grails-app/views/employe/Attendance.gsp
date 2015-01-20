@@ -76,7 +76,30 @@
 				page_quit = function(){
 					rosten.pagequit();
 				};
+				selectPerson =function(){
+					var userName = registry.byId("attendUserName").get("value");
+					//application.selectBaseTreeDialog = function(title,url,type,inputName,inputId,showRootName) {
+					var dialog = rosten.selectDepart("${createLink(controller:'system',action:'departTreeDataStore',params:[companyId:company?.id])}",false,"attendUserName","attendUserNameId",userName);
+					dialog.callback = function(data){
+						if(data.length>0){
+							var dealId = data[0].id
+							alert(dialog.chkboxStore.getValue(item, "name"));
+							dialog.getStoreDate(dealId,function(item){
+								registry.byId("attendUserNameId").attr("value", dialog.chkboxStore.getValue(item, "id"));
+								registry.byId("attendUserName").attr("value", dialog.chkboxStore.getValue(item, "name"));
+								
+								
+							});
+							
+						}else{
+							registry.byId("attendUserName").attr("value","");
+							registry.byId("attendUserNameId").attr("value", "");
+						
+						}
+						}
 
+						
+				};
 			
 		});
     </script>

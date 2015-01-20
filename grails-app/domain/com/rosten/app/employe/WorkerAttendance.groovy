@@ -21,25 +21,23 @@ class WorkerAttendance {
 	@GridColumn(name="部门",colIdx=2,width="100px")
 	String attendDepart
 	
+	@GridColumn(name="出勤",colIdx=3,width="30px")
+	Double workNumber = 1
 	
+	@GridColumn(name="事假",colIdx=4,width="30px")
+	Double affairsNumber = 0
 	
-	@GridColumn(name="出勤",colIdx=3,width="50px")
-	Double workNumber
+	@GridColumn(name="病假",colIdx=5,width="30px")
+	Double illNumber = 0
 	
-	@GridColumn(name="事假",colIdx=4,width="50px")
-	Double affairsNumber
+	@GridColumn(name="旷工",colIdx=6,width="30px")
+	Double awayNumber = 0
 	
-	@GridColumn(name="病假",colIdx=5,width="50px")
-	Double illNumber
+	@GridColumn(name="迟到",colIdx=7,width="30px")
+	Double lateNumber = 0
 	
-	@GridColumn(name="旷工",colIdx=6,width="50px")
-	Double awayNumber
-	
-	@GridColumn(name="迟到",colIdx=7,width="50px")
-	Double lateNumber
-	
-	@GridColumn(name="早退",colIdx=8,width="50px")
-	Double earlyAwayNumber
+	@GridColumn(name="早退",colIdx=8,width="30px")
+	Double earlyAwayNumber = 0
 	
 	//创建日期
 	Date createdDate = new Date()
@@ -48,19 +46,19 @@ class WorkerAttendance {
 	@GridColumn(name="备注",colIdx=9)
 	String attendRemark
 	
-	@GridColumn(name="操作",colIdx=91,formatter="workerAttendance_action")
+	@GridColumn(name="操作",colIdx=91,width="40px",formatter="workerAttendance_action")
 	def workerAttendanceId(){
 		return id
 	}
 	
 	static constraints = {
-//		affairsNumber range:0F..1F  
-//		illNumber nullable:true,blank:true
-//		awayNumber nullable:true,blank:true
-//		lateNumber nullable:true,blank:true
-//		earlyAwayNumber nullable:true,blank:true
-//		
-//		attendDepart nullable:true,blank:true
+		affairsNumber nullable:true,blank:true
+		illNumber nullable:true,blank:true
+		awayNumber nullable:true,blank:true
+		lateNumber nullable:true,blank:true
+		earlyAwayNumber nullable:true,blank:true
+		
+		attendDepart nullable:true,blank:true
 		
 	}
 	static belongsTo = [attendance:Attendance]

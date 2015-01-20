@@ -10,21 +10,16 @@ define(["dojo/dom",
 	
 	//增加清单ITEM~~~~~~~~
 	workerAttendance_addItem = function(){
+		var attendType = registry.byId("attendType").get("value");
 		
-		rosten.createRostenShowDialog(rosten.webPath + "/employe/workerAttendanceAdd", {
+		rosten.createRostenShowDialog(rosten.webPath + "/employe/workerAttendanceAdd?attendtype="+attendType, {
             onLoadFunction : function() {
 
 	            }
         });
 	};
 	workerAttendance_Submit = function(){
-//		var formWidget = registry.byId("rosten_form1");
-//		if(!formWidget.validate()){
-//			rosten.alert("请正确填写相关信息！");
-//			return;
-//		}
 
-		
 		var itemId = registry.byId("itemId").get("value");
 		function gotAll(items,request){
 			var node;
@@ -137,4 +132,17 @@ define(["dojo/dom",
 //			workerAttendanceTitlePane.resize();
 //
 //	};
+	convertToInt = function(a){
+		(typeof(a)!="undefined" && a!="")?"":a=0;
+		a=parseInt(a);
+		(a>=0 && a<=1)?alert("数字不规范"):alert("数字规范");
+		
+	}
+	
+	attend_onChange=function(obj){
+		alert("change");
+		convertToInt(obj.value);
+	}
+	
+	
 });

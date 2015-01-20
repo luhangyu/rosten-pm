@@ -12,19 +12,23 @@
           
             <fieldset class="fieldset-form">
                 <legend class="tableHeader">基本信息</legend>
-                <table class="tableData">
+                <table class="tableData" align="center">
                     <tbody>
 					<tr>
-					    <td width="100"><div align="right"><span style="color:red">*&nbsp;</span>员工姓名：</div></td>
-					    <td width="200">
+					    <td width="100"><div align="right"><span style="color:red">*&nbsp;</span>姓名：</div></td>
+					    <td width="250">
 					    	<input id="attendUserName" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,required:true,name:"attendUserName",
 									value:"${workerAttendance?.attendUserName}"
 			                '/>
+			      
+		         	<g:hiddenField name="attendUserNameId" value="${attendUserNameId}" />
+					<button data-dojo-type="dijit.form.Button" data-dojo-props='onClick:function(){selectPerson()}'>选择</button>
+           			
 					    </td>
 					
-						<td width="100"><div align="right"><span style="color:red">*&nbsp;</span>所属部门：</div></td>
-					    <td width="200">
+						<td width="100"><div align="right"><span style="color:red">*&nbsp;</span>部门：</div></td>
+					    <td width="250">
 					    	<input id="attendDepart" data-dojo-type="dijit/form/ValidationTextBox" 
 				               	data-dojo-props='name:"attendDepart",
 				               		trim:true,required:true,
@@ -33,33 +37,28 @@
 			           	</td>
 					
 					</tr>
-					<tr>
-						<td width="120"><div align="right">备注：</div></td>
-					    <td colspan=3>
-					    	<textarea id="attendRemark" data-dojo-type="dijit/form/SimpleTextarea" 
-    							data-dojo-props='name:"attendRemark","class":"input",
-                               		style:{width:"480px"},rows:"2",
-                               		trim:true,value:"${workerAttendance?.attendRemark}"
-                           '>
-                           </textarea>
-					    </td>
-					</tr>
+					</tbody>
+				</table>
 					
-					<table border="0" width="450" align="center">
+					
+					<table border="0" width="500" align="center">
 						<tr>
-							<td style="width:15%">出勤(天)</td>
-							<td style="width:15%">事假(天)</td>
-							<td style="width:15%">病假(天)</td>
-							<td style="width:15%">旷工(天)</td>
-							<td style="width:15%">迟到(天)</td>
-							<td style="width:15%">早退(天)</td>
+							<td style="width:16%">出勤(天)</td>
+							<g:if test="${isShowField}">
+							<td style="width:16%">事假(天)</td>
+							<td style="width:16%">病假(天)</td>
+							<td style="width:16%">旷工(天)</td>
+							<td style="width:16%">迟到(天)</td>
+							<td style="width:16%">早退(天)</td>
+							</g:if>
 						</tr>
 					
 						<tr>
-							<td><input style="width:40px" id="workNumber" data-dojo-type="dijit/form/ValidationTextBox" 
+							<td><input style="width:40px" id="workNumber" onChange='attend_onChange(this)'  data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,required:true,name:"workNumber",value:"${workerAttendance?.workNumber}"
 			                '/>
 			                </td>
+			                <g:if test="${isShowField}">
 							<td><input style="width:40px" id="affairsNumber" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,required:true,name:"affairsNumber",value:"${workerAttendance?.affairsNumber}"
 			                '/>
@@ -80,11 +79,26 @@
 			                 	data-dojo-props='trim:true,required:true,name:"earlyAwayNumber",value:"${workerAttendance?.earlyAwayNumber}"
 			                '/>
 			                </td>
+			                </g:if>
 						</tr>
 
                 </table>
-                
-                						
+                	<!-- 
+                	
+                	<table border="0"  class="tableData" align="center">
+                	<tr>
+						<td width="100"><div align="right">备注：</div></td>
+					    <td colspan=3>
+					    	<textarea id="attendRemark" data-dojo-type="dijit/form/SimpleTextarea" 
+    							data-dojo-props='name:"attendRemark","class":"input",
+                               		style:{width:"500px"},rows:"2",
+                               		trim:true,value:"${workerAttendance?.attendRemark}"
+                           '>
+                           </textarea>
+					    </td>
+					</tr>
+                	 </table>	
+                	  -->				
 							<tr>
 							<td colspan=4>
 								<div style="text-align:center;margin-top:10px">
@@ -93,7 +107,7 @@
 								</div>
 							</td>
 						</tr>
-				</tbody>
+				
 				
             </fieldset>
 		</div>
