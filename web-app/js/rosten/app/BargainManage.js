@@ -132,6 +132,6 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general", "rosten/k
 			
 			
 		}
-	}
+	};
 	connect.connect("show_naviEntity", show_bargainNaviEntity);
 });

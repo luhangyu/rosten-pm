@@ -640,6 +640,11 @@ class BaseinforController {
 		model["searchId"] = params.id
 		render(view:'/baseinfor/materialInforManage',model:model)
 	}
+	def materailManageShow1 ={
+		def model =[:]
+		model["searchId"] = params.id
+		render(view:'/baseinfor/materialInforManageShow',model:model)
+	}
 	//--------------------------------------------------------------------------------------------------
 	
 	//2014-12-19 lhy-----修改为树形展示

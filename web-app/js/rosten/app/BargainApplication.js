@@ -7,6 +7,55 @@ define(["dojo/dom",
         "rosten/app/Application",
         "rosten/kernel/behavior"], function(dom,kernel,registry) {
 	
+	
+	//2015-1-20-----选择材料专用----------------------------------------------------
+	
+	dialog_treeOnLoad = function(){
+		//定位跟节点并显示相关信息
+		dialog_showTreeRightPane("all");
+	};
+	
+	dialog_showTreeRightPane = function(id){
+		rosten.variable.currentTreeId = id;
+		
+		var w = registry.byId("objEditPane");
+		var href = rosten.webPath + "/baseinfor/materailManageShow1";
+		var href = href+"/"+id;
+		w.attr("href",href);
+	};
+	
+	materialInfo_formatTopic = function(value,rowIndex){
+		return value;
+	};
+	dialog_submit = function(){
+		var selectitems = metInfor_rostenGrid.getSelected();
+		
+		if(selectitems.length<=0){
+			rosten.alert("请先选择条目！");
+			return "";
+		}
+		var gridStore = metInfor_rostenGrid.getStore();
+		var item = selectitems[0];
+		
+		var id = gridStore.getValue(item, "id");	//货物id
+		var barGoodsName = gridStore.getValue(item, "matInfoName");	//货物名称
+		var barGoodsCorp = gridStore.getValue(item, "barGoodsCorp");	//厂商
+		var barGoodsUnit = gridStore.getValue(item, "getMatInfoPurUnitValue");	//单位
+		var barGoodsPrice = gridStore.getValue(item, "mInfoRPrice");	//市场价
+		var barGoodsTPrice = gridStore.getValue(item, "barGoodsTPrice");	//单价
+		
+		registry.byId("barGoodsNameId").set("value",id);
+		registry.byId("barGoodsName").set("value",barGoodsName);
+		registry.byId("barGoodsCorp").set("value",barGoodsCorp);
+		registry.byId("barGoodsUnit").set("value",barGoodsUnit);
+		registry.byId("barGoodsPrice").set("value",barGoodsPrice);
+		registry.byId("barGoodsTPrice").set("value",barGoodsTPrice);
+		
+		rosten.hideCommonShowDialog("barGoodsNameSelect");
+		
+	};
+	//--------------------------------------------------------------------------
+	
 	//增加清单ITEM~~~~~~~~
 	bargainGoods_addItem = function(){
 		rosten.createRostenShowDialog(rosten.webPath + "/bargain/bargainGoodsAdd", {

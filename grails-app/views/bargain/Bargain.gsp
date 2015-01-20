@@ -21,6 +21,7 @@
 		 		"dojo/_base/kernel",
 		 		"dijit/registry",		 		
 		 		"dojo/dom",
+		 		"dojo/dom-style",
 		 		"dojo/_base/lang",		 		
 		 		"dijit/layout/TabContainer",
 		 		"dijit/layout/ContentPane",
@@ -34,7 +35,7 @@
 		     	"rosten/widget/ActionBar",
 		     	"rosten/widget/TitlePane",
 		     	"rosten/app/BargainApplication"],
-			function(parser,kernel,registry,dom,lang){
+			function(parser,kernel,registry,dom,domStyle,lang){
 				kernel.addOnLoad(function(){
 					rosten.init({webpath:"${request.getContextPath()}",dojogridcss : true});
 					rosten.cssinit();					
@@ -352,35 +353,9 @@
 
 					
 					case "BarGoodsName":
-						var goodsName = registry.byId("barGoodsName").get("value");						
-						var dialog = rosten.selectBaseDialog("货物选择","${createLink(controller:'baseinfor',action:'getMatInfoListSelect',params:[companyId:company?.id])}",false,"barGoodsName","barGoodsNameId",goodsName);
-						dialog.callback = function(data){
-							if(data.length>0){
-								var dealId = data[0].id
-								/*
-								 * 特殊字段赋值
-								 */
-								dialog.getStoreDate(dealId,function(item){
-									registry.byId("barGoodsNameId").attr("value", dialog.chkboxStore.getValue(item, "id"));
-									registry.byId("barGoodsName").attr("value", dialog.chkboxStore.getValue(item, "name"));
-									registry.byId("barGoodsCorp").attr("value",dialog.chkboxStore.getValue(item, "matInfoBrand"));
-									registry.byId("barGoodsUnit").attr("value",dialog.chkboxStore.getValue(item, "matInfoPurUnit"));
-									registry.byId("barGoodsPrice").attr("value",dialog.chkboxStore.getValue(item, "mInfoRPrice"));
-									
-								});
-								
-							}else{
-								registry.byId("barGoodsName").attr("value","");
-								registry.byId("barGoodsNameId").attr("value", "");
-								registry.byId("barGoodsCorp").attr("value", "");
-								registry.byId("barGoodsUnit").attr("value", "");
-								registry.byId("barGoodsPrice").attr("value", "");
-							}
-						};
-
+						var dialog = rosten.createCommonShowDialog("barGoodsNameSelect",rosten.webPath + "/bargain/selectMetailInfor?companyId=${company?.id}" , {
+						});
 						break;	
-
-						
 					}
 					
 				}

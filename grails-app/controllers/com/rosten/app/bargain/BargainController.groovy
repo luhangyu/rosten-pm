@@ -28,6 +28,13 @@ class BargainController {
 	private def bargainStatus = ["新增","已结束"]
 	private def bargainType=["totalpackageBargain":"总包合同","subpackageBargain":"分包合同","purchaseBargain":"采购合同","salesBargain":"销售合同"]
 	
+	//2015-1-20------增加选择材料类型功能
+	def selectMetailInfor ={
+		def model =[:]
+		model["company"] = Company.get(params.companyId)
+		render(view:'/baseinfor/materialTypeShow',model:model)
+	}
+	
 	//合同<--start
 	def bargainAdd ={
 		if(params.flowCode){
@@ -59,8 +66,6 @@ class BargainController {
 		}
 		model["bargain"] = entity
 		model["user"] = currentUser
-		
-		println params.type
 		
 		switch(params.type){
 			case "totalpackageBargain":
