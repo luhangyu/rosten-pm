@@ -63,12 +63,12 @@ class PmController {
 			resource.serialNo = 4
 			model.addToResources(resource)
 			
-			resource = new Resource()
-			resource.resourceName = "材料类型"
-			resource.url = "materialType"
-			resource.imgUrl = "images/rosten/navigation/rosten.png"
-			resource.serialNo = 5
-			model.addToResources(resource)
+//			resource = new Resource()
+//			resource.resourceName = "材料类型"
+//			resource.url = "materialType"
+//			resource.imgUrl = "images/rosten/navigation/rosten.png"
+//			resource.serialNo = 5
+//			model.addToResources(resource)
 
 			resource = new Resource()
 			resource.resourceName = "材料单位"

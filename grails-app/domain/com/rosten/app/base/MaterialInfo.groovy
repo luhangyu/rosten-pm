@@ -20,7 +20,7 @@ class MaterialInfo {
 	MaterialType matInfoType
 	
 	//物料类型
-	@GridColumn(name="材料小类",colIdx=3)
+	
 	String matInfoSonType
 	
 	//采购材料单位
@@ -38,13 +38,13 @@ class MaterialInfo {
 	MaterialUnit matInfoGetUnit
 	
 	//换算数量
-	@GridColumn(name="换算数量",colIdx=4)
 	double matInfoQuantity
 	
 	//材料规格
 	String matInfoNorms
 	
 	//材料品牌
+	@GridColumn(name="材料品牌",colIdx=3)
 	String matInfoBrand
 	
 	//进价参考价
@@ -54,6 +54,7 @@ class MaterialInfo {
 	double mInfoWPrice
 	
 	//零售价
+	@GridColumn(name="零售价",colIdx=4)
 	double mInfoRPrice
 	//底线价
 	double mInfoLowPrice

@@ -36,20 +36,23 @@ class EmployeActionController {
 	}
 	//点工end------
 	
-	//员工（行政人员）考勤start---------
-	def officeWorkerAttendanceForm ={
+	
+	/*
+	 * 工资
+	 */
+	def salaryForm ={
 		def webPath = request.getContextPath() + "/"
 		def actionList = []
-		def strname = "officeWorkerAttendance"
+		def strname = "salary"
 		actionList << createAction("返回",webPath + imgPath + "quit_1.gif","page_quit")
 		actionList << createAction("保存",webPath +imgPath + "Save.gif",strname + "_save")
 		render actionList as JSON
 	}
-	def officeWorkerAttendanceView ={
+	def salaryView ={
 		def actionList =[]
 		def user = User.get(params.userId)
 		
-		def strname = "officeWorkerAttendance"
+		def strname = "salary"
 		actionList << createAction("退出",imgPath + "quit_1.gif","returnToMain")
 		actionList << createAction("新建",imgPath + "add.png","add_"+ strname)
 		
@@ -61,9 +64,7 @@ class EmployeActionController {
 		
 		render actionList as JSON
 	}
-	//员工（行政人员）end------
-	
-	
+	//工资end------
 	
 	
 	private def createAction={name,img,action->

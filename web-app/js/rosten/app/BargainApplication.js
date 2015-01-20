@@ -39,17 +39,16 @@ define(["dojo/dom",
 		
 		var id = gridStore.getValue(item, "id");	//货物id
 		var barGoodsName = gridStore.getValue(item, "matInfoName");	//货物名称
-		var barGoodsCorp = gridStore.getValue(item, "barGoodsCorp");	//厂商
+		var barGoodsCorp = gridStore.getValue(item, "matInfoBrand");	//厂商
 		var barGoodsUnit = gridStore.getValue(item, "getMatInfoPurUnitValue");	//单位
 		var barGoodsPrice = gridStore.getValue(item, "mInfoRPrice");	//市场价
-		var barGoodsTPrice = gridStore.getValue(item, "barGoodsTPrice");	//单价
 		
 		registry.byId("barGoodsNameId").set("value",id);
 		registry.byId("barGoodsName").set("value",barGoodsName);
 		registry.byId("barGoodsCorp").set("value",barGoodsCorp);
 		registry.byId("barGoodsUnit").set("value",barGoodsUnit);
 		registry.byId("barGoodsPrice").set("value",barGoodsPrice);
-		registry.byId("barGoodsTPrice").set("value",barGoodsTPrice);
+		
 		
 		rosten.hideCommonShowDialog("barGoodsNameSelect");
 		
@@ -65,8 +64,8 @@ define(["dojo/dom",
         });
 	};
 	bargainGoods_Submit = function(){
-		var itemId = registry.byId("itemId").get("value");
 		
+		var itemId = registry.byId("itemId").get("value");		
 		function gotAll(items,request){
 			var node;
 			for(var i=0;i < items.length;i++){
@@ -104,8 +103,7 @@ define(["dojo/dom",
 						barGoodsNum:registry.byId("barGoodsNum").get("value"),
 						barGoodsPrice:registry.byId("barGoodsPrice").get("value"),
 						barGoodsDiscount:registry.byId("barGoodsDiscount").get("value"),
-						barGoodsRemark:registry.byId("barGoodsRemark").get("value"),
-						
+						barGoodsRemark:registry.byId("barGoodsRemark").get("value"),						
 						barGoodsTPrice:registry.byId("barGoodsTPrice").get("value"),
 				};
 				store.newItem(content);
@@ -135,18 +133,16 @@ define(["dojo/dom",
             	var barGoodsPrice = rosten.getGridItemValue(bargainGoodsGrid,rowIndex,"barGoodsPrice");
             	var barGoodsDiscount = rosten.getGridItemValue(bargainGoodsGrid,rowIndex,"barGoodsDiscount");
             	var barGoodsRemark = rosten.getGridItemValue(bargainGoodsGrid,rowIndex,"barGoodsRemark");
-				alert(barGoodsRemark);
             	var barGoodsTPrice = rosten.getGridItemValue(bargainGoodsGrid,rowIndex,"barGoodsTPrice");
             	
             	registry.byId("itemId").set("value",id);
             	registry.byId("barGoodsName").set("value",barGoodsName);
             	registry.byId("barGoodsCorp").set("value",barGoodsCorp);
             	registry.byId("barGoodsUnit").set("value",barGoodsUnit);
-            	registry.byId("bargainGoodsNum").set("value",barGoodsNum);
+            	registry.byId("barGoodsNum").set("value",barGoodsNum);
             	registry.byId("barGoodsPrice").set("value",barGoodsPrice);
             	registry.byId("barGoodsDiscount").set("value",barGoodsDiscount);
-            	registry.byId("barGoodsRemark").set("value",barGoodsRemark);
-            	
+            	registry.byId("barGoodsRemark").set("value",barGoodsRemark);           	
             	registry.byId("barGoodsTPrice").set("value",barGoodsTPrice);
             
 	        }
@@ -182,12 +178,15 @@ define(["dojo/dom",
 	
 	};
 	
-	barGoods_onChange=function(){
+	calculateMoney_onKeyup=function(){
 		
 		var price = registry.byId("barGoodsPrice").get("value");
 		var nums = registry.byId("barGoodsNum").get("value");
-	
-    	var tPrice=price*nums;
+		var disCount = registry.byId("barGoodsDiscount").get("value");
+		price=parseFloat(price);
+		nums=parseFloat(nums);
+		disCount=parseFloat(disCount);
+    	var tPrice=price*nums*(disCount/10);
     	
     	registry.byId("barGoodsTPrice").set("value",tPrice);
 	}

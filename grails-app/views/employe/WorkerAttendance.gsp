@@ -59,23 +59,23 @@
 			                '/>
 			                </td>
 			                <g:if test="${isShowField}">
-							<td><input style="width:40px" id="affairsNumber" data-dojo-type="dijit/form/ValidationTextBox" 
+							<td><input style="width:40px" id="affairsNumber" onChange='attend_onChange(this)'  data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,required:true,name:"affairsNumber",value:"${workerAttendance?.affairsNumber}"
 			                '/>
 			                </td>
-			                <td><input style="width:40px" id="illNumber" data-dojo-type="dijit/form/ValidationTextBox" 
+			                <td><input style="width:40px" id="illNumber" onChange='attend_onChange(this)'  data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,required:true,name:"illNumber",value:"${workerAttendance?.illNumber}"
 			                '/>
 			                </td>
-			                <td><input style="width:40px" id="awayNumber" data-dojo-type="dijit/form/ValidationTextBox" 
+			                <td><input style="width:40px" id="awayNumber" onChange='attend_onChange(this)'  data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,required:true,name:"awayNumber",value:"${workerAttendance?.awayNumber}"
 			                '/>
 			                </td>
-			                <td><input style="width:40px" id="lateNumber" data-dojo-type="dijit/form/ValidationTextBox" 
+			                <td><input style="width:40px" id="lateNumber" onChange='attend_onChange(this)'  data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,required:true,name:"lateNumber",value:"${workerAttendance?.lateNumber}"
 			                '/>
 			                </td>
-			                <td><input style="width:40px" id="earlyAwayNumber" data-dojo-type="dijit/form/ValidationTextBox" 
+			                <td><input style="width:40px" id="earlyAwayNumber" onChange='attend_onChange(this)'  data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,required:true,name:"earlyAwayNumber",value:"${workerAttendance?.earlyAwayNumber}"
 			                '/>
 			                </td>
@@ -83,9 +83,9 @@
 						</tr>
 
                 </table>
-                	<!-- 
                 	
-                	<table border="0"  class="tableData" align="center">
+                	
+                	<table style="display:none" border="0"  class="tableData" align="center">
                 	<tr>
 						<td width="100"><div align="right">备注：</div></td>
 					    <td colspan=3>
@@ -98,7 +98,7 @@
 					    </td>
 					</tr>
                 	 </table>	
-                	  -->				
+                			
 							<tr>
 							<td colspan=4>
 								<div style="text-align:center;margin-top:10px">

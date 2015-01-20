@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="layout" content="rosten" />
-    <title>考勤信息</title>
+    <title>工资发放记录</title>
     <style type="text/css">
     	.rosten .dsj_form table tr{
     		height:30px;
@@ -44,21 +44,21 @@
 				});
 
 				
-				attendance_save = function(object){
+				salary_save = function(object){
 					var formWidget = registry.byId("rosten_form");
 					if(!formWidget.validate()){
 						rosten.alert("请正确填写相关信息！");
 						return;
 					}
 					var content = {};
-					var workerAttends =["attendUserName","attendDepart","attendRemark","workNumber","affairsNumber","illNumber","awayNumber","lateNumber","earlyAwayNumber"]
-					content.workerAttendsValues = rosten.getGridDataCollect(workerAttendanceGrid,workerAttends);
+					var workerSalaries =["workerName","workerDepart","salaryType","salaryRmb","livingRmb","shouldRmb","deductRmb","bonusRmb","finalRmb","wrkSlyRemark","createdDate"]
+					content.workerSalariesValues = rosten.getGridDataCollect(workerSalaryGrid,workerSalaries);
 					
 					//增加对多次单击的次数----2014-9-4
 					var buttonWidget = object.target;
 					rosten.toggleAction(buttonWidget,true);
 
-					rosten.readSync(rosten.webPath + "/employe/attendanceSave",content,function(data){
+					rosten.readSync(rosten.webPath + "/employe/salarySave",content,function(data){
 						if(data.result=="true" || data.result == true){
 							rosten.alert("保存成功！").queryDlgClose= function(){
 								//page_quit();
@@ -103,60 +103,84 @@
 <body>
 <div class="rosten_action">
 	<div data-dojo-type="rosten/widget/ActionBar" data-dojo-id="rosten_actionBar" 
-		data-dojo-props='actionBarSrc:"${createLink(controller:'EmployeAction',action:'attendanceForm',id:attendance?.id,params:[userid:user?.id])}"'>
+		data-dojo-props='actionBarSrc:"${createLink(controller:'EmployeAction',action:'salaryForm',id:salary?.id,params:[userid:user?.id])}"'>
 	</div>
 </div>
 
 <div data-dojo-type="dijit/layout/TabContainer" data-dojo-props='doLayout:false,persist:false,tabStrip:true,style:{width:"800px",margin:"0 auto"}' >
-	<div data-dojo-type="dijit/layout/ContentPane" title="考勤信息" data-dojo-props='doLayout:false,'>
+	<div data-dojo-type="dijit/layout/ContentPane" title="工资信息" data-dojo-props='doLayout:false,'>
 		<form id="rosten_form" data-dojo-type="dijit/form/Form" name="rosten_form" onsubmit="return false;" class="rosten_form" style="padding:0px">
-			<input  data-dojo-type="dijit/form/ValidationTextBox" id="id"  data-dojo-props='name:"id",style:{display:"none"},value:"${attendance?.id }"' />
+			<input  data-dojo-type="dijit/form/ValidationTextBox" id="id"  data-dojo-props='name:"id",style:{display:"none"},value:"${salary?.id }"' />
         	<input  data-dojo-type="dijit/form/ValidationTextBox" id="companyId" data-dojo-props='name:"companyId",style:{display:"none"},value:"${company?.id }"' />
         	
-			<div data-dojo-type="rosten/widget/TitlePane" data-dojo-props='title:"基本信息",toggleable:false,moreText:"",marginBottom:"2px"'>
+			<div data-dojo-type="rosten/widget/TitlePane" data-dojo-props='title:"发放明细",toggleable:false,moreText:"",marginBottom:"2px"'>
 				<table border="0" width="740" align="left">
 
 					<tr>
-					    <td width="100"><div align="right"><span style="color:red">*&nbsp;</span>考勤日期：</div></td>
-					    <td >
-						    <input id="attendDate" data-dojo-type="dijit/form/DateTextBox" 
-		               		data-dojo-props='name:"attendDate",${fieldAcl.isReadOnly("attendDate")},
+					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>标       题：</div></td>
+					    <td colspan=3>
+						    <input id="salaryName" data-dojo-type="dijit/form/ValidationTextBox" 
+		               		data-dojo-props='name:"salaryName",style:{width:"550px"},
 		               		trim:true,required:true,
-							value:"${attendance?.getFormatAttenDate()}"
+							value:"${salary?.salaryName}"
 		          			'/>
 			            </td>
-					    <td width="100"><div align="right"><span style="color:red">*&nbsp;</span>考勤类型：</div></td>
-					    <td >
-					    	<select id="attendType" data-dojo-type="dijit/form/FilteringSelect" 
-					                data-dojo-props='name:"attendType",readOnly:true,
-					                trim:true,required:true,style:{width:"100px"},
-					      			value:"${attendance?.attendType}",
-					            '>
-								<option value="大点工考勤">大点工考勤</option>
-								<option value="员工考勤">员工考勤</option>
-								
-					    	</select>
-					    </td>
-					    <td width="100"><div align="right"><span style="color:red">*&nbsp;</span>填写人：</div></td>
-					    <td >
-					    	<input id="attendDrafter" data-dojo-type="dijit/form/ValidationTextBox" 
-				               	data-dojo-props='name:"attendDrafter",style:{width:"100px"},
+			        </tr>
+					<tr>
+					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>发放日期：</div></td>
+					    <td width="250">
+						    <input id="wageDay" data-dojo-type="dijit/form/DateTextBox" 
+		               		data-dojo-props='name:"wageDay",${fieldAcl.isReadOnly("wageDay")},
+		               		trim:true,required:true,
+							value:"${salary?.getFormatWageDay()}"
+		          			'/>
+			            </td>
+					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>填写人：</div></td>
+					    <td width="250">
+					    	<input id="salaryMaker" data-dojo-type="dijit/form/ValidationTextBox" 
+				               	data-dojo-props='name:"salaryMaker",
 				               		trim:true,required:true,
-									value:"${attendance?.attendDrafter}"
-				          	'/>				          	
-			           	</td>
+									value:"${salary?.salaryMaker}"
+				          	'/>	
+					    </td>
 					</tr>
-
-					
+					<tr>
+					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>开始日期：</div></td>
+					    <td width="250">
+						    <input id="beginDay" data-dojo-type="dijit/form/DateTextBox" 
+		               		data-dojo-props='name:"beginDay",${fieldAcl.isReadOnly("beginDay")},
+		               		trim:true,required:true,
+							value:"${salary?.getFormatBeginDay()}"
+		          			'/>
+			            </td>
+					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>结束日期：</div></td>
+					    <td width="250">
+						    <input id="endDay" data-dojo-type="dijit/form/DateTextBox" 
+		               		data-dojo-props='name:"endDay",${fieldAcl.isReadOnly("endDay")},
+		               		trim:true,required:true,
+							value:"${salary?.getFormatEndDay()}"
+		          			'/>
+			            </td>
+					</tr>
+					<tr>
+					   <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>总金额(元):</div></td>
+					    <td width="250">
+					    	<input id="salarySum" data-dojo-type="dijit/form/ValidationTextBox" 
+				               	data-dojo-props='name:"salarySum",
+				               		trim:true,required:true,
+									value:"${salary?.salarySum}"
+				          	'/>	
+					    </td>
+					</tr>
 				</table>
 				<div style="clear:both;"></div>
 			</div>
 								
 
-			<div data-dojo-type="rosten/widget/TitlePane" data-dojo-id="workerAttendanceTitlePane" 
-				data-dojo-props='"class":"rostenTitleGrid",title:"考勤记录",toggleable:false,_moreClick:workerAttendance_addItem,moreText:"<span style=\"color:#108ac6\">增加</span>",marginBottom:"2px"'>
-            	<div data-dojo-type="rosten/widget/RostenGrid" id="workerAttendanceGrid" data-dojo-id="workerAttendanceGrid"
-					data-dojo-props='imgSrc:"${resource(dir:'images/rosten/share',file:'wait.gif')}",showPageControl:false,url:"${createLink(controller:'employe',action:'workerAttendanceGrid',id:attendance?.id,params:[attendtype:attendance?.attendType])}"'></div>             	           	
+			<div data-dojo-type="rosten/widget/TitlePane" data-dojo-id="workerSalaryTitlePane" 
+				data-dojo-props='"class":"rostenTitleGrid",title:"考勤记录",toggleable:false,_moreClick:workerSalary_addItem,moreText:"<span style=\"color:#108ac6\">增加</span>",marginBottom:"2px"'>
+            	<div data-dojo-type="rosten/widget/RostenGrid" id="workerSalaryGrid" data-dojo-id="workerSalaryGrid"
+					data-dojo-props='imgSrc:"${resource(dir:'images/rosten/share',file:'wait.gif')}",showPageControl:false,url:"${createLink(controller:'employe',action:'workerSalaryGrid',id:salary?.id)}"'></div>             	           	
             </div>
 		</form>
 	</div>

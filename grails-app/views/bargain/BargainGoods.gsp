@@ -7,7 +7,7 @@
 <body>
 	<div style="text-Align:center">
 		<input  data-dojo-type="dijit/form/ValidationTextBox" id="itemId"  data-dojo-props='name:"itemId",style:{display:"none"}' />
-        <div class="rosten_form" style="width:700px;text-align:left">
+        <div id="rosten_form" style="width:700px;text-align:left">
         	<input id="BargainId" data-dojo-type="dijit/form/ValidationTextBox"  data-dojo-props='name:"BargainId",style:{display:"none"},value:""' />
           
             <fieldset class="fieldset-form">
@@ -47,7 +47,7 @@
 									value:"${bargainGoods?.barGoodsUnit}"
 			                '/>
 					    	</td>
-                            <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>市场价：</div>
+                            <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>市场价(元)：</div>
                             <td width="250">
 					    	<input id="barGoodsPrice" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,placeHolder:"系统自动赋值",readOnly:true,
@@ -59,7 +59,7 @@
 					     <tr>
 					    	<td width="120"><div align="right"><span style="color:red">*&nbsp;</span>数量：</div>
                             <td width="250">
-					    	<input id="barGoodsNum" onChange='barGoods_onChange()' data-dojo-type="dijit/form/ValidationTextBox" 
+					    	<input id="barGoodsNum" onKeyup='calculateMoney_onKeyup()' data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,required:true,name:"barGoodsNum",
 									value:"${bargainGoods?.barGoodsNum}"
 			                '/>
@@ -67,14 +67,14 @@
                           
                             <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>折扣：</div>
                             <td width="250">
-					    	<input id="barGoodsDiscount" data-dojo-type="dijit/form/ValidationTextBox" 
+					    	<input id="barGoodsDiscount"  onKeyup='calculateMoney_onKeyup()' data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,required:true,name:"barGoodsDiscount",
 									value:"${bargainGoods?.barGoodsDiscount}"
 			                '/>
 					    	</td>
 					    </tr>
 					    <tr>
-					     <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>总价格：</div>
+					     <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>总价格(元)：</div>
                             <td width="250">
 					    	<input id="barGoodsTPrice" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,required:true,placeHolder:"系统自动赋值",readOnly:true,name:"barGoodsTPrice",

@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat
 
 import com.rosten.app.annotation.GridColumn
 import com.rosten.app.system.Company
+import com.rosten.app.system.User;
 
 class Attendance {
 	String id

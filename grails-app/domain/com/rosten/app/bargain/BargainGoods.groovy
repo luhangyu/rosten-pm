@@ -27,14 +27,14 @@ class BargainGoods {
 	Long barGoodsNum
 	
 	//市场价
-	@GridColumn(name="市场价",width="60px",colIdx=5)
+	@GridColumn(name="市场价(元)",width="60px",colIdx=5)
 	Long barGoodsPrice
 	
 	//折扣
 	@GridColumn(name="折扣",width="40px",colIdx=6)
-	Long barGoodsDiscount = 1
+	Double barGoodsDiscount = 10
 	
-	@GridColumn(name="总价",width="60px",colIdx=7)
+	@GridColumn(name="总价(元)",width="60px",colIdx=7)
 	Double barGoodsTPrice
 	
 	//备注
