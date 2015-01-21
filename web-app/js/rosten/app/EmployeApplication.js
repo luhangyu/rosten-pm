@@ -36,14 +36,14 @@ define(["dojo/dom",
 				store.setValue(items[i],"itemId",registry.byId("id").get("value"));
 				store.setValue(items[i],"attendUserName",registry.byId("attendUserName").get("value"));
 				store.setValue(items[i],"attendDepart",registry.byId("attendDepart").get("value"));
-				store.setValue(items[i],"salaryType",registry.byId("salaryType").get("value"));
+				store.setValue(items[i],"attendRemark",registry.byId("attendRemark").get("value"));
 				store.setValue(items[i],"workNumber",registry.byId("workNumber").get("value"));				
 				if(attendType=="员工考勤"){					
-					store.setValue(items[i],"livingRmb",registry.byId("livingRmb").get("value"));
-					store.setValue(items[i],"shouldRmb",registry.byId("shouldRmb").get("value"));				
-					store.setValue(items[i],"deductRmb",registry.byId("deductRmb").get("value"));
-					store.setValue(items[i],"bonusRmb",registry.byId("bonusRmb").get("value"));
-					store.setValue(items[i],"finalRmb",registry.byId("finalRmb").get("value"));
+					store.setValue(items[i],"affairsNumber",registry.byId("affairsNumber").get("value"));
+					store.setValue(items[i],"illNumber",registry.byId("illNumber").get("value"));				
+					store.setValue(items[i],"lateNumber",registry.byId("lateNumber").get("value"));
+					store.setValue(items[i],"awayNumber",registry.byId("awayNumber").get("value"));
+					store.setValue(items[i],"earlyAwayNumber",registry.byId("earlyAwayNumber").get("value"));
 				}
 			}else{
 				var randId = Math.random();				
@@ -56,13 +56,13 @@ define(["dojo/dom",
 							itemId:registry.byId("id").get("value"),
 							attendUserName:registry.byId("attendUserName").get("value"),
 							attendDepart:registry.byId("attendDepart").get("value"),
-							salaryType:registry.byId("salaryType").get("value"),
+							attendRemark:registry.byId("attendRemark").get("value"),
 							workNumber:registry.byId("workNumber").get("value"),						
-							livingRmb:registry.byId("livingRmb").get("value"),
-							shouldRmb:registry.byId("shouldRmb").get("value"),
-							deductRmb:registry.byId("deductRmb").get("value"),
-							bonusRmb:registry.byId("bonusRmb").get("value"),
-							finalRmb:registry.byId("finalRmb").get("value"),							
+							affairsNumber:registry.byId("affairsNumber").get("value"),
+							illNumber:registry.byId("illNumber").get("value"),
+							lateNumber:registry.byId("lateNumber").get("value"),
+							awayNumber:registry.byId("awayNumber").get("value"),
+							earlyAwayNumber:registry.byId("earlyAwayNumber").get("value"),							
 					};
 				}else{
 					var content ={
@@ -72,7 +72,7 @@ define(["dojo/dom",
 							itemId:registry.byId("id").get("value"),
 							attendUserName:registry.byId("attendUserName").get("value"),
 							attendDepart:registry.byId("attendDepart").get("value"),
-							salaryType:registry.byId("salaryType").get("value"),
+							attendRemark:registry.byId("attendRemark").get("value"),
 							workNumber:registry.byId("workNumber").get("value"),						
 //							livingRmb:registry.byId("livingRmb").get("value"),
 //							shouldRmb:registry.byId("shouldRmb").get("value"),
@@ -104,27 +104,27 @@ define(["dojo/dom",
             	var id = rosten.getGridItemValue(workerAttendanceGrid,rowIndex,"id");			            
             	var attendUserName = rosten.getGridItemValue(workerAttendanceGrid,rowIndex,"attendUserName");
             	var attendDepart = rosten.getGridItemValue(workerAttendanceGrid,rowIndex,"attendDepart");
-            	var salaryType = rosten.getGridItemValue(workerAttendanceGrid,rowIndex,"salaryType");
+            	var attendRemark = rosten.getGridItemValue(workerAttendanceGrid,rowIndex,"attendRemark");
             	var workNumber = rosten.getGridItemValue(workerAttendanceGrid,rowIndex,"workNumber");
-            	var livingRmb = rosten.getGridItemValue(workerAttendanceGrid,rowIndex,"livingRmb");
-            	var shouldRmb = rosten.getGridItemValue(workerAttendanceGrid,rowIndex,"shouldRmb");
+            	var affairsNumber = rosten.getGridItemValue(workerAttendanceGrid,rowIndex,"affairsNumber");
+            	var illNumber = rosten.getGridItemValue(workerAttendanceGrid,rowIndex,"illNumber");
             	
-            	var deductRmb = rosten.getGridItemValue(workerAttendanceGrid,rowIndex,"deductRmb");
-            	var bonusRmb = rosten.getGridItemValue(workerAttendanceGrid,rowIndex,"bonusRmb");
-            	var finalRmb = rosten.getGridItemValue(workerAttendanceGrid,rowIndex,"finalRmb");
+            	var lateNumber = rosten.getGridItemValue(workerAttendanceGrid,rowIndex,"lateNumber");
+            	var awayNumber = rosten.getGridItemValue(workerAttendanceGrid,rowIndex,"awayNumber");
+            	var earlyAwayNumber = rosten.getGridItemValue(workerAttendanceGrid,rowIndex,"earlyAwayNumber");
             	
             	//alert(constructDate);
             	registry.byId("itemId").set("value",id);
             	registry.byId("attendUserName").set("value",attendUserName);
             	registry.byId("attendDepart").set("value",attendDepart);
-            	registry.byId("salaryType").set("displayedValue",salaryType);
+            	registry.byId("attendRemark").set("displayedValue",attendRemark);
             	registry.byId("workNumber").set("value",workNumber);
-            	registry.byId("livingRmb").set("value",livingRmb);
-            	registry.byId("shouldRmb").set("value",shouldRmb);
+            	registry.byId("affairsNumber").set("value",affairsNumber);
+            	registry.byId("illNumber").set("value",illNumber);
             	
-            	registry.byId("deductRmb").set("value",deductRmb);
-            	registry.byId("bonusRmb").set("value",bonusRmb);
-            	registry.byId("finalRmb").set("value",finalRmb);
+            	registry.byId("lateNumber").set("value",lateNumber);
+            	registry.byId("awayNumber").set("value",awayNumber);
+            	registry.byId("earlyAwayNumber").set("value",earlyAwayNumber);
 	        }
         });
     };
@@ -229,10 +229,10 @@ define(["dojo/dom",
 							bonusRmb:registry.byId("bonusRmb").get("value"),
 							finalRmb:registry.byId("finalRmb").get("value"),							
 					};
-				
+				store.newItem(content);
 			}
 				
-				store.newItem(content);
+				
 			
 		}
 		

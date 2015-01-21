@@ -15,32 +15,32 @@ class WorkerSalary {
 	@GridColumn(name="部门",colIdx=2,width="80px")
 	String workerDepart
 	
-	@GridColumn(name="工资类型",colIdx=3,width="80px")
+	@GridColumn(name="工资类型",colIdx=3,width="60px")
 	String salaryType
 	
-	@GridColumn(name="工资",colIdx=4,width="50px")
+	@GridColumn(name="工资",colIdx=4,width="40px")
 	Double salaryRmb
 	
-	@GridColumn(name="生活费",colIdx=5,width="50px")
+	@GridColumn(name="生活费",colIdx=5,width="40px")
 	Double livingRmb
 	
-	@GridColumn(name="应发",colIdx=6,width="50px")
+	@GridColumn(name="应发",colIdx=6,width="40px")
 	Double shouldRmb
 	
-	@GridColumn(name="扣除",colIdx=7,width="50px")
+	@GridColumn(name="扣除",colIdx=7,width="40px")
 	Double deductRmb
 	
-	@GridColumn(name="奖励",colIdx=8,width="50px")
+	@GridColumn(name="奖励",colIdx=8,width="40px")
 	Double bonusRmb
 	
-	@GridColumn(name="实发",colIdx=9,width="50px")
+	@GridColumn(name="实发",colIdx=9,width="40px")
 	Double finalRmb
 	
 	//备注
-	@GridColumn(name="备注",colIdx=91,width="50px")
+	@GridColumn(name="备注",colIdx=91)
 	String wrkSlyRemark
 	
-	@GridColumn(name="操作",colIdx=92,formatter="workerSalary_action")
+	@GridColumn(name="操作",colIdx=92,width="40px",formatter="workerSalary_action")
 	def workerSalaryId(){
 		return id
 	}

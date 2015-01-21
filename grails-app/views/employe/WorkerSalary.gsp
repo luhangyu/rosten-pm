@@ -39,11 +39,15 @@
 					<tr>
 					    <td width="100"><div align="right"><span style="color:red">*&nbsp;</span>工资类型：</div></td>
 					    <td width="250">
-					    	<input id="salaryType" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"salaryType",
-									value:"${workerSalary?.salaryType}"
-			                '/>
-
+							<select id="salaryType" data-dojo-type="dijit/form/FilteringSelect" 
+					                data-dojo-props='name:"salaryType",
+					                trim:true,required:true,
+					      			value:"${workerSalary?.salaryType}",
+					            '>
+								<option value="月工资">月工资</option>
+								<option value="日工资">日工资</option>
+								
+					    	</select>
 					    </td>
 					
 						<td width="100"><div align="right"><span style="color:red">*&nbsp;</span>备注：</div></td>
@@ -62,11 +66,11 @@
 					<table border="0" width="500" align="center">
 						<tr>
 							<td style="width:16%">工资(元)</td>
-							<td style="width:16%">生活费(天)</td>
-							<td style="width:16%">应发(天)</td>
-							<td style="width:16%">扣除(天)</td>
-							<td style="width:16%">奖励(天)</td>
-							<td style="width:16%">实发(天)</td>
+							<td style="width:16%">生活费(元)</td>
+							<td style="width:16%">应发(元)</td>
+							<td style="width:16%">扣除(元)</td>
+							<td style="width:16%">奖励(元)</td>
+							<td style="width:16%">实发(元)</td>
 							
 						</tr>
 					
