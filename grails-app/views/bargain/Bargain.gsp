@@ -262,7 +262,7 @@
 					switch(type){
 					case "BargainVendorCorpName":
 						var corpName = registry.byId("barVendorCorp").get("value");
-						var dialog = rosten.selectBaseDialog("单位选择","${createLink(controller:'baseinfor',action:'getContactCorpSelect',params:[companyId:company?.id])}",false,"barVendorCorp","barVendorCorpId",corpName);
+						var dialog = rosten.selectBaseDialog("单位选择","${createLink(controller:'baseinfor',action:'getContactCorpSelect',params:[companyId:company?.id,contactCorpType:"甲方"])}",false,"barVendorCorp","barVendorCorpId",corpName);
 						dialog.callback = function(data){
 							if(data.length>0){
 								var dealId = data[0].id
@@ -294,7 +294,7 @@
 
 					case "BargainPurchaserCorpName":
 						var corpName = registry.byId("barPurchaserCorp").get("value");
-						var dialog = rosten.selectBaseDialog("单位选择","${createLink(controller:'baseinfor',action:'getContactCorpSelect',params:[companyId:company?.id])}",false,"barPurchaserCorp","barPurchaserCorpId",corpName);
+						var dialog = rosten.selectBaseDialog("单位选择","${createLink(controller:'baseinfor',action:'getContactCorpSelect',params:[companyId:company?.id,contactCorpType:"分包商"])}",false,"barPurchaserCorp","barPurchaserCorpId",corpName);
 						dialog.callback = function(data){
 							if(data.length>0){
 								var dealId = data[0].id

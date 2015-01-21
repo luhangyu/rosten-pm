@@ -62,6 +62,11 @@
 						if(data.result=="true" || data.result == true){
 							rosten.alert("保存成功！").queryDlgClose= function(){
 								//page_quit();
+								if(window.location.href.indexOf(data.id)==-1){
+									window.location.replace(window.location.href + "&id=" + data.id);
+								}else{
+									window.location.reload();
+								}
 							};
 						}else{
 							rosten.alert("保存失败!");

@@ -28,28 +28,23 @@ class EmployeController {
 		model["company"] = Company.get(params.companyId)
 		
 		def entity
-		if(params.id){
+		if(params.id && !"".equals(params.id)){
 			entity = Attendance.get(params.id)
 		}else{
 			entity = new Attendance()
 			entity.attendDrafter = currentUser.getFormattedName()
+			
+			switch(params.type){
+				case "constructionWorkerAttendance":
+				entity.attendType = "大点工考勤"
+				break;
+				case "officeWorkerAttendance":
+				entity.attendType = "员工考勤"
+				break;
+			}
 		}
-
 		model["attendance"] = entity
 		model["user"] = currentUser
-		
-		switch(params.type){
-			case "constructionWorkerAttendance":
-			entity.attendType = "大点工考勤"
-			
-			break;
-			case "officeWorkerAttendance":
-			entity.attendType = "员工考勤"
-			
-			break;
-		}
-
-		
 		
 		FieldAcl fa = new FieldAcl()
 		model["fieldAcl"] = fa
@@ -89,6 +84,7 @@ class EmployeController {
 		
 		if(entity.save(flush:true)){
 			model["result"] = "true"
+			model["id"] = entity.id
 		}else{
 			entity.errors.each{
 				println it
@@ -180,9 +176,7 @@ class EmployeController {
 	def workerAttendanceGrid ={
 		def json=[:]
 		def attendance = Attendance.get(params.id)
-		
-		
-		
+
 		if(params.refreshHeader){
 			
 			
@@ -299,6 +293,7 @@ class EmployeController {
 		
 		if(entity.save(flush:true)){
 			model["result"] = "true"
+			model["id"] = entity.id
 		}else{
 			entity.errors.each{
 				println it

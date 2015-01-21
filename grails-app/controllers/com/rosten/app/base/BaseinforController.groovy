@@ -58,7 +58,9 @@ class BaseinforController {
 	def getContactCorpSelect ={
 		def _List =[]
 		def company = Company.get(params.companyId)
-		ContactCorp.findAllByCompany(company).each{
+		//传入过滤参数：如甲方、乙方等 params.contactCorpType
+		def contactCorpType=params.contactCorpType
+		ContactCorp.findAllByCompanyAndContactCorpType(company,contactCorpType).each{
 			def json=[:]
 			json["id"] = it.id
 			json["name"] = it.contactCorpName
