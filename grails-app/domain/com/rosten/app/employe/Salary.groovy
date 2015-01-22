@@ -11,6 +11,7 @@ class Salary {
 	String id
 	
 	//标题
+	@GridColumn(name="标题",colIdx=2,width="300px")
 	String salaryName
 	
 	Date wageDay=new Date()
@@ -26,7 +27,7 @@ class Salary {
 	
 	
 	Date beginDay=new Date()
-	@GridColumn(name="开始日期",colIdx=2,width="100px")
+	@GridColumn(name="开始日期",colIdx=3,width="100px")
 	def getFormatBeginDay(){
 		if(beginDay!=null){
 			SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd")
@@ -37,7 +38,7 @@ class Salary {
 	}
 	
 	Date endDay=new Date()
-	@GridColumn(name="结束日期",colIdx=3,width="100px")
+	@GridColumn(name="结束日期",colIdx=4,width="100px")
 	def getFormatEndDay(){
 		if(endDay!=null){
 			SimpleDateFormat sd = new SimpleDateFormat("yyyy-MM-dd")
@@ -48,11 +49,11 @@ class Salary {
 	}
 	
 	//合计
-	@GridColumn(name="工资总额",colIdx=4,width="100px")
+	@GridColumn(name="工资总额",colIdx=5,width="100px")
 	Double salarySum
 
 	//填写人
-	@GridColumn(name="填写人",colIdx=5,width="100px")
+	@GridColumn(name="填写人",colIdx=6,width="100px")
 	String salaryMaker
 	
 	//创建日期

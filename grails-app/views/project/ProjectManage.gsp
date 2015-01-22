@@ -73,7 +73,7 @@
 					switch(type){
 					case "supCorp":
 						var corpName = registry.byId("supCorp").get("value");
-						var dialog = rosten.selectBaseDialog("单位选择","${createLink(controller:'baseinfor',action:'getContactCorpSelect',params:[companyId:company?.id])}",false,"supCorp","supCorpId",corpName);
+						var dialog = rosten.selectBaseDialog("单位选择","${createLink(controller:'baseinfor',action:'getContactCorpSelect',params:[companyId:company?.id,contactCorpType:"监理单位"])}",false,"supCorp","supCorpId",corpName);
 						dialog.callback = function(data){
 							if(data.length>0){
 								var dealId = data[0].id
@@ -97,7 +97,7 @@
 						
 					case "constCorp":
 						var corpName = registry.byId("constCorp").get("value");
-						var dialog = rosten.selectBaseDialog("单位选择","${createLink(controller:'baseinfor',action:'getContactCorpSelect',params:[companyId:company?.id])}",false,"supCorp","supCorpId",corpName);
+						var dialog = rosten.selectBaseDialog("单位选择","${createLink(controller:'baseinfor',action:'getContactCorpSelect',params:[companyId:company?.id,contactCorpType:"甲方"])}",false,"supCorp","supCorpId",corpName);
 						dialog.callback = function(data){
 							if(data.length>0){
 								var dealId = data[0].id
