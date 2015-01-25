@@ -112,6 +112,18 @@ class ConstructApprove {
 	static belongsTo = [company:Company]
 	
     static constraints = {
+		//流程相关-------------------------------------------------------------
+		defaultReaders nullable:true,blank:true
+		currentUser nullable:true,blank:true
+		currentDepart nullable:true,blank:true
+		currentDealDate nullable:true,blank:true
+		drafter nullable:true,blank:true
+		drafterDepart nullable:true,blank:true
+		
+		processInstanceId nullable:true,blank:true
+		taskId nullable:true,blank:true
+		processDefinitionId nullable:true,blank:true
+		//-------------------------------------------------------------------
     }
 	static mapping = {
 		id generator:'uuid.hex',params:[separator:'-']

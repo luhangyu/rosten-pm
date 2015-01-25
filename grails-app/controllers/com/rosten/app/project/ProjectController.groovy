@@ -314,6 +314,8 @@ class ProjectController {
 		model["constructApprove"] = entity
 		model["user"] = currentUser
 		
+		FieldAcl fa = new FieldAcl()
+		model["fieldAcl"] = fa
 		
 		if(!currentUser.equals(entity.currentUser)){
 			//当前登录用户不是当前处理人，则不允许修改相关信息
@@ -328,8 +330,7 @@ class ProjectController {
 		model["flowCode"] = params.flowCode
 		//------------------------------------------------------
 		
-		FieldAcl fa = new FieldAcl()
-		model["fieldAcl"] = fa
+
 		render(view:'/project/constructApprove',model:model)
 	}
 	def constructApproveSave ={
