@@ -12,11 +12,11 @@ class ProjectManage {
 	String id
 	
 	//项目名称
-	@GridColumn(name="项目名称",width="200px",colIdx=1,formatter="projectManage_formatTopic")
+	@GridColumn(name="项目名称",width="200px",colIdx=2)
 	String projName
 	
 	//项目编号
-	@GridColumn(name="项目编号",width="110px",colIdx=2)
+	@GridColumn(name="项目编号",width="110px",colIdx=1,formatter="projectManage_formatTopic")
 	String projNo
 	
 	//建设单位

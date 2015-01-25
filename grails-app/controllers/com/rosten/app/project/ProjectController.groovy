@@ -5,13 +5,21 @@ import com.rosten.app.util.SystemUtil
 import com.rosten.app.util.Util
 import com.rosten.app.system.Company
 import com.rosten.app.system.User
+import com.rosten.app.system.Depart
 import com.rosten.app.base.ContactCorp
+
+import com.rosten.app.gtask.GtaskService
+import com.rosten.app.gtask.Gtask
+import com.rosten.app.share.ShareService
+import com.rosten.app.workflow.FlowBusiness
+import com.rosten.app.system.Attachment
 
 class ProjectController {
 
     def springSecurityService
 	def projectService
-	
+	def shareService
+	def gtaskService
 	
 	//获取项目列表（合同表单“项目名称”字段选择数据）
 	def getProjectSelect ={
@@ -120,7 +128,8 @@ class ProjectController {
 		
 		//增加查询条件
 		def searchArgs =[:]
-		
+		if(params.projNo && !"".equals(params.projNo)) searchArgs["projNo"] = params.projNo
+		if(params.projName && !"".equals(params.projName)) searchArgs["projName"] = params.projName
 		if(params.refreshData){
 			def args =[:]
 			int perPageNum = Util.str2int(params.perPageNum)
@@ -139,6 +148,15 @@ class ProjectController {
 		render model as JSON
 	}
 	
+	def projectManageSearchView ={
+		def model =[:]
+		def currentUser = springSecurityService.getCurrentUser()
+		def company= currentUser.company
+		model["company"] = company
+		//往来单位类型
+		//model["contactCropTypeList"] = shareService.getSystemCodeItems(company,"rs_contactCropType")
+		render(view:'/project/projectManageSearch',model:model)
+	}
 	//项目管理end-->
 	
 	
@@ -264,13 +282,22 @@ class ProjectController {
 	
 	//项目计划end-->
 	
-	
-	
-	
-	
+
 	
 	//施工方案start
 	def constructApproveAdd ={
+		if(params.flowCode){
+			//需要走流程
+			def company = Company.get(params.companyId)
+			def flowBusiness = FlowBusiness.findByFlowCodeAndCompany(params.flowCode,company)
+			if(flowBusiness && !"".equals(flowBusiness.relationFlow)){
+				params.relationFlow = flowBusiness.relationFlow
+			}else{
+				//不存在流程引擎关联数据
+				render '<h2 style="color:red;width:660px;margin:0 auto;margin-top:60px">当前业务不存在流程设置，无法创建，请联系管理员！</h2>'
+				return
+			}
+		}
 		redirect(action:"constructApproveShow",params:params)
 	}
 	def constructApproveShow ={
@@ -287,7 +314,19 @@ class ProjectController {
 		model["constructApprove"] = entity
 		model["user"] = currentUser
 		
-		model["isShowFile"]=true
+		
+		if(!currentUser.equals(entity.currentUser)){
+			//当前登录用户不是当前处理人，则不允许修改相关信息
+			//fa.readOnly +=["bargainName","bargainType","bargainNo","bargainMoney","bargainMaker","bargainSignDate","bargainPayMemo","bargainVendor","bargainPurchaser"]
+			model["isShowFile"] = false
+		}else{
+			model["isShowFile"] = true
+		}
+		
+		//流程相关信息----------------------------------------------
+		model["relationFlow"] = params.relationFlow
+		model["flowCode"] = params.flowCode
+		//------------------------------------------------------
 		
 		FieldAcl fa = new FieldAcl()
 		model["fieldAcl"] = fa
@@ -315,9 +354,36 @@ class ProjectController {
 				entity.projectBelong = OBJ
 			}
 		}
+		
+		//判断是否需要走流程
+		def _status
+		if(params.relationFlow){
+			//需要走流程
+			if(params.id){
+				_status = "old"
+			}else{
+				_status = "new"
+			}
+			//流程引擎相关信息处理
+			shareService.businessFlowSave(entity,currentUser,params.relationFlow)
+		}
 
 		if(entity.save(flush:true)){
 			model["id"] = entity.id
+			//流程引擎相关日志信息
+			if("new".equals(_status)){
+				//添加日志
+				shareService.addFlowLog(entity.id,params.flowCode,currentUser,"新增合同申请信息")
+			}
+			
+			//增加附件功能
+			if(params.attachmentIds){
+				params.attachmentIds.split(",").each{
+					def attachment = Attachment.get(it)
+					attachment.beUseId = entity.id
+					attachment.save(flush:true)
+				}
+			}
 			model["result"] = "true"
 		}else{
 			entity.errors.each{
@@ -372,7 +438,6 @@ class ProjectController {
 	}
 	
 	//施工方案end-->
-	
 	
 	
 	

@@ -44,6 +44,27 @@
 						return;
 					}
 					var content = {};
+
+					//流程相关信息
+					<g:if test='${flowCode}'>
+						content.flowCode = "${flowCode}";
+						content.relationFlow = "${relationFlow}";
+					</g:if>
+
+					//添加新增时添加附件功能
+					<g:if test="${!constructApprove?.id}">
+						var filenode = dom.byId("fileUpload_show");
+						var fileIds = [];
+
+				       	var node=filenode.firstChild;
+				       	while(node!=null){
+				            node=node.nextSibling;
+				            if(node!=null){
+				            	fileIds.push(node.getAttribute("id"));
+					        }
+				        }
+						content.attachmentIds = fileIds.join(",");
+					</g:if>
 					
 					//增加对多次单击的次数----2014-9-4
 					var buttonWidget = object.target;
@@ -199,6 +220,15 @@
 		</form>
 
 	</div>
-
+	<g:if test="${bargain?.id}">
+		<div data-dojo-type="dijit/layout/ContentPane" id="flowComment" title="流转意见" data-dojo-props='refreshOnShow:true,style:{width:"740px"},
+			href:"${createLink(controller:'share',action:'getCommentLog',id:bargain?.id)}"
+		'>	
+		</div>
+		<div data-dojo-type="dijit/layout/ContentPane" id="flowLog" title="流程跟踪" data-dojo-props='refreshOnShow:true,
+			href:"${createLink(controller:'share',action:'getFlowLog',id:bargain?.id,params:[processDefinitionId:bargain?.processDefinitionId,taskId:bargain?.taskId])}"
+		'>	
+		</div>
+	</g:if>
 </div>
 </body>

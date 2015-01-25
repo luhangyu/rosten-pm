@@ -6,6 +6,36 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general", "rosten/k
 	
 	var general = new General();
     
+	//项目管理搜索
+	projectManage_search = function(){
+		var content = {};
+		
+		var s_projName = registry.byId("s_projName");
+		if(s_projName.get("value")!=""){
+			content.projName = s_projName.get("value");
+		}
+		
+		var s_projNo = registry.byId("s_projNo");
+		if(s_projNo.get("value")!=""){
+			content.projNo = s_projNo.get("value");
+		}
+		
+		switch(rosten.kernel.navigationEntity) {
+		default:
+			rosten.kernel.refreshGrid(rosten.kernel.getGrid().defaultUrl, content);
+			break;
+		}
+	};
+	projectManage_resetSearch = function(){
+		switch(rosten.kernel.navigationEntity) {
+		default:
+			registry.byId("s_contactCorpType").set("value","");
+			registry.byId("s_contactCorpName").set("value","");
+			
+			rosten.kernel.refreshGrid();
+			break;
+		}	
+	};
 	
 	//项目管理
 	projectManage_formatTopic = function(value,rowIndex){
@@ -145,6 +175,7 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general", "rosten/k
 			var naviJson = {
 				identifier : oString,
 				actionBarSrc : rosten.webPath + "/projectAction/projectManageView?userId=" + userid,
+				searchSrc:rosten.webPath + "/project/projectManageSearchView",
 				gridSrc : rosten.webPath + "/project/projectManageGrid?companyId=" + companyId + "&userId=" + userid
 			};
 			rosten.kernel.addRightContent(naviJson);

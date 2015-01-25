@@ -114,7 +114,7 @@
 									value:"${companyInfor?.companyAbbr}"
 			                '/>
 					    </td>
-					    <td><div align="right">默认公司：</div></td>
+					    <td><div align="right"><span style="color:red">*&nbsp;</span>默认公司：</div></td>
 						<td>
 		                        	<input id="is1" data-dojo-type="dijit/form/RadioButton"
 	                             		data-dojo-props='name:"companyIsDef",

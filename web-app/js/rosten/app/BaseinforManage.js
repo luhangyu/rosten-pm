@@ -6,6 +6,37 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general","rosten/ap
 	
 	var general = new General();
 	
+	//往来单位搜索
+	contactCorp_search = function(){
+		var content = {};
+		
+		var s_contactCorpName = registry.byId("s_contactCorpName");
+		if(s_contactCorpName.get("value")!=""){
+			content.contactCorpName = s_contactCorpName.get("value");
+		}
+		
+		var s_contactCorpType = registry.byId("s_contactCorpType");
+		if(s_contactCorpType.get("value")!=""){
+			content.contactCorpType = s_contactCorpType.get("value");
+		}
+		
+		switch(rosten.kernel.navigationEntity) {
+		default:
+			rosten.kernel.refreshGrid(rosten.kernel.getGrid().defaultUrl, content);
+			break;
+		}
+	};
+	contactCorp_resetSearch = function(){
+		switch(rosten.kernel.navigationEntity) {
+		default:
+			registry.byId("s_contactCorpType").set("value","");
+			registry.byId("s_contactCorpName").set("value","");
+			
+			rosten.kernel.refreshGrid();
+			break;
+		}	
+	};
+    
 	//材料信息搜索
 	materialInfor_search = function(){
 	    var content = {};
@@ -72,6 +103,15 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general","rosten/ap
             return "";
         }
 	};
+	companyInfor_setDefault = function(){
+    	var unids = rosten.getGridUnid("single");
+        if (unids == "")
+            return;
+        var content = {companyIsDef:"true"};
+        content.id = unids;
+        rosten.read(rosten.webPath + "/baseinfor/companyInforSetDefault", content, rosten.commonCallback);
+    };
+    
 	companyInfor_formatTopic = function(value,rowIndex){
 		return "<a href=\"javascript:companyInfor_onMessageOpen(" + rowIndex + ");\">" + value + "</a>";
 	};
@@ -122,6 +162,14 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general","rosten/ap
 		rosten.openNewWindow("bankInfor", rosten.webPath + "/baseinfor/bankInforShow/" + unid + "?userid=" + userid + "&companyId=" + companyId);
 		rosten.kernel.getGrid().clearSelected();
 	};
+	bankInfor_setDefault = function(){
+    	var unids = rosten.getGridUnid("single");
+        if (unids == "")
+            return;
+        var content = {accountIsDef:"true"};
+        content.id = unids;
+        rosten.read(rosten.webPath + "/baseinfor/bankInforSetDefault", content, rosten.commonCallback);
+    };
 	add_bankInfor = function() {
 		var userid = rosten.kernel.getUserInforByKey("idnumber");
         var companyId = rosten.kernel.getUserInforByKey("companyid");
@@ -471,6 +519,7 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general","rosten/ap
 			var naviJson = {
 				identifier : oString,
 				actionBarSrc : rosten.webPath + "/baseinforAction/contactCorpView?userId=" + userid,
+				searchSrc:rosten.webPath + "/baseinfor/contactCorpSearchView",
 				gridSrc : rosten.webPath + "/baseinfor/contactCorpGrid?companyId=" + companyId + "&userId=" + userid
 			};
 			rosten.kernel.addRightContent(naviJson);

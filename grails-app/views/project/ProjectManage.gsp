@@ -151,10 +151,10 @@
 					    </td>
 					</tr>
 					<tr>
-						<td width="120"><div align="right">项目编号：</div></td>
+						<td width="120"><div align="right"><span style="color:red">*&nbsp;</span>项目编号：</div></td>
 					    <td width="250">
 					    	<input id="projNo" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,name:"projNo",
+			                 	data-dojo-props='trim:true,name:"projNo",required:true,
 									value:"${projectManage?.projNo}"
 			                '/>
 					    </td>
@@ -303,7 +303,7 @@
 					    </td>
 					</tr>
 					<tr>
-					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>备注：</div></td>
+					    <td width="120"><div align="right">备注：</div></td>
 					    <td colspan=3>
 					    	<textarea id="projRemark" data-dojo-type="dijit/form/SimpleTextarea" 
     							data-dojo-props='name:"projRemark","class":"input",

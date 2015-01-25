@@ -88,18 +88,16 @@
 				<table border="0" width="740" align="left">
 
 					<tr>
-					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>单位名称：</div></td>
+					    <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>往来单位名称：</div></td>
 					    <td colspan=3>
 					    	<input id="contactCorpName" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,required:true,name:"contactCorpName",style:{width:"550px"},
 									value:"${contactCorp?.contactCorpName}"
 			                '/>
 					    </td>
-
-					   
 					</tr>
 					<tr>
-					 	  <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>类型：</div></td>
+					 	 <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>单位类型：</div></td>
 						 <td width="250">
 						    	<select id="contactCorpType" data-dojo-type="dijit/form/FilteringSelect" 
 					                data-dojo-props='name:"contactCorpType",${fieldAcl.isReadOnly("contactCorpType")},
@@ -111,11 +109,30 @@
 				                </g:each>
 					    	</select>
 				           </td>
-				        <td width="120"><div align="right">法人：</div></td>
+					    <td><div align="right"><span style="color:red">*&nbsp;</span>状态：</div></td>
+					    <td >
+
+			                <select id="contCorpStatus" data-dojo-type="dijit/form/FilteringSelect" 
+					                data-dojo-props='name:"contCorpStatus",trim:true,required:true,
+					      			value:"${contactCorp?.contCorpStatus}"'  autoComplete="true" pageSize="10">
+								<option value="正常">正常</option>
+				                <option value="删除">删除</option>
+					    	</select>
+					    </td>
+					</tr>
+					<tr>
+					   <td width="120"><div align="right">法人：</div></td>
 					    <td width="250">
 					    	<input id="contCorpLeader" data-dojo-type="dijit/form/ValidationTextBox" 
 			                 	data-dojo-props='trim:true,name:"contCorpLeader",
 									value:"${contactCorp?.contCorpLeader}"
+			                '/>
+					    </td>
+					    <td width="120"><div align="right">法人职务：</div></td>
+					    <td width="250">
+					    	<input id="cCorpLderDuty" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,name:"cCorpLderDuty",
+									value:"${contactCorp?.cCorpLderDuty}"
 			                '/>
 					    </td>
 					</tr>
@@ -136,6 +153,13 @@
 					    </td>
 					</tr>
 					<tr>
+					 	<td><div align="right">信用度：</div></td>
+					    <td >
+					    	<input id="contCorpTrust" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,name:"contCorpTrust",
+									value:"${contactCorp?.contCorpTrust}"
+			                '/>
+					    </td>
 						<td><div align="right">区域：</div></td>
 					    <td >
 					    	<input id="contactCorpProv" data-dojo-type="dijit/form/ValidationTextBox" 
@@ -143,8 +167,8 @@
 									value:"${contactCorp?.contactCorpProv}"
 			                '/>
 					    </td>
-					 	
 					</tr>
+					
 					<tr>
 					<td><div align="right">地址：</div></td>
 					    <td colspan=3>
@@ -193,7 +217,7 @@
 					 	<td><div align="right">电子邮箱：</div></td>
 					    <td >
 					    	<input id="contCorpEMail" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,name:"contCorpEMail",
+			                 	data-dojo-props='trim:true,name:"contCorpEMail",promptMessage:"请输入EMAIL",
 									value:"${contactCorp?.contCorpEMail}"
 			                '/>
 					    </td>
@@ -212,7 +236,42 @@
 				</table>
 				<div style="clear:both;"></div>
 			</div>
-			
+			<div data-dojo-type="rosten/widget/TitlePane" data-dojo-props='title:"银行账号信息",toggleable:false,moreText:"",marginBottom:"2px"'>
+				<table border="0" width="740" align="left">
+
+					<tr>
+					    <td width="120px"><div align="right">户主：</div></td>
+					   <td width="250px">
+					    	<input id="cCpBkAccMaster" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,name:"cCpBkAccMaster",
+									value:"${contactCorp?.cCpBkAccMaster}"
+			                '/>
+					    </td>
+					    <td width="120px"><div align="right">开户行：</div></td>
+					    <td width="250px">
+			               <select id="cCpBkAccName" data-dojo-type="dijit/form/FilteringSelect" 
+					                data-dojo-props='name:"cCpBkAccName",trim:true,required:false,
+					      			value:"${contactCorp?.cCpBkAccName}"
+					            '>
+								<g:each in="${contactCorpAccBankList}" var="item">
+				                	<option value="${item.name }">${item.name}</option>
+				                </g:each>
+					    	</select>
+					    </td>
+					</tr>
+					<tr>
+					    <td width="120px"><div align="right">账号：</div></td>
+					   <td width="250px">
+					    	<input id="cCpBkAccNo" data-dojo-type="dijit/form/ValidationTextBox" 
+			                 	data-dojo-props='trim:true,name:"cCpBkAccNo",
+									value:"${contactCorp?.cCpBkAccNo}"
+			                '/>
+					    </td>
+					  
+					</tr>
+				</table>
+				<div style="clear:both;"></div>
+				</div>
 		</form>
 	</div>
 </div>

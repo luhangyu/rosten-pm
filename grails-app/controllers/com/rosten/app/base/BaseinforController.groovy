@@ -203,7 +203,44 @@ class BaseinforController {
 		render model as JSON
 	}
 	
-	
+	//设置默认公司；同时自动修改系统管理里的单位信息
+	def companyInforSetDefault ={
+		def json
+		try{
+			//默认值允许单选
+			def companyInfor = CompanyInfor.get(params.id)
+			if(companyInfor){
+				if("true".equals(params.companyIsDef)){
+					companyInfor.companyIsDef = true
+				}else{
+					companyInfor.companyIsDef = false
+				}
+			}
+			//去除其他的默认信息
+			CompanyInfor.list().each{
+				if(!companyInfor.equals(it)){
+					it.companyIsDef = false
+					it.save()
+				}
+			}
+			companyInfor.save()
+			//修改系统的单位信息
+			def company = companyInfor.company
+			company.companyName=companyInfor.companyName
+			company.shortName=companyInfor.companyAbbr
+			company.companyPhone=companyInfor.companyPhone
+			company.companyFax=companyInfor.companyFax
+			company.companyAddress=companyInfor.companyAddress
+			
+			
+			company.save(flush:true)
+			
+			json = [result:'true']
+		}catch(Exception e){
+			json = [result:'error']
+		}
+		render json as JSON
+	}
 	
 	//2014-11-22 xkf-----银行账号信息-------------------------------------------------------------------
 	def bankInforAdd ={
@@ -212,7 +249,8 @@ class BaseinforController {
 	def bankInforShow ={
 		def model =[:]
 		def currentUser = springSecurityService.getCurrentUser()
-		model["company"] = Company.get(params.companyId)
+		def company = Company.get(params.companyId)
+		model["company"] = company
 		
 		def entity
 		if(params.id){
@@ -220,6 +258,10 @@ class BaseinforController {
 		}else{
 			entity = new BankInfor()
 		}
+
+		//开户行类型
+		model["accountBankTypeList"] = shareService.getSystemCodeItems(company,"rs_accountBankType")
+		
 		model["bankInfor"] = entity
 		model["user"] = currentUser
 		
@@ -294,6 +336,35 @@ class BaseinforController {
 		}
 		render model as JSON
 	}
+	
+	//设置为缺省
+	def bankInforSetDefault ={
+		def json
+		try{
+			//默认值允许单选
+			def bankInfor = BankInfor.get(params.id)
+			if(bankInfor){
+				if("true".equals(params.accountIsDef)){
+					bankInfor.accountIsDef = true
+				}else{
+					bankInfor.accountIsDef = false
+				}
+			}
+			//去除其他的默认信息
+			BankInfor.list().each{
+				if(!bankInfor.equals(it)){
+					it.accountIsDef = false
+					it.save()
+				}
+			}
+			bankInfor.save(flush:true)
+			
+			json = [result:'true']
+		}catch(Exception e){
+			json = [result:'error']
+		}
+		render json as JSON
+	}
 	//--------------------------------------------------------------------------------------------------
 	
 	//2014-11-25 xkf-----往来单位信息-------------------------------------------------------------------
@@ -312,16 +383,30 @@ class BaseinforController {
 			entity = ContactCorp.get(params.id)
 		}else{
 			entity = new ContactCorp()
+			entity.contCorpStatus="正常"
 		}
 		model["contactCorp"] = entity
 		model["user"] = currentUser
 		
 		//往来单位类型
 		model["contactCropTypeList"] = shareService.getSystemCodeItems(company,"rs_contactCropType")
+		//开户行类型
+		model["contactCorpAccBankList"] = shareService.getSystemCodeItems(company,"rs_accountBankType")
 		
 		FieldAcl fa = new FieldAcl()
 		model["fieldAcl"] = fa
 		render(view:'/baseinfor/contactCorp',model:model)
+	}
+	
+	def contactCorpSearchView ={
+		def model =[:]
+		def currentUser = springSecurityService.getCurrentUser()
+		def company= currentUser.company
+		model["company"] = company
+		//往来单位类型
+		model["contactCropTypeList"] = shareService.getSystemCodeItems(company,"rs_contactCropType")
+
+		render(view:'/baseinfor/contactCorpSearch',model:model)
 	}
 	
 	def contactCorpSave ={
@@ -373,6 +458,9 @@ class BaseinforController {
 		
 		//增加查询条件
 		def searchArgs =[:]
+		if(params.contactCorpName && !"".equals(params.contactCorpName)) searchArgs["contactCorpName"] = params.contactCorpName
+		if(params.contactCorpType && !"".equals(params.contactCorpType)) searchArgs["contactCorpType"] = params.contactCorpType
+		
 		
 		if(params.refreshData){
 			def args =[:]
@@ -415,6 +503,9 @@ class BaseinforController {
 		
 		//供应商类型
 		model["supplierList"] = shareService.getSystemCodeItems(company,"rs_supplierType")
+		//开户行类型
+		model["suppBankAccBankList"] = shareService.getSystemCodeItems(company,"rs_accountBankType")
+		
 		
 		FieldAcl fa = new FieldAcl()
 		model["fieldAcl"] = fa
@@ -431,6 +522,7 @@ class BaseinforController {
 
 		render(view:'/baseinfor/supplierSearch',model:model)
 	}
+	
 	def supplierSave ={
 		def model=[:]
 		
@@ -480,6 +572,10 @@ class BaseinforController {
 		
 		//增加查询条件
 		def searchArgs =[:]
+		if(params.suppName && !"".equals(params.suppName)) searchArgs["suppName"] = params.suppName
+		if(params.suppType && !"".equals(params.suppType)) searchArgs["suppType"] = params.suppType
+		if(params.suppCode && !"".equals(params.suppCode)) searchArgs["suppCode"] = params.suppCode
+		
 		
 		if(params.refreshData){
 			def args =[:]

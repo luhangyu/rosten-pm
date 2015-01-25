@@ -89,7 +89,7 @@
 	</div>
 </div>
 
-<div data-dojo-type="dijit/layout/TabContainer" data-dojo-props='persist:false, tabStrip:true,style:{width:"800px",margin:"0 auto"}' >
+<div data-dojo-type="dijit/layout/TabContainer" data-dojo-props='tabStrip:true,style:{width:"800px",margin:"0 auto"}' >
 	<div data-dojo-type="dijit/layout/ContentPane" title="基本信息" data-dojo-props=''>
 		<form id="rosten_form" data-dojo-type="dijit/form/Form" name="rosten_form" onsubmit="return false;" class="rosten_form" style="padding:0px">
 			<input  data-dojo-type="dijit/form/ValidationTextBox" id="id"  data-dojo-props='name:"id",style:{display:"none"},value:"${bankInfor?.id }"' />
@@ -108,10 +108,15 @@
 					    </td>
 					    <td><div align="right">开户行：</div></td>
 					    <td >
-					    	<input id="accountBank" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='name:"accountBank",trim:true,
-									value:"${bankInfor?.accountBank}"
-			                '/>
+			                <select id="accountBank" data-dojo-type="dijit/form/FilteringSelect" 
+					                data-dojo-props='name:"accountBank",
+					                trim:true,required:true,
+					      			value:"${bankInfor?.accountBank}"
+					            '>
+								<g:each in="${accountBankTypeList}" var="item">
+				                	<option value="${item.name}">${item.name}</option>
+				                </g:each>
+					    	</select>
 					    </td>
 					</tr>
 					
@@ -124,7 +129,7 @@
 			                '/>
 					    </td>
 					   			 
-			                <td><div align="right">默认账户：</div></td>
+			                <td><div align="right"><span style="color:red">*&nbsp;</span>默认账户：</div></td>
 							<td>
 		                        	<input id="is1" data-dojo-type="dijit/form/RadioButton"
 	                             		data-dojo-props='name:"accountIsDef",

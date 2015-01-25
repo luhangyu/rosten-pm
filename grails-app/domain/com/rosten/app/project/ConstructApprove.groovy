@@ -1,11 +1,13 @@
 package com.rosten.app.project
 import java.util.Date;
 import java.text.SimpleDateFormat
+
 import com.rosten.app.annotation.GridColumn
 import com.rosten.app.system.Company
+import com.rosten.app.system.User;
 
 
-//项目计划
+//施工方案（带流程）
 class ConstructApprove {
 	String id
 	
@@ -45,6 +47,66 @@ class ConstructApprove {
 			return ""
 		}
 	}
+	
+	
+	//流程相关字段信息----------------------------------------------------------
+	
+	//当前处理人
+	User currentUser
+
+	@GridColumn(name="当前处理人",width="60px",colIdx=8)
+	def getCurrentUserName(){
+		if(currentUser!=null){
+			return currentUser.getFormattedName()
+		}else{
+			return ""
+		}
+	}
+
+	//当前处理部门
+	String currentDepart
+	
+	//当前处理时间
+	Date currentDealDate
+	
+	//缺省读者；*:允许所有人查看,[角色名称]:允许角色,user:普通人员查看
+	String defaultReaders="[应用管理员]"
+	def addDefaultReader(String userRole){
+		if(defaultReaders==null || "".equals(defaultReaders)){
+			defaultReaders = userRole
+		}else{
+			defaultReaders += "," + userRole
+		}
+	}
+	
+	//起草人
+	User drafter
+
+	def getFormattedDrafter(){
+		if(drafter!=null){
+			return drafter.getFormattedName()
+		}else{
+			return ""
+		}
+	}
+
+	//起草部门
+	String drafterDepart
+
+	//流程定义id
+	String processDefinitionId
+	
+	//流程id
+	String processInstanceId
+	
+	//任务id
+	String taskId
+	
+	//状态
+	@GridColumn(name="状态",width="60px",colIdx=9)
+	String status = "新增"
+	
+	//--------------------------------------------------------------------------
 	
 	
 	static belongsTo = [company:Company]

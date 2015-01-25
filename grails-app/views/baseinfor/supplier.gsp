@@ -79,12 +79,12 @@
 </div>
 
 <div data-dojo-type="dijit/layout/TabContainer" data-dojo-props='persist:false, tabStrip:true,style:{width:"800px",margin:"0 auto"}' >
-	<div data-dojo-type="dijit/layout/ContentPane" title="基本信息" data-dojo-props=''>
+	<div data-dojo-type="dijit/layout/ContentPane" title="供应商信息" data-dojo-props=''>
 		<form id="rosten_form" data-dojo-type="dijit/form/Form" name="rosten_form" onsubmit="return false;" class="rosten_form" style="padding:0px">
 			<input  data-dojo-type="dijit/form/ValidationTextBox" id="id"  data-dojo-props='name:"id",style:{display:"none"},value:"${supplier?.id }"' />
         	<input  data-dojo-type="dijit/form/ValidationTextBox" id="companyId" data-dojo-props='name:"companyId",style:{display:"none"},value:"${company?.id }"' />
         	
-			<div data-dojo-type="rosten/widget/TitlePane" data-dojo-props='title:"材料信息",toggleable:false,moreText:"",marginBottom:"2px"'>
+			<div data-dojo-type="rosten/widget/TitlePane" data-dojo-props='title:"基本信息",toggleable:false,moreText:"",marginBottom:"2px"'>
 				<table border="0" width="740" align="left">
 
 					<tr>
@@ -97,7 +97,7 @@
 					    </td>
 					      <td width="120"><div align="right"><span style="color:red">*&nbsp;</span>类型：</div></td>
 						 <td width="250">
-						    	<select id="suppType" data-dojo-type="dijit/form/FilteringSelect" 
+						    <select id="suppType" data-dojo-type="dijit/form/FilteringSelect" 
 					                data-dojo-props='name:"suppType",${fieldAcl.isReadOnly("suppType")},
 					                trim:true,required:true,missingMessage:"请选择类别！",invalidMessage:"请选择类别！",
 					      			value:"${supplier?.suppType}"
@@ -230,10 +230,14 @@
 					    </td>
 					    <td width="120px"><div align="right">开户行：</div></td>
 					    <td width="250px">
-					    	<input id="suppBankAccBank" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='name:"suppBankAccBank",trim:true,
-									value:"${supplier?.suppBankAccBank}"
-			                '/>
+			               <select id="suppBankAccBank" data-dojo-type="dijit/form/FilteringSelect" 
+					                data-dojo-props='name:"suppBankAccBank",trim:true,required:false,
+					      			value:"${supplier?.suppBankAccBank}"
+					            '>
+								<g:each in="${suppBankAccBankList}" var="item">
+				                	<option value="${item.name }">${item.name }</option>
+				                </g:each>
+					    	</select>
 					    </td>
 					</tr>
 					<tr>

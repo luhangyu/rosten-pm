@@ -1,6 +1,7 @@
 package com.rosten.app.base
 
 import java.util.Date;
+
 import com.rosten.app.annotation.GridColumn
 import com.rosten.app.system.Company
 
@@ -42,6 +43,7 @@ class ContactCorp {
 	@GridColumn(name="法人",colIdx=4,width="80px")
 	String contCorpLeader
 	
+	String cCorpLderDuty
 	//法人职务
 	String cCorpLeaderDuty
 	//税务登记号
@@ -61,6 +63,20 @@ class ContactCorp {
 	//备注
 	String contCorpRemark
 
+	//信用度
+	String contCorpTrust
+	
+	
+	//状态
+	String contCorpStatus
+	
+	//账号
+	String cCpBkAccNo
+	//开户行
+	String cCpBkAccName
+	//户主
+	String cCpBkAccMaster
+	
 	//创建日期
 	Date createdDate = new Date()
 	

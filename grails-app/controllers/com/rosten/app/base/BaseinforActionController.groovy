@@ -30,7 +30,7 @@ class BaseinforActionController {
 		if("admin".equals(user.getUserType()) || user.getAllRolesValue().contains("系统管理员")){
 			actionList << createAction("删除公司",imgPath + "delete.png","delete_" + strname)
 		}
-		
+		actionList << createAction("设置为缺省",imgPath + "changeStatus.gif","companyInfor_setDefault")
 		actionList << createAction("刷新",imgPath + "fresh.gif","freshGrid")
 		
 		render actionList as JSON
@@ -55,6 +55,7 @@ class BaseinforActionController {
 		if("admin".equals(user.getUserType()) || user.getAllRolesValue().contains("系统管理员")){
 			actionList << createAction("删除银行账号",imgPath + "delete.png","delete_" + strname)
 		}
+		actionList << createAction("设置为缺省",imgPath + "changeStatus.gif","bankInfor_setDefault")
 		actionList << createAction("刷新",imgPath + "fresh.gif","freshGrid")
 		render actionList as JSON
 	}
