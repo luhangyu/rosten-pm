@@ -219,14 +219,12 @@ class PmController {
 			resource.url = "projectPlan"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"
 			model.addToResources(resource)
-
 			
-			
-			resource = new Resource()
-			resource.resourceName = "视频监控"
-			resource.url = "vedioMonitor"
-			resource.imgUrl = "images/rosten/navigation/rosten.png"
-			model.addToResources(resource)
+//			resource = new Resource()
+//			resource.resourceName = "视频监控"
+//			resource.url = "vedioMonitor"
+//			resource.imgUrl = "images/rosten/navigation/rosten.png"
+//			model.addToResources(resource)
 			
 			model.save()
 			

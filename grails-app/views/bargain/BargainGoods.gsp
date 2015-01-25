@@ -7,7 +7,10 @@
 <body>
 	<div style="text-Align:center">
 		<input  data-dojo-type="dijit/form/ValidationTextBox" id="itemId"  data-dojo-props='name:"itemId",style:{display:"none"}' />
-        <div id="rosten_form" style="width:700px;text-align:left">
+        
+        <form id="bargainGood_form" style="width:700px;text-align:left" 
+        	data-dojo-type="dijit/form/Form" name="bargainGood_form" onsubmit="return false;" class="rosten_form">
+        
         	<input id="BargainId" data-dojo-type="dijit/form/ValidationTextBox"  data-dojo-props='name:"BargainId",style:{display:"none"},value:""' />
           
             <fieldset class="fieldset-form">
@@ -106,7 +109,7 @@
 				
 				
             </fieldset>
-		</div>
+		</form>
 	</div>
 </body>
 </html>

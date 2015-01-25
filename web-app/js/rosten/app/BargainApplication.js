@@ -64,6 +64,11 @@ define(["dojo/dom",
         });
 	};
 	bargainGoods_Submit = function(){
+		var formWidget = registry.byId("bargainGood_form");
+		if(!formWidget.validate()){
+			rosten.alert("请正确填写相关信息！");
+			return;
+		}
 		
 		var itemId = registry.byId("itemId").get("value");		
 		function gotAll(items,request){
