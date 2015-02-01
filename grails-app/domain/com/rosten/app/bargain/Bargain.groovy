@@ -164,7 +164,7 @@ class Bargain {
 	
 	static mapping = {
 		id generator:'uuid.hex',params:[separator:'-']
-		table "RS_BARGAIN"
+		table "RS_BAR"
 	}
 	def beforeDelete(){
 		Bargain.withNewSession{session ->

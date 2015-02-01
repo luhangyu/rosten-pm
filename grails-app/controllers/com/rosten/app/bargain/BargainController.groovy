@@ -28,6 +28,171 @@ class BargainController {
 	private def bargainStatus = ["新增","已结束"]
 	private def bargainType=["totalpackageBargain":"总包合同","subpackageBargain":"分包合同","purchaseBargain":"采购合同","salesBargain":"销售合同"]
 	
+	//-------------------------------------正文word文档--------------------------------------------------
+	def addWord = {
+		def model =[:]
+		SystemUtil sysUtil = new SystemUtil()
+		
+		String path = request.getContextPath();
+		String bases = request.getHeader("X-FORWARDED-HOST")
+		if(bases==null || bases.length()<1){
+			bases =request.getHeader("Host")
+		}
+		  
+		if(bases==null || bases.length()<1){
+//			bases =request.getServerName()+":"+request.getServerPort()
+			bases =request.getRemoteAddr()+":"+request.getServerPort()
+		}
+		String servletPath = request.getScheme()+"://"+ bases+ path+"/"
+		
+		def entity = Bargain.get(params.id)
+		model["bargain"] = entity
+		model["servletPath"] = servletPath
+		
+		//获取wordOLE文件,搜索顺序：当前存在的word文档--当前发文种类的word模版----空白模版
+		def attachmentInstance =  Attachment.findByBeUseIdAndType(params.id,"wordOLE")
+		if(!attachmentInstance){
+			//获取模版
+			attachmentInstance =  Attachment.findByBeUseId(BargainConfig.first().id)
+		}
+		if(attachmentInstance){
+			model["wordTemplate"] = servletPath + "system/downloadFile/"+ attachmentInstance.id
+		}
+		
+		render(view:'/bargain/bargainWord',model:model)
+	}
+	def addWordFile1 ={
+		println "--------------------------"
+		println "iiiiii"
+		try{
+			if(!params.id){
+				render "noReady"
+				return
+			}
+			def entity = Bargain.get(params.id)
+			
+			def attachmentInstance =  Attachment.findByBeUseIdAndType(params.id,"wordOLE")
+			if(attachmentInstance){
+				//已经存在当前文件则进行替换
+				def f = request.getFile("wordFile")
+				f.transferTo(new File(attachmentInstance.url,attachmentInstance.realName))
+				
+				attachmentInstance.createdDate = new Date()
+				attachmentInstance.save(flush:true)
+				
+				render "ok"
+				return
+			}
+			
+			
+			SystemUtil sysUtil = new SystemUtil()
+			def uploadPath
+			def currentUser = (User) springSecurityService.getCurrentUser()
+			def companyPath = currentUser.company?.shortName
+			if(companyPath == null){
+				uploadPath = sysUtil.getUploadPath("bargain")
+			}else{
+				uploadPath = sysUtil.getUploadPath(currentUser.company.shortName + "/bargain")
+			}
+			
+			def f = request.getFile("wordFile")
+			if (f.empty) {
+				render "nothing"
+				return
+			}
+			
+			def uploadSize = sysUtil.getUploadSize()
+			if(uploadSize!=null){
+				//控制附件上传大小
+				def maxSize = uploadSize * 1024 * 1024
+				if(f.size>=maxSize){
+					render "big"
+					return
+				}
+			}
+//			String name = f.getOriginalFilename()//获得文件原始的名称
+			String name = params.filename //获得文件原始的名称
+			def realName = sysUtil.getRandName(name)
+			f.transferTo(new File(uploadPath,realName))
+			
+			def attachment = new Attachment()
+			attachment.name = name
+			attachment.realName = realName
+			attachment.type = "wordOLE"
+			attachment.url = uploadPath
+			attachment.size1 = f.size
+			attachment.beUseId = params.id
+			attachment.upUser = currentUser
+			
+			attachment.save(flush:true)
+			
+			render "ok"
+		}catch(Exception e){
+			render "failure"
+		}
+	}
+	
+	//-----------------------------------发文配置文档--------------------------------------------
+	def bargainConfigView = {
+		def model = [:]
+		def user = springSecurityService.getCurrentUser()
+		
+		def config = BargainConfig.findWhere(company:user.company)
+		if(config==null) {
+			config = new BargainConfig()
+			
+			Calendar cal = Calendar.getInstance();
+			config.nowYear = cal.get(Calendar.YEAR)
+			config.frontYear = config.nowYear -1
+			
+			model.companyId = user.company.id
+		}else{
+			model.companyId = config.company.id
+		}
+		model.config = config
+		
+		FieldAcl fa = new FieldAcl()
+		if("normal".equals(user.getUserType())){
+			//普通用户
+			//fa.readOnly = ["nowYear","nowSN","nowCancel","frontYear","frontSN","frontCancel"]
+		}
+		model["fieldAcl"] = fa
+		
+		render(view:'/bargain/bargainConfig',model:model)
+	}
+	def bargainConfigSave ={
+		def json=[:]
+		def config = new BargainConfig()
+		if(params.id && !"".equals(params.id)){
+			config = BargainConfig.get(params.id)
+		}
+		config.properties = params
+		config.clearErrors()
+		config.company = Company.get(params.companyId)
+		
+		if(config.save(flush:true)){
+			json["result"] = true
+			json["sendFileConfigId"] = config.id
+			json["companyId"] = config.company.id
+			
+			//增加附件功能
+			if(params.attachmentIds){
+				params.attachmentIds.split(",").each{
+					def attachment = Attachment.get(it)
+					attachment.beUseId = config.id
+					attachment.save(flush:true)
+				}
+			}
+			
+		}else{
+			config.errors.each{
+				println it
+			}
+			json["result"] = false
+		}
+		render json as JSON
+	}
+	
 	//2015-1-20------增加选择材料类型功能
 	def selectMetailInfor ={
 		def model =[:]
@@ -91,6 +256,12 @@ class BargainController {
 			model["isShowFile"] = false
 		}else{
 			model["isShowFile"] = true
+		}
+		
+		model["hasWordOLE"] = "false"
+		def attachmentInstance =  Attachment.findByBeUseIdAndType(entity.id,"wordOLE")
+		if(attachmentInstance){
+			model["hasWordOLE"] = "true"
 		}
 		
 		//流程相关信息----------------------------------------------

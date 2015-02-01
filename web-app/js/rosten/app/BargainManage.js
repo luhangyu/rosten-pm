@@ -93,6 +93,9 @@ define([ "dojo/_base/connect", "dijit/registry","rosten/util/general", "rosten/k
 		var userid = rosten.kernel.getUserInforByKey("idnumber");
 		
 		switch (oString) {
+	    case "bargainConfig":
+            rosten.kernel.setHref(rosten.webPath + "/bargain/bargainConfigView", oString);
+            break;
 		case "totalpackageBargain":
 			var naviJson = {
 				identifier : oString,

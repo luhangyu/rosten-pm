@@ -171,6 +171,12 @@ class PmController {
 			model.serialNo = 10
 			
 			resource = new Resource()
+			resource.resourceName = "合同配置"
+			resource.url = "bargainConfig"
+			resource.imgUrl = "images/rosten/navigation/rosten.png"
+			model.addToResources(resource)
+			
+			resource = new Resource()
 			resource.resourceName = "总包合同"
 			resource.url = "totalpackageBargain"
 			resource.imgUrl = "images/rosten/navigation/rosten.png"

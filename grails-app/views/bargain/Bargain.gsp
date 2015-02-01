@@ -117,6 +117,11 @@
 					};
 				};
 				bargain_submit = function(object,conditionObj){
+					//判断是否已经创建word文档
+					if("${hasWordOLE}"=="false"){
+						rosten.alert("请先创建合同正文！");
+						return;
+					}
 					/*
 					 * 从后台获取下一处理人;conditionObj为流程中排他分支使用
 					 */
@@ -257,6 +262,12 @@
 				};
 				page_quit = function(){
 					rosten.pagequit();
+				};
+				bargain_addWord = function(){
+					rosten.openNewWindow("bargain_addWord", rosten.webPath + "/bargain/addWord/${bargain?.id }");
+				};
+				bargain_readWord = function(){
+					rosten.openNewWindow("bargain_readWord", rosten.webPath + "/bargain/addWord/${bargain?.id }");
 				};
 				showSelectDialog = function(type){
 					switch(type){
