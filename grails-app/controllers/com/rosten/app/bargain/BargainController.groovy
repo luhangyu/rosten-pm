@@ -62,8 +62,6 @@ class BargainController {
 		render(view:'/bargain/bargainWord',model:model)
 	}
 	def addWordFile1 ={
-		println "--------------------------"
-		println "iiiiii"
 		try{
 			if(!params.id){
 				render "noReady"
