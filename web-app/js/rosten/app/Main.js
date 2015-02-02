@@ -293,7 +293,7 @@ define(["dojo/_base/kernel"
     		userId = rosten.kernel.getUserInforByKey("idnumber");
     		companyId = rosten.kernel.getUserInforByKey("companyid");
     	}
-//    	showStartBbs(userId,companyId);
+   	showStartBbs(userId,companyId);
     	showStartGtask(userId,companyId);
 //    	showStartMail(userId,companyId);
     	showStartDownloadFile(userId,companyId);
@@ -344,25 +344,20 @@ define(["dojo/_base/kernel"
     };
     more_workLog = function(){
         var key = rosten.kernel.getMenuKeyByCode("personconfig");
+        
         if(key!=null){
-            rosten.kernel._naviMenuShow(key);
-            require(["rosten/app/SmsManage"],function(){
-                show_naviEntity("personWorkLog");
-            });
+            rosten.kernel._naviMenuShow(key,"personWorkLog");
         }else{
             rosten.alert("未找到相对应的模块,请通知管理员");
         }
     };
     more_gtask = function(){
     	var key = rosten.kernel.getMenuKeyByCode("personconfig");
-    	if(key!=null){
-    		rosten.kernel._naviMenuShow(key);
-    		require(["rosten/app/SmsManage"],function(){
-    			//show_bbsNaviEntity("gtaskManage");
-    		});
-    	}else{
-    		rosten.alert("未找到相对应的模块,请通知管理员");
-    	}
+        if(key!=null){
+            rosten.kernel._naviMenuShow(key,"gtaskManage");
+        }else{
+            rosten.alert("未找到相对应的模块,请通知管理员");
+        }
     };
     openGtask = function(type,id,gtaskId){
     	var userid = rosten.kernel.getUserInforByKey("idnumber");
@@ -457,17 +452,12 @@ define(["dojo/_base/kernel"
     };
     
     more_downloadFile = function(){
-    	var key = rosten.kernel.getMenuKeyByCode("public");
-    	if(key!=null){
-    		rosten.variable.showStartDownloadFile = true;
-    		rosten.kernel._naviMenuShow(key);
-    		require(["rosten/app/PublicManage"],function(){
-    			show_publicNaviEntity("downloadFileManage");
-    			rosten.variable.showStartDownloadFile = false;
-    		});
-    	}else{
-    		rosten.alert("未找到相对应的模块,请通知管理员");
-    	}
+        var key = rosten.kernel.getMenuKeyByCode("public");
+        if(key!=null){
+            rosten.kernel._naviMenuShow(key,"downloadFileManage");
+        }else{
+            rosten.alert("未找到相对应的模块,请通知管理员");
+        }
     };
     showStartDownloadFile = function(userId,companyId){
         rosten.readNoTime(rosten.webPath + "/publicc/publishDownloadFile", {userId:userId,companyId:companyId}, function(_data) {
@@ -543,17 +533,14 @@ define(["dojo/_base/kernel"
 		});
     };
     more_bbs = function(){
-    	var key = rosten.kernel.getMenuKeyByCode("bbs");
-    	if(key!=null){
-    		rosten.variable.showStartBbs = true;
-    		rosten.kernel._naviMenuShow(key);
-    		require(["rosten/app/BbsManage"],function(){
-    			show_bbsNaviEntity("newbbsManage");
-    			rosten.variable.showStartBbs = false;
-    		});
-    	}else{
-    		rosten.alert("未找到相对应的模块,请通知管理员");
-    	}
+        
+        var key = rosten.kernel.getMenuKeyByCode("bbs");
+        if(key!=null){
+            rosten.kernel._naviMenuShow(key,"newbbsManage");
+        }else{
+            rosten.alert("未找到相对应的模块,请通知管理员");
+        }
+        
     };
     searchPersonByKeyPress = function(evt){
         if(evt.keyCode == 13){

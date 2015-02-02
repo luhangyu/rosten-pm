@@ -49,7 +49,6 @@
 					var content = {};
 					var bargainGoodsNames =["barGoodsName","barGoodsCorp","barGoodsUnit","barGoodsNum","barGoodsPrice","barGoodsTPrice","barGoodsDiscount","barGoodsRemark"]
 					//var bargainGoodsNames =["barGoodsName","barGoodsNum","barGoodsDiscount","barGoodsRemark"]
-
 					
 					content.bargainGoodsValues = rosten.getGridDataCollect(bargainGoodsGrid,bargainGoodsNames);
 
@@ -87,6 +86,8 @@
 									window.location.reload();
 								}
 							};
+						}else if(data.result=="noConfig"){
+							rosten.alert("系统不存在配置文档，请通知管理员！");
 						}else{
 							rosten.alert("保存失败!");
 						}
@@ -585,7 +586,8 @@
 						<td><div align="right"><span style="color:red">*&nbsp;</span>合同号：</div></td>
 					    <td >
 					    	<input id="bargainNo" data-dojo-type="dijit/form/ValidationTextBox" 
-			                 	data-dojo-props='trim:true,required:true,name:"bargainNo",${fieldAcl.isReadOnly("bargainNo")},
+			                 	data-dojo-props='trim:true,readOnly:true,
+			                 		placeHolder:"系统自动赋值",
 									value:"${bargain?.bargainNo}"
 			                '/>
 					    </td>

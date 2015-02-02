@@ -284,6 +284,14 @@ class BargainController {
 	def bargainSave ={
 		def model=[:]
 		
+		//获取配置文档
+		def config = BargainConfig.first()
+		if(!config){
+			model["result"] = "noConfig"
+			render model as JSON
+			return
+		}
+		
 		def currentUser = springSecurityService.getCurrentUser()
 		def company = Company.get(params.companyId)
 		def entity = new Bargain()
@@ -291,6 +299,8 @@ class BargainController {
 			entity = Bargain.get(params.id)
 		}else{
 			entity.company = company
+			
+			entity.bargainNo = config.nowYear + config.nowSN.toString().padLeft(4,"0")
 		}
 		
 		entity.properties = params
@@ -298,7 +308,6 @@ class BargainController {
 		
 		//日期字段值处理，convertToTimestamp
 		entity.bargainSignDate = Util.convertToTimestamp(params.bargainSignDate)
-		
 		
 		if(entity.bargainGoods){
 			def _list = []
@@ -341,8 +350,6 @@ class BargainController {
 			}
 		}
 		
-		
-		
 		//判断是否需要走流程
 		def _status
 		if(params.relationFlow){
@@ -363,6 +370,10 @@ class BargainController {
 			if("new".equals(_status)){
 				//添加日志
 				shareService.addFlowLog(entity.id,params.flowCode,currentUser,"新增合同申请信息")
+				
+				//修改配置文档中的流水号
+				config.nowSN += 1
+				config.save(flush:true)
 			}
 			
 			//增加附件功能

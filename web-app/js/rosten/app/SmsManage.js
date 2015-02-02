@@ -271,8 +271,8 @@ define(["dojo/dom",
 	        case "gtaskManage":
 	            var naviJson = {
 	                identifier : oString,
-	                actionBarSrc : rosten.webPath + "/startAction/gtaskView?userId=" + userid,
-	                gridSrc : rosten.webPath + "/start/gtaskGrid?userid=" + userid + "&companyId=" + companyId
+	                actionBarSrc : rosten.webPath + "/gtaskAction/gtaskView?userId=" + userid,
+	                gridSrc : rosten.webPath + "/gtask/gtaskGrid?userid=" + userid + "&companyId=" + companyId
 	            };
 	            rosten.kernel.addRightContent(naviJson);
 	            break;
