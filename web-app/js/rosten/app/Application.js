@@ -53,6 +53,20 @@ define(["dojo/_base/lang",
 		}
 		return flag;
 	};
+	application.check_common = function(fieldStr,alertStr,isFocus){
+        var _dom = registry.byId(fieldStr);
+        if(_dom && !_dom.isValid()){
+            if(isFocus){
+                rosten.alert(alertStr).queryDlgClose = function(){
+                    _dom.focus();
+                };
+            }else{
+                rosten.alert(alertStr);
+            }
+            return false;
+        }
+        return true;
+    };
     application.cssinitcommon = function() {
         //此功能只添加css文件
         var _rosten = window.opener.rosten;

@@ -3,6 +3,8 @@ package com.rosten.app.system
 import grails.converters.JSON;
 import com.rosten.app.workflow.FlowBusiness
 
+import com.rosten.app.system.SystemCode
+
 class PmController {
 	def systemService
 	
@@ -373,6 +375,75 @@ class PmController {
 			}
 			
 			systemService.initData_service(path,company)
+			
+			//初始化代码配置功能,处理方式：先删除所有代码信息，然后添加----------------------------
+			SystemCode.list().each{
+				it.delete()
+			}
+			
+			//初始化代码
+			def rs_techGrade = new SystemCode(code:"rs_techGrade",name:"专业技术等级",company:company)
+			rs_techGrade.addToItems(new SystemCodeItem(code:"001",name:"高级",serialNo:1))
+			rs_techGrade.addToItems(new SystemCodeItem(code:"002",name:"中级",serialNo:2))
+			rs_techGrade.addToItems(new SystemCodeItem(code:"003",name:"初级",serialNo:3))
+			rs_techGrade.save()
+			
+			def rs_politicsStatus = new SystemCode(code:"rs_politicsStatus",name:"政治面貌",company:company)
+			rs_politicsStatus.addToItems(new SystemCodeItem(code:"001",name:"党员",serialNo:1))
+			rs_politicsStatus.addToItems(new SystemCodeItem(code:"002",name:"预备党员",serialNo:2))
+			rs_politicsStatus.addToItems(new SystemCodeItem(code:"003",name:"团员",serialNo:3))
+			rs_politicsStatus.addToItems(new SystemCodeItem(code:"003",name:"群众",serialNo:4))
+			rs_politicsStatus.save()
+			
+			def rs_nation = new SystemCode(code:"rs_nation",name:"民族",company:company)
+			rs_nation.addToItems(new SystemCodeItem(code:"001",name:"汉族",serialNo:1))
+			rs_nation.addToItems(new SystemCodeItem(code:"002",name:"满族",serialNo:2))
+			rs_nation.addToItems(new SystemCodeItem(code:"003",name:"朝鲜族",serialNo:3))
+			rs_nation.save()
+			
+			def rs_health = new SystemCode(code:"rs_health",name:"健康情况",company:company)
+			rs_health.addToItems(new SystemCodeItem(code:"001",name:"优秀",serialNo:1))
+			rs_health.addToItems(new SystemCodeItem(code:"002",name:"良好",serialNo:2))
+			rs_health.addToItems(new SystemCodeItem(code:"003",name:"一般",serialNo:3))
+			rs_health.addToItems(new SystemCodeItem(code:"003",name:"不好",serialNo:4))
+			rs_health.save()
+			
+			def rs_country = new SystemCode(code:"rs_country",name:"国籍",company:company)
+			rs_country.addToItems(new SystemCodeItem(code:"001",name:"中国",serialNo:1))
+			rs_country.addToItems(new SystemCodeItem(code:"002",name:"美国",serialNo:2))
+			rs_country.addToItems(new SystemCodeItem(code:"003",name:"韩国",serialNo:3))
+			rs_country.addToItems(new SystemCodeItem(code:"003",name:"日本",serialNo:4))
+			rs_country.save()
+			
+			def rs_blood = new SystemCode(code:"rs_blood",name:"血型",company:company)
+			rs_blood.addToItems(new SystemCodeItem(code:"001",name:"A型",serialNo:1))
+			rs_blood.addToItems(new SystemCodeItem(code:"002",name:"B型",serialNo:2))
+			rs_blood.addToItems(new SystemCodeItem(code:"003",name:"O型",serialNo:3))
+			rs_blood.addToItems(new SystemCodeItem(code:"003",name:"AB型",serialNo:4))
+			rs_blood.save()
+			
+			def rs_bargainConfig = new SystemCode(code:"rs_bargainConfig",name:"合同类型",company:company)
+			rs_bargainConfig.addToItems(new SystemCodeItem(code:"001",name:"劳务合同",serialNo:1))
+			rs_bargainConfig.save()
+			
+			def rs_supplierType = new SystemCode(code:"rs_supplierType",name:"供应商类型",company:company)
+			rs_supplierType.addToItems(new SystemCodeItem(code:"001",name:"甲方",serialNo:1))
+			rs_supplierType.addToItems(new SystemCodeItem(code:"002",name:"已方",serialNo:2))
+			rs_supplierType.save()
+			
+			def rs_contactCropType = new SystemCode(code:"rs_contactCropType",name:"单位类型",company:company)
+			rs_contactCropType.addToItems(new SystemCodeItem(code:"001",name:"甲方",serialNo:1))
+			rs_contactCropType.addToItems(new SystemCodeItem(code:"002",name:"已方",serialNo:2))
+			rs_contactCropType.save()
+			
+			def rs_accountBankType = new SystemCode(code:"rs_accountBankType",name:"开户行类型",company:company)
+			rs_accountBankType.addToItems(new SystemCodeItem(code:"001",name:"中国银行",serialNo:1))
+			rs_accountBankType.addToItems(new SystemCodeItem(code:"002",name:"建设银行",serialNo:2))
+			rs_accountBankType.addToItems(new SystemCodeItem(code:"003",name:"工商银行",serialNo:3))
+			rs_accountBankType.addToItems(new SystemCodeItem(code:"003",name:"农业银行",serialNo:4))
+			rs_accountBankType.save()
+			
+			//----------------------------------------------------------------
 			
 			json = [result:'true']
 		}catch(Exception e){
