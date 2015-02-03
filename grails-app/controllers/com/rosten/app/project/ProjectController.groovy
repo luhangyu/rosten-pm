@@ -59,7 +59,7 @@ class ProjectController {
 		
 		FieldAcl fa = new FieldAcl()
 		model["fieldAcl"] = fa
-		render(view:'/project/projectManage',model:model)
+		render(view:'/project/ProjectManage',model:model)
 	}
 	def projectManageSave ={
 		def model=[:]
@@ -155,7 +155,7 @@ class ProjectController {
 		model["company"] = company
 		//往来单位类型
 		//model["contactCropTypeList"] = shareService.getSystemCodeItems(company,"rs_contactCropType")
-		render(view:'/project/projectManageSearch',model:model)
+		render(view:'/project/ProjectManageSearch',model:model)
 	}
 	//项目管理end-->
 	
@@ -180,7 +180,7 @@ class ProjectController {
 		
 		FieldAcl fa = new FieldAcl()
 		model["fieldAcl"] = fa
-		render(view:'/project/projectPlan',model:model)
+		render(view:'/project/ProjectPlan',model:model)
 	}
 	def projectPlanSave ={
 		def model=[:]
@@ -331,7 +331,7 @@ class ProjectController {
 		//------------------------------------------------------
 		
 
-		render(view:'/project/constructApprove',model:model)
+		render(view:'/project/ConstructApprove',model:model)
 	}
 	def constructApproveSave ={
 		def model=[:]
@@ -457,7 +457,7 @@ class ProjectController {
 			
 			model["constructLog"] = constructLog
 		}
-		render(view:'/project/constructLog',model:model)
+		render(view:'/project/ConstructLog',model:model)
 	}
 	
 	

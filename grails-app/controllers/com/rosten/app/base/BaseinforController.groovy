@@ -487,6 +487,7 @@ class BaseinforController {
 		redirect(action:"SupplierShow",params:params)
 	}
 	def supplierShow ={
+		
 		def model =[:]
 		def currentUser = springSecurityService.getCurrentUser()
 		def company= Company.get(params.companyId)
@@ -509,10 +510,11 @@ class BaseinforController {
 		
 		FieldAcl fa = new FieldAcl()
 		model["fieldAcl"] = fa
-		render(view:'/baseinfor/Supplier',model:model)
+		render(view:'/baseinfor/supplier',model:model)
 	}
 	
 	def supplierSearchView ={
+		
 		def model =[:]
 		def currentUser = springSecurityService.getCurrentUser()
 		def company= currentUser.company		
@@ -618,7 +620,7 @@ class BaseinforController {
 		
 		FieldAcl fa = new FieldAcl()
 		model["fieldAcl"] = fa
-		render(view:'/baseinfor/MaterialInfo',model:model)
+		render(view:'/baseinfor/materialInfo',model:model)
 	}
 	def materialInfoSave ={
 		def model=[:]
@@ -903,7 +905,7 @@ class BaseinforController {
 		
 		FieldAcl fa = new FieldAcl()
 		model["fieldAcl"] = fa
-		render(view:'/baseinfor/WorkerType',model:model)
+		render(view:'/baseinfor/workerType',model:model)
 	}
 	def workerTypeSave ={
 		def model=[:]
@@ -995,7 +997,7 @@ class BaseinforController {
 		
 		FieldAcl fa = new FieldAcl()
 		model["fieldAcl"] = fa
-		render(view:'/baseinfor/MaterialUnit',model:model)
+		render(view:'/baseinfor/materialUnit',model:model)
 	}
 	def materialUnitSave ={
 		def model=[:]
